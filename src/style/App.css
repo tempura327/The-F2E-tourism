@@ -1,0 +1,72 @@
+.h1 {
+  font-size: 22px;
+}
+
+.h2 {
+  font-size: 20px;
+}
+
+.h3 {
+  font-size: 18px;
+}
+
+.h4 {
+  font-size: 16px;
+}
+
+.h5 {
+  font-size: 14px;
+}
+
+.h6 {
+  font-size: 12px;
+}
+
+.primary {
+  color: #08A6BB;
+}
+
+.bg-primary {
+  background-color: #08A6BB;
+}
+
+.light-gray {
+  color: #C4C4C4;
+}
+
+.bg-light-gray {
+  background-color: #C4C4C4;
+}
+
+.dark-gray {
+  color: #525151;
+}
+
+.bg-dark-gray {
+  background-color: #525151;
+}
+
+.grey-blue {
+  color: #6F7789;
+}
+
+.bg-grey-blue {
+  background-color: #6F7789;
+}
+
+.white {
+  color: #ffffff;
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+.translucent-black {
+  color: rgba(38, 38, 38, 0.46);
+}
+
+.bg-translucent-black {
+  background-color: rgba(38, 38, 38, 0.46);
+}
+/*# sourceMappingURL=App.css.map */

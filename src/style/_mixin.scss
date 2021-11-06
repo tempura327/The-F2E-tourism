@@ -1,0 +1,21 @@
+@for $i from 1 through length($h) + 1 {
+    .h#{$i}{
+        font-size:(24 - $i * 2)+px;
+    }
+
+}
+
+@each $name in $color-name {
+    $i: index($color-name, $name);
+
+    .#{$name} { 
+        color: nth($text-color, $i);        
+    }
+
+    .bg-#{$name}{
+        background-color: nth($text-color, $i);
+    }
+}
+
+
+
