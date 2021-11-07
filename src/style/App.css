@@ -1,4 +1,16 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+.font-weight-1 {
+  font-weight: 500;
+}
+
+.font-weight-2 {
+  font-weight: 600;
+}
+
+.font-weight-3 {
+  font-weight: 700;
+}
+
 .h1 {
   font-size: 22px;
 }
@@ -1316,7 +1328,18 @@
 }
 
 body {
-  font-family: Roboto, Nunito Sans;
+  font-family: 'arial';
   color: #6F7789;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.d-flex {
+  display: flex;
+}
+
+a {
+  color: #6F7789;
+  text-decoration: none;
 }
 /*# sourceMappingURL=App.css.map */

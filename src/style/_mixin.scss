@@ -1,3 +1,9 @@
+@for $i from 1 to 4 {
+    .font-weight-#{$i}{
+        font-weight: $i * 100 + 400;
+    }
+}
+
 @for $i from 1 to length($h) + 1 {
     .h#{$i}{
         font-size:(24 - $i * 2)+px;

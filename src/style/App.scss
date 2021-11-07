@@ -1,8 +1,26 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css');
 @import './_variable.scss';
 @import './_mixin.scss';
-@import url('https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css');
 
 body{
-    font-family: Roboto, Nunito Sans;
+    // font-family: 'Roboto', 'Nunito Sans';
+    font-family: 'arial';
     color: #6F7789;
+    font-size: 20px;
+    font-weight: 500;
+
+}
+
+// #app{
+//     padding-left: 76px;
+//     padding-right: 76px;
+// }
+
+.d-flex{
+    display: flex;
+}
+
+a{
+    color: #6F7789;
+    text-decoration: none;
 }
