@@ -1,8 +1,57 @@
-@for $i from 1 through length($h) + 1 {
+@for $i from 1 to length($h) + 1 {
     .h#{$i}{
         font-size:(24 - $i * 2)+px;
     }
 
+    .w-#{$i*20}{
+        width: $i * 20%;
+    }
+
+    .border-#{$i}{
+        border-radius: $i * 4px;
+    }
+}
+
+@for $i from 1 to 31{
+    .m-#{$i}{
+        margin: $i * 4px;
+    }
+
+    .p-#{$i}{
+        padding: $i * 4px;
+    }
+
+    .mt-#{$i}{
+        margin-top: $i * 4px;
+    }
+
+    .pt-#{$i}{
+        padding-top: $i * 4px;
+    }
+
+    .mb-#{$i}{
+        margin-bottom: $i * 4px;
+    }
+
+    .pb-#{$i}{
+        padding-bottom: $i * 4px;
+    }
+
+    .ml-#{$i}{
+        margin-left: $i * 4px;
+    }
+
+    .pl-#{$i}{
+        padding-left: $i * 4px;
+    }
+
+    .mr-#{$i}{
+        margin-right: $i * 4px;
+    }
+
+    .pr-#{$i}{
+        padding-right: $i * 4px;
+    }
 }
 
 @each $name in $color-name {
