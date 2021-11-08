@@ -1,4 +1,5 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js");
 .font-weight-1 {
   font-weight: 500;
 }
@@ -69,6 +70,18 @@
 
 .border-5 {
   border-radius: 20px;
+}
+
+.h6 {
+  font-size: 12px;
+}
+
+.w-120 {
+  width: 120%;
+}
+
+.border-6 {
+  border-radius: 24px;
 }
 
 .m-1 {
@@ -1404,5 +1417,10 @@ a {
   border-radius: 4px;
   background-color: #08A6BB;
   color: white;
+}
+
+.title {
+  font-weight: 700;
+  color: #313131;
 }
 /*# sourceMappingURL=App.css.map */
