@@ -84,13 +84,15 @@ export default({
     .carousel-caption {
         top: 50%;
         bottom: 50%;
-        padding: 0;
-        
+        padding: 0;        
     }   
     
     .carousel-caption *{
         font-size: 32px;
         font-weight: 700;
+        color: white;
+        text-shadow: 10px 8px 12px rgba(0, 0, 0, 0.37);  
+        font-style: italic;      
     }
 
     .search{
