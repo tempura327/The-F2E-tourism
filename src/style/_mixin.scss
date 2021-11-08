@@ -72,5 +72,19 @@
     }
 }
 
+@mixin btn($w: 60%, $fz: 14px, $fw:700, $br: 8px) {
+    width: $w;   
+    height: 32px; 
+    font-size: $fz;
+    font-weight: $fw;
+    border-radius: $br;
+}
 
+@mixin pagination($w: 56px, $fz: 22px, $fw:700, $br: 4px) {
+    width: $w;
+    height: $w;    
+    font-size: $fz;
+    font-weight: $fw;
+    border-radius: $br;
+}
 

@@ -87,6 +87,7 @@ export default {
 
   .nav-item-active{
     font-weight: 700;
-    color: #6F7789;
+    color: #08A6BB;
+    padding-bottom: 4px;
   }
 </style>
