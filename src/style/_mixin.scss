@@ -5,58 +5,64 @@
 }
 
 @for $i from 1 to length($h) + 1 {
+    h#{$i}{
+        font-size:(24 - $i * 2)+px !important;
+        margin-bottom: 0 !important;
+    }
+
     .h#{$i}{
-        font-size:(24 - $i * 2)+px;
+        font-size:(24 - $i * 2)+px !important;
+        margin-bottom: 0 !important;
     }
 
     .w-#{$i*20}{
-        width: $i * 20%;
+        width: $i * 20% !important;
     }
 
     .border-#{$i}{
-        border-radius: $i * 4px;
+        border-radius: $i * 4px !important;
     }
 }
 
 @for $i from 1 to 31{
     .m-#{$i}{
-        margin: $i * 4px;
+        margin: $i * 4px !important;
     }
 
     .p-#{$i}{
-        padding: $i * 4px;
+        padding: $i * 4px !important;
     }
 
     .mt-#{$i}{
-        margin-top: $i * 4px;
+        margin-top: $i * 4px !important;
     }
 
     .pt-#{$i}{
-        padding-top: $i * 4px;
+        padding-top: $i * 4px !important;
     }
 
     .mb-#{$i}{
-        margin-bottom: $i * 4px;
+        margin-bottom: $i * 4px !important;
     }
 
     .pb-#{$i}{
-        padding-bottom: $i * 4px;
+        padding-bottom: $i * 4px !important;
     }
 
     .ml-#{$i}{
-        margin-left: $i * 4px;
+        margin-left: $i * 4px !important;
     }
 
     .pl-#{$i}{
-        padding-left: $i * 4px;
+        padding-left: $i * 4px !important;
     }
 
     .mr-#{$i}{
-        margin-right: $i * 4px;
+        margin-right: $i * 4px !important;
     }
 
     .pr-#{$i}{
-        padding-right: $i * 4px;
+        padding-right: $i * 4px !important;
     }
 }
 
@@ -78,13 +84,14 @@
     font-size: $fz;
     font-weight: $fw;
     border-radius: $br;
+    line-height: 100%;
 }
 
-@mixin pagination($w: 56px, $fz: 22px, $fw:700, $br: 4px) {
-    width: $w;
-    height: $w;    
-    font-size: $fz;
-    font-weight: $fw;
-    border-radius: $br;
+@mixin pagination($w: 12px, $fz: 12px, $fw:700, $br: 50%) {
+    width: $w !important;
+    height: $w !important;    
+    font-size: $fz !important;
+    font-weight: $fw !important;
+    border-radius: $br !important;
 }
 
