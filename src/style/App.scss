@@ -17,8 +17,8 @@ body{
 }
 
 a{
-    color: #6F7789;
-    text-decoration: none;
+    color: #6F7789 !important;
+    text-decoration: none !important;
 }
 
 .btn{      
@@ -40,9 +40,21 @@ a{
         border: 4px solid #08A6BB;
         color: white; 
     }
+
+    &-search{
+        background-color: #08A6BB;
+        // position: relative;
+        // top: -250px;
+        width: 60%;
+        margin: 0 auto;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        border: none
+    }
 }
 
-.pagination{
+.carousel-indicators li{
     @include pagination;
     background-color: white;
     color: #8F8F8F;
@@ -60,7 +72,33 @@ a{
     }
 }
 
-.title{
+.card{
+    &-body{
+        padding: 0;
+    }
+}
+
+.card-title{
     font-weight: 700;
     color: #313131;
+    margin-bottom: 0 !important;
+}
+
+.card-type{
+    color:#6F7789;
+    font-size: 12px;
+    margin-bottom: 0 !important;
+}
+
+.big-title{
+    font-weight: 700;
+    font-size: 30px;
+    color: #08A6BB;
+    margin-bottom: 24px;
+}
+
+.description{
+    color: #AEAEAE;
+    font-size: 16px;
+    font-weight: 700;
 }
