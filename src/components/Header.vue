@@ -36,17 +36,17 @@
     </div>
 
     <ul class="d-flex">
-      <li class="nav-item mr-14">
-        <a href="">首頁</a>
-      </li>
-      
-      <li class="nav-item mr-14">
-        <a href="">景點導覽</a>        
+      <li class="nav-item mr-14" >
+        <router-link to="/home/">首頁</router-link>
       </li>
 
-      <li class="nav-item ">
-        <a href="">觀光活動</a>        
+      <li class="nav-item mr-14">
+        <router-link to="/attraction/">景點導覽</router-link>
       </li>
+
+      <li class="nav-item mr-14">
+        <router-link to="/activity/">觀光活動</router-link>
+      </li>            
     </ul>
   </nav>
 </template>
@@ -85,9 +85,9 @@ export default {
 
   }
 
-  .nav-item-active{
+  .router-link-active{
     font-weight: 700;
-    color: #08A6BB;
-    padding-bottom: 4px;
+    color: #08A6BB !important;
+    
   }
 </style>
