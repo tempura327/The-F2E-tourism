@@ -1,22 +1,29 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
 const Home = () => import('../views/Home.vue');
-// const App = () => import('../App.vue');
+const Attraction = () => import('../views/Attraction.vue');
+
+
 
 Vue.use(VueRouter)
 
+const routes = [
+  {
+    path: '/home/',
+    name: 'Home',
+    component: Home,
+  },
+  {
+    path:'/attraction',
+    name:'Attraction',
+    component:Attraction
+  }
+];
+
 const router = new VueRouter({
   mode: 'history',
-  routes: [
-    {
-      path: '/home/',
-      component: Home,
-      children: [
-
-      ]
-    }
-  ],
+  routes,
   props:{
     default: true,
   },
@@ -28,6 +35,6 @@ const router = new VueRouter({
     }
 
   }
-});            
+})
 
-export default router;
+export default router
