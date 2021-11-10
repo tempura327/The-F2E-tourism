@@ -16,10 +16,10 @@ body{
     display: flex;
 }
 
-a{
-    color: #6F7789 !important;
-    text-decoration: none !important;
-}
+// a{
+//     color: #6F7789 !important;
+//     text-decoration: none !important;
+// }
 
 .btn{      
     @include btn;  
