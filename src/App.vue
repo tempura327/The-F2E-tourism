@@ -9,6 +9,10 @@
         – Hans Christian Anderson-
       </h1>
     </div>
+
+    <div class="scroll-button" :class="isScrollBottom? 'scroll-button' : 'scroll-button-top'" @click="scrollTopDown">
+      <font-awesome-icon icon="caret-down"></font-awesome-icon>
+    </div>
     <Footer></Footer>
   </div>
 </template>
@@ -26,6 +30,23 @@
       Carousel,
 
     },
+    data(){
+      return{
+        isScrollBottom:true
+      }
+    },
+    methods:{
+      scrollTopDown(){
+        let top = document.documentElement.scrollTop < document.documentElement.scrollHeight - window.innerHeight? document.documentElement.scrollHeight - window.innerHeight : 0;
+        this.isScrollBottom = document.documentElement.scrollTop < document.documentElement.scrollHeight - window.innerHeight? '' : 'scroll-button-top';
+
+        window.scrollTo({
+            top: top,
+            left:0,
+            behavior: 'smooth'
+        });                
+      }
+    }
 
   }
 </script>
@@ -53,6 +74,28 @@
     position: relative;
     top: 120px;    
   }
+
+  .scroll-button{
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: #08A6BB;
+    position: fixed;     
+    left: 95vw;
+    top: 90vh;  
+    cursor: pointer; 
+    font-size: 30px;
+    color: white;
+    text-align: center;
+    border: 1px solid white;
+    transition-duration: 0.5s;
+    transform: rotate(0deg);        
+  }
+
+  .scroll-button-top{
+    transition-duration: 0.5s;
+    transform: rotate(180deg);
+  }  
 </style>
 
 
