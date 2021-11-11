@@ -37,7 +37,7 @@
 
     <ul class="d-flex">
       <li class="nav-item mr-14" >
-        <router-link to="/home/">首頁</router-link>
+        <router-link to="/">首頁</router-link>
       </li>
 
       <li class="nav-item mr-14">
@@ -74,20 +74,22 @@ export default {
     align-items: center;
     justify-content: space-between;
     border-bottom: 2px solid transparent;
-    padding-bottom: 4px;
-    
+    padding-bottom: 4px;   
   }
 
   .nav-item:hover{
     font-weight: 700;
     border-bottom: 2px solid #6F7789;
     padding-bottom: 4px;
+    text-decoration: none;
+  }
 
+  .nav-item a{
+    color: #6F7789;
   }
 
   .router-link-active{
     font-weight: 700;
     color: #08A6BB !important;
-    
   }
 </style>

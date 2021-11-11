@@ -3,11 +3,9 @@
         <b-card :style="`background-image: url(${imgSrc}); background-size: cover;`" class="mb-6"></b-card>
         <h2 class="card-title h2 text-center">{{title}}</h2>
     </div>
-
 </template>
 
 <script>
-
 
     export default({
         name:'SimpleCard',
