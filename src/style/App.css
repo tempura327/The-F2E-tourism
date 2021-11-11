@@ -102,16 +102,22 @@ h5 {
   border-radius: 20px !important;
 }
 
+h6 {
+  font-size: 12px !important;
+  margin-bottom: 0 !important;
+}
+
 .h6 {
-  font-size: 12px;
+  font-size: 12px !important;
+  margin-bottom: 0 !important;
 }
 
 .w-120 {
-  width: 120%;
+  width: 120% !important;
 }
 
 .border-6 {
-  border-radius: 24px;
+  border-radius: 24px !important;
 }
 
 .m-1 {
@@ -1379,11 +1385,6 @@ body {
 
 .d-flex {
   display: flex;
-}
-
-a {
-  color: #6F7789 !important;
-  text-decoration: none !important;
 }
 
 .btn {

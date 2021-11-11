@@ -9,17 +9,11 @@ body{
     color: #6F7789;
     font-size: 20px;
     font-weight: 500;
-
 }
 
 .d-flex{
     display: flex;
 }
-
-// a{
-//     color: #6F7789 !important;
-//     text-decoration: none !important;
-// }
 
 .btn{      
     @include btn;  
@@ -43,8 +37,6 @@ body{
 
     &-search{
         background-color: #08A6BB;
-        // position: relative;
-        // top: -250px;
         width: 60%;
         margin: 0 auto;
         width: 40px;
@@ -76,18 +68,18 @@ body{
     &-body{
         padding: 0;
     }
-}
 
-.card-title{
-    font-weight: 700;
-    color: #313131;
-    margin-bottom: 0 !important;
-}
+    &-title{
+        font-weight: 700;
+        color: #313131;
+        margin-bottom: 0 !important;
+    }
 
-.card-type{
-    color:#6F7789;
-    font-size: 12px;
-    margin-bottom: 0 !important;
+    &-type{
+        color:#6F7789;
+        font-size: 12px;
+        margin-bottom: 0 !important;
+    }
 }
 
 .big-title{
