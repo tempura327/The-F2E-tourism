@@ -4,13 +4,16 @@
             <img :src="imgSrc" alt="" class="card-img">
         </div>
         <div class="pl-5 pr-5">
-            <div class="d-flex align-items-center mb-4">
+            <div class="d-flex mb-4">
                 <h2 class="card-title w-3 mr-3">{{title}}</h2>
-                    <svg class="mr-2" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7.57989 0.416687C3.63744 0.416687 0.429993 3.59427 0.429993 7.50002C0.429993 11.4058 3.63744 14.5834 7.57989 14.5834C11.5223 14.5834 14.7298 11.4058 14.7298 7.50002C14.7298 3.59427 11.5223 0.416687 7.57989 0.416687ZM7.57989 13.1667C4.42607 13.1667 1.85997 10.6245 1.85997 7.50002C1.85997 4.37556 4.42607 1.83335 7.57989 1.83335C10.7337 1.83335 13.2998 4.37556 13.2998 7.50002C13.2998 10.6245 10.7337 13.1667 7.57989 13.1667Z" fill="#6F7789"/>
-                        <path d="M8.29485 3.95831H6.86487V8.20831H11.1548V6.79165H8.29485V3.95831Z" fill="#6F7789"/>
-                    </svg>
-                    <h6 class="card-type">{{type}} </h6>
+            </div>
+
+            <div class="d-flex mb-4">
+                <svg class="mr-2" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7.57989 0.416687C3.63744 0.416687 0.429993 3.59427 0.429993 7.50002C0.429993 11.4058 3.63744 14.5834 7.57989 14.5834C11.5223 14.5834 14.7298 11.4058 14.7298 7.50002C14.7298 3.59427 11.5223 0.416687 7.57989 0.416687ZM7.57989 13.1667C4.42607 13.1667 1.85997 10.6245 1.85997 7.50002C1.85997 4.37556 4.42607 1.83335 7.57989 1.83335C10.7337 1.83335 13.2998 4.37556 13.2998 7.50002C13.2998 10.6245 10.7337 13.1667 7.57989 13.1667Z" fill="#6F7789"/>
+                    <path d="M8.29485 3.95831H6.86487V8.20831H11.1548V6.79165H8.29485V3.95831Z" fill="#6F7789"/>
+                </svg>
+                <h6 class="card-type">{{type}} </h6>
             </div>
 
             <h4 class="mb-4">
@@ -20,10 +23,11 @@
                 {{address}}
             </h4>
             <div class="d-flex justify-content-center">
-                <button class="btn" @click="showModal(data)">了解更多</button>
+                <button class="btn" @click="showModal(data, 'activity')">了解更多</button>
             </div>
         </div>
     </b-card>
+  
 </template>
 
 <script>
@@ -46,9 +50,14 @@
                 type:String
             },
         },
+        data(){
+            return{
+                modalData:{a:123}
+            }
+        },
         methods:{
-            showModal(data){
-                console.log(data);
+            showModal(data, type){
+                this.$emit('showModal', data, type);
             }
         }
     })
@@ -57,7 +66,7 @@
 <style scoped>
     .card{
         width: 100%;
-        min-height: 360px;
+        min-height: 380px;
         background-color: white;
         border-radius: 8px;
         box-shadow: 2px 2px 4px rgba(114, 142, 171, 0.1), -6px -6px 20px rgba(255, 255, 255, 0.6), 4px 4px 20px rgba(111, 140, 176, 0.41);

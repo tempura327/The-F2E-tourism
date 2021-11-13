@@ -1,7 +1,7 @@
 <template>
     <div>
-        <b-card :style="`background-image: url(${imgSrc}); background-size: cover;`" class="mb-6"></b-card>
-        <h2 class="card-title h2 text-center">{{title}}</h2>
+        <b-card :style="`background-image: url(${imgSrc}); background-size: cover;`" class="mb-6" @click="showModal(data)"></b-card>
+        <h2 class="card-title h2 text-center" @click="showModal(data, 'attraction')">{{title}}</h2>
     </div>
 </template>
 
@@ -10,11 +10,19 @@
     export default({
         name:'SimpleCard',
         props:{
+            data:{
+                type:Object
+            },
             title:{
                 type:String
             },
             imgSrc:{
                 type:String
+            }
+        },
+        methods:{
+            showModal(data, type){
+                this.$emit('showModal', data, type);
             }
         }
     })
@@ -22,9 +30,12 @@
 
 
 <style scoped>
-    .des{
-        color: #313131;
-        font-weight: 700;
+    .card-title, .card{
+        cursor: pointer;
+    }
+
+    .card-title:hover{
+        color: #08A6BB;
     }
 
     .card{
@@ -38,5 +49,4 @@
         width: 100%;
         height: 100%;
     }
-
 </style>
