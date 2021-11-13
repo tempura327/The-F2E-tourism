@@ -94,3 +94,22 @@ body{
     font-size: 16px;
     font-weight: 700;
 }
+
+.modal{
+    &-header{
+        color:#6F7789 !important;
+    }
+}
+
+.picture{
+    &-frame-small{
+        height: 150px;
+        overflow: hidden;
+    }
+
+    &-frame-big{
+        height: 320px;
+        overflow: hidden;
+
+    }    
+}
