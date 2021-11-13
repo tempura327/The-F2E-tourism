@@ -4,8 +4,6 @@
             <b-carousel-slide caption="Welcome to Travel Taiwan" img-src="https://images.unsplash.com/photo-1636443510795-64c80818263d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80"></b-carousel-slide>
             <b-carousel-slide caption="Welcome to Travel Taiwan" img-src="https://images.unsplash.com/photo-1563867298409-f33e059c2ad9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"></b-carousel-slide>
             <b-carousel-slide caption="Welcome to Travel Taiwan" img-src="https://images.unsplash.com/photo-1542312743-e4a4a04f412a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1169&q=80"></b-carousel-slide>
-            <!-- <b-carousel-slide caption="Welcome to Travel Taiwan" img-src="../assets/unsplash_UWQP2mh5YJI.png"></b-carousel-slide> -->
-            <!-- <b-carousel-slide caption="Welcome to Travel Taiwan" img-src="../assets/unsplash_Yizrl9N_eDA.png"></b-carousel-slide> -->
         </b-carousel>
 
         <div class="search-area">
@@ -52,15 +50,57 @@ export default({
                 {value:'scene', text:'自然風景'},
                 {value:'sport', text:'體育健身'},
                 {value:'travel', text:'遊憩'},
-                {value:'heritage', text:'古蹟'},
+                // {value:'heritage', text:'古蹟'},
             ],
             selectedCity:'',
             selectedType:'',
         }        
     },
     methods:{
-        search(){
-            
+        async search(){
+            if(this.selectedCity){
+                this.$router.push('/attraction');
+                try{
+                  let res = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/${this.selectedCity}?$top=30&$format=JSON`, {
+                    method:'GET',
+                    header:{
+                      Authorization:'hmac username=83592d8c997f4933ae965e60e5995a2d',
+                      'X-Date':new Date().toGMTString(),
+                    },
+                    'Accept-Encoding': 'gzip'
+                  })
+
+                  res.json().then((d) => {
+                    this.$store.commit('setAttractionData', d);
+                    // console.log(d);
+                  })
+                }catch{
+                  console.log('fail');
+                }finally{
+                  this.isLoading2 = false;
+                }                
+            }else if(this.selectedType){
+                // this.$router.push('/activity');
+                try{
+                  let res = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/Taipei?$filter=Class1 eq '${this.selectedType}' or Class2 eq '${this.selectedType}' or Class3 eq '${this.selectedType}'&$top=30&$format=JSON`, {
+                    method:'GET',
+                    header:{
+                      Authorization:'hmac username=83592d8c997f4933ae965e60e5995a2d',
+                      'X-Date':new Date().toGMTString(),
+                    },
+                    'Accept-Encoding': 'gzip'
+                  })
+
+                  res.json().then((d) => {
+                    this.$store.commit('setActivityData', d);
+                    // console.log(d);
+                  })
+                }catch{
+                  console.log('fail');
+                }finally{
+                  this.isLoading2 = false;
+                }
+            }
         }
     }
 })
@@ -82,8 +122,6 @@ export default({
 
     .carousel-caption {
         bottom: 40% !important;
-        /* top: 40%; */
-        /* bottom: 50%; */
         padding: 0;        
     }   
     

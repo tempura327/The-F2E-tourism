@@ -81,15 +81,16 @@ export default {
     font-weight: 700;
     border-bottom: 2px solid #6F7789;
     padding-bottom: 4px;
-    text-decoration: none;
+    
   }
 
   .nav-item a{
     color: #6F7789;
+    text-decoration: none !important;
   }
 
   .router-link-active{
     font-weight: 700;
-    color: #08A6BB !important;
+    color: #08A6BB !important;    
   }
 </style>
