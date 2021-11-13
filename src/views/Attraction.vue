@@ -11,33 +11,10 @@
       </b-row>
 
       <b-row class="mb-20">
-        <b-col>
-          <Card title="AAA" address="BBB" type="CCC" imgSrc="https://images.unsplash.com/photo-1542312743-e4a4a04f412a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1169&q=80"></Card>
-        </b-col>
-        <b-col>
-          <Card></Card>
-        </b-col>
-        <b-col>
-          <Card></Card>
-        </b-col>        
-        <b-col>
-          <Card></Card>
-        </b-col>
-      </b-row>
-
-      <b-row class="mb-30">
-        <b-col>
-          <Card title="AAA" address="BBB" type="CCC" imgSrc="https://images.unsplash.com/photo-1542312743-e4a4a04f412a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1169&q=80"></Card>
-        </b-col>
-        <b-col>
-          <Card></Card>
-        </b-col>
-        <b-col>
-          <Card></Card>
-        </b-col>        
-        <b-col>
-          <Card></Card>
-        </b-col>
+        <b-col lg="3" v-for="(data, index) in attractionData" :key="index" class="mb-20">
+          <Card :data="data" :title="data.Name" :address="data.Address" :type="data.OpenTime" :imgSrc="data.Picture.PictureUrl1" @showModal="showModal"></Card>
+          <!-- <Card :data="data" :title="data.Name" :address="data.Address" :type="data.OpenTime === 'Sun 24 hours；Mon 24 hours；Tue 24 hours；Wed 24 hours；Thu 24 hours；Fri 24 hours；Sat 24 hours'? '全天開放' : modalData.OpenTime" :imgSrc="data.Picture.PictureUrl1" @showModal="showModal"></Card> -->
+        </b-col>       
       </b-row>
     </b-container>
 </template>
@@ -49,7 +26,20 @@
       name:'Attraction',
       components:{
           Card,
-
+      },
+      data(){
+        return{
+          attractionData:this.$store.state.attraction
+        }
+      },
+      mounted(){
+        this.attractionData = this.$store.state.attraction;
+        console.log(this.$store.state);
+      },
+      methods:{
+        showModal(){
+          console.log('show');
+        }
       }
   })
 </script>
