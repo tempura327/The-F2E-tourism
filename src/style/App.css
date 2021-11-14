@@ -1477,6 +1477,9 @@ body {
   color: #6F7789;
   font-size: 12px;
   margin-bottom: 0 !important;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .big-title {
