@@ -17,13 +17,13 @@ cd dist
 # echo 'www.example.com' > CNAME
 
 git init
-git add -A //加入整個dist
+git add -A # 加入整個dist
 git commit -m "deploy (commit: $COMMIT)"
 
 # 部署到 https://<USERNAME>.github.io
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
 
 # 部署到 https://<USERNAME>.github.io/<REPO>
-git push -f git@github.com:tempura327/The-F2E-tourism.git dev:gh-pages
+git push -f git@github.com:tempura327/The-F2E-tourism.git master:gh-pages
 
 cd ..

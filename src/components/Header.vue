@@ -37,7 +37,7 @@
 
     <ul class="d-flex">
       <li class="nav-item mr-14" >
-        <router-link to="/">首頁</router-link>
+        <router-link to="/The-F2E-tourism/">首頁</router-link>
       </li>
 
       <li class="nav-item mr-14">

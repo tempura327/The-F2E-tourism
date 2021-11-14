@@ -11,9 +11,11 @@
       </b-row>
 
       <b-row class="mb-20">
-        <b-col lg="3" v-for="(data, index) in attractionData" :key="index" class="mb-20">
-          <b-spinner v-if="$store.state.isAttractionLoading"></b-spinner>
-          <Card :data="data" :title="data.Name" :address="data.Address" :type="data.OpenTime" :imgSrc="data.Picture.PictureUrl1" @showModal="showModal(index)" v-else></Card>
+        <b-col v-if="isLoading">
+          <b-spinner ></b-spinner>
+        </b-col>
+        <b-col lg="3" v-for="(data, index) in attractionData" :key="index" class="mb-20" v-else>          
+          <Card :data="data" :title="data.Name" :address="data.Address" :type="data.OpenTime" :imgSrc="data.Picture.PictureUrl1" @showModal="showModal(index)"></Card>
         </b-col>       
       </b-row>
 
@@ -96,13 +98,39 @@
             Picture:{
               PictureUrl1:''
             }
-          }
+          },
+          isLoading:false,
         }
       },
       created(){
-        this.attractionData = JSON.parse(localStorage.getItem('attractionData'));
+        if(localStorage.getItem('attractionData')){
+          this.attractionData = JSON.parse(localStorage.getItem('attractionData'));
+        }else{
+          this.queryData();
+        }
+        
       },
       methods:{
+        async queryData(){
+          this.isLoading = true;
+          try{
+            let res = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$top=8&?$format=JSON`,{
+                method:'GET',
+                header:{
+                  Authorization:'hmac username=83592d8c997f4933ae965e60e5995a2d',
+                  'X-Date':new Date().toGMTString(),
+                },
+                'Accept-Encoding': 'gzip'
+            })
+
+            res.json().then((d) => {
+              this.attractionData = d;
+              console.log(d);
+            })
+          }finally{
+            this.isLoading = false;
+          }
+        },
         showModal(index){
           this.modalData = this.attractionData[index];
           console.log(this.modalData);
@@ -112,6 +140,7 @@
       watch:{
         '$store.state.attraction'(){
           this.attractionData = this.$store.state.attraction;
+          this.isLoading = this.$store.state.isAttractionLoading;
         }
       }
   })
