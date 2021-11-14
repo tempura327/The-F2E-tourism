@@ -24,6 +24,6 @@ git commit -m "deploy (commit: $COMMIT)"
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
 
 # 部署到 https://<USERNAME>.github.io/<REPO>
-git push -f git@github.com:<tempura327>/<The-F2E-tourism>.git dev:gh-pages
+git push -f git@github.com:tempura327/The-F2E-tourism.git dev:gh-pages
 
 cd ..
