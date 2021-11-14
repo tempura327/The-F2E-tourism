@@ -23,7 +23,7 @@
                 {{address}}
             </h4>
             <div class="d-flex justify-content-center">
-                <button class="btn" @click="showModal(data, 'activity')">了解更多</button>
+                <button class="btn" @click="showModal(data, 'attraction')">了解更多</button>
             </div>
         </div>
     </b-card>
@@ -71,7 +71,6 @@
         border-radius: 8px;
         box-shadow: 2px 2px 4px rgba(114, 142, 171, 0.1), -6px -6px 20px rgba(255, 255, 255, 0.6), 4px 4px 20px rgba(111, 140, 176, 0.41);
     }
-
 
     .card-img-frame{
         height: 150px;

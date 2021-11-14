@@ -1,7 +1,7 @@
 <template>
     <div>
-        <b-card :style="`background-image: url(${imgSrc}); background-size: cover;`" class="mb-6" @click="showModal(data)"></b-card>
-        <h2 class="card-title h2 text-center" @click="showModal(data, 'attraction')">{{title}}</h2>
+        <b-card :style="`background-image: url(${imgSrc}); background-size: cover;`" class="mb-6" @click="showModal(data, 'activity')"></b-card>
+        <h2 class="card-title h2 text-center" @click="showModal(data, 'activity')">{{title}}</h2>
     </div>
 </template>
 

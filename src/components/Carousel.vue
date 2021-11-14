@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-carousel :interval="400000" indicators class="carousel">
+        <b-carousel :interval="4000" indicators class="carousel">
             <b-carousel-slide caption="Welcome to Travel Taiwan" img-src="https://images.unsplash.com/photo-1636443510795-64c80818263d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80"></b-carousel-slide>
             <b-carousel-slide caption="Welcome to Travel Taiwan" img-src="https://images.unsplash.com/photo-1563867298409-f33e059c2ad9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"></b-carousel-slide>
             <b-carousel-slide caption="Welcome to Travel Taiwan" img-src="https://images.unsplash.com/photo-1542312743-e4a4a04f412a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1169&q=80"></b-carousel-slide>
@@ -26,7 +26,7 @@ export default({
     data(){
         return{
             cityOption:[
-                {value:'All', text:'所有'},
+                {value:null, text:'所有', disabled: true},
                 {value:'Taipei', text:'台北'},
                 {value:'NewTaipei', text:'新北'},
                 {value:'Keelung', text:'基隆'},
@@ -46,20 +46,20 @@ export default({
                 {text:'台東', value:'Taitung'}                
             ],
             typeOption:[
-                {value:'All', text:'所有'},
+                {value:null, text:'所有'},
                 {value:'scene', text:'自然風景'},
                 {value:'sport', text:'體育健身'},
                 {value:'travel', text:'遊憩'},
                 // {value:'heritage', text:'古蹟'},
             ],
-            selectedCity:'',
-            selectedType:'',
+            selectedCity:null,
+            selectedType:null,
         }        
     },
     methods:{
         async search(){
             if(this.selectedCity){
-                this.$router.push('/attraction');
+                
                 try{
                   let res = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/${this.selectedCity}?$top=30&$format=JSON`, {
                     method:'GET',
@@ -71,16 +71,18 @@ export default({
                   })
 
                   res.json().then((d) => {
+                    localStorage.setItem('attractionData', JSON.stringify(d));
                     this.$store.commit('setAttractionData', d);
-                    // console.log(d);
                   })
                 }catch{
                   console.log('fail');
                 }finally{
-                  this.isLoading2 = false;
+                  if(this.$router.currentRoute.fullPath !== '/attraction'){
+                    this.$router.push('/attraction');
+                  }                  
                 }                
             }else if(this.selectedType){
-                // this.$router.push('/activity');
+                
                 try{
                   let res = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/Taipei?$filter=Class1 eq '${this.selectedType}' or Class2 eq '${this.selectedType}' or Class3 eq '${this.selectedType}'&$top=30&$format=JSON`, {
                     method:'GET',
@@ -92,13 +94,13 @@ export default({
                   })
 
                   res.json().then((d) => {
-                    this.$store.commit('setActivityData', d);
-                    // console.log(d);
+                    localStorage.setItem('activityData', JSON.stringify(d));
                   })
                 }catch{
                   console.log('fail');
                 }finally{
-                  this.isLoading2 = false;
+                  // this.$router.push('/activity');
+                  
                 }
             }
         }
