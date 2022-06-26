@@ -1,35 +1,31 @@
 <template>
     <div>
-        <b-card :style="`background-image: url(${imgSrc}); background-size: cover;`" class="mb-6" @click="showModal(data, 'activity')"></b-card>
+        <div class="mb-6 card" :style="`background-image: url(${imgSrc}); background-size: cover;`" @click="showModal(data, 'activity')"></div>
         <h2 class="card-title h2 text-center" @click="showModal(data, 'activity')">{{title}}</h2>
     </div>
 </template>
 
-<script>
+<script lang="ts">
+    import { Component, Vue, Prop } from 'vue-property-decorator';
+  
+    @Component
 
-    export default({
-        name:'SimpleCard',
-        props:{
-            data:{
-                type:Object
-            },
-            title:{
-                type:String
-            },
-            imgSrc:{
-                type:String
-            }
-        },
-        methods:{
-            showModal(data, type){
-                this.$emit('showModal', data, type);
-            }
+    export default class SimpleCard extends Vue {
+        // props
+        @Prop() data!:any;
+        @Prop({default:''}) title!:string;
+        @Prop({default:''}) imgSrc!:string;
+    
+        // data
+    
+        // methods
+        showModal(data:any, type:string):void{
+            this.$emit('showModal', data, type);
         }
-    })
+    }
 </script>
 
-
-<style scoped>
+<style scoped lang="scss">
     .card-title, .card{
         cursor: pointer;
     }

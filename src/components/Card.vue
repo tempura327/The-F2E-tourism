@@ -1,11 +1,12 @@
 <template>
-    <b-card>
-        <div class="card-img-frame  mb-8">
+    <div>
+        <div class="card-img-frame mb-8">
             <img :src="imgSrc" alt="" class="card-img">
         </div>
+        
         <div class="pl-5 pr-5">
             <div class="d-flex mb-4">
-                <h2 class="card-title w-3 mr-3">{{title}}</h2>
+                <h2 class="card_title w-3 mr-3">{{title}}</h2>
             </div>
 
             <div class="d-flex mb-4">
@@ -13,7 +14,7 @@
                     <path d="M7.57989 0.416687C3.63744 0.416687 0.429993 3.59427 0.429993 7.50002C0.429993 11.4058 3.63744 14.5834 7.57989 14.5834C11.5223 14.5834 14.7298 11.4058 14.7298 7.50002C14.7298 3.59427 11.5223 0.416687 7.57989 0.416687ZM7.57989 13.1667C4.42607 13.1667 1.85997 10.6245 1.85997 7.50002C1.85997 4.37556 4.42607 1.83335 7.57989 1.83335C10.7337 1.83335 13.2998 4.37556 13.2998 7.50002C13.2998 10.6245 10.7337 13.1667 7.57989 13.1667Z" fill="#6F7789"/>
                     <path d="M8.29485 3.95831H6.86487V8.20831H11.1548V6.79165H8.29485V3.95831Z" fill="#6F7789"/>
                 </svg>
-                <h6 class="card-type">{{type}} </h6>
+                <h6 class="card_type">{{type}} </h6>
             </div>
 
             <h4 class="mb-4">
@@ -26,44 +27,33 @@
                 <button class="btn" @click="showModal(data, 'attraction')">了解更多</button>
             </div>
         </div>
-    </b-card>
-  
+    </div>
 </template>
 
-<script>
-    export default({
-        name:'Card',
-        props:{
-            data:{
-                type:Object
-            },
-            imgSrc:{
-                type:String
-            },
-            title:{
-                type:String
-            },
-            type:{
-                type:String
-            },
-            address:{
-                type:String
-            },
-        },
-        data(){
-            return{
-                modalData:{a:123}
-            }
-        },
-        methods:{
-            showModal(data, type){
-                this.$emit('showModal', data, type);
-            }
+<script lang="ts">
+    import { Component, Vue, Prop } from 'vue-property-decorator';
+  
+    @Component
+
+    export default class Header extends Vue {
+        // props
+        @Prop() data:any;
+        @Prop({default:''}) imgSrc!:string;
+        @Prop({default:''}) title!:string;
+        @Prop({default:''}) type!:string;
+        @Prop({default:''}) address!:string;  
+
+        // data
+        modalData = {a:123}
+
+        // methods
+        showModal(data:any, type:string):void{
+            this.$emit('showModal', data, type);
         }
-    })
+    }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     .card{
         width: 100%;
         min-height: 380px;
@@ -76,4 +66,25 @@
         height: 150px;
         overflow: hidden;
     }
+
+    .card{
+        &_body{
+            padding: 0;
+        }
+
+        &_title{
+            font-weight: 700;
+            color: #313131;
+            margin-bottom: 0 !important;
+        }
+
+        &_type{
+            color:#6F7789;
+            font-size: 12px;
+            margin-bottom: 0 !important;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }    
 </style>

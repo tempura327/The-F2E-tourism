@@ -1,13 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import Vuex, { Store } from 'vuex'
 
 Vue.use(Vuex)
 
-const store = new Vuex.Store({
+export default new Vuex.Store({
   state: {
     attraction:[],
-    activiry:[],
+    activiry:[],    
   },
   mutations: {
     setAttractionData(state, data){
@@ -15,12 +14,10 @@ const store = new Vuex.Store({
     },
     setActivityData(state, data){
       state.activiry = data;
-    },
+    },    
   },
   actions: {
   },
   modules: {
   }
 })
-
-export default store

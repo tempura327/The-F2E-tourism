@@ -1,6 +1,6 @@
 <template>
   <nav class="nav">
-    <div class="d-flex">
+    <div class="flex">
       <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-5">
         <g clip-path="url(#clip0_53:24)">
         <path d="M0 20C0 8.9543 8.9543 0 20 0C31.0457 0 40 8.9543 40 20C40 31.0457 31.0457 40 20 40C8.9543 40 0 31.0457 0 20Z" fill="url(#paint0_linear_53:24)"/>
@@ -35,7 +35,7 @@
       <img src="../assets/Travel Taiwan.svg" alt="">
     </div>
 
-    <ul class="d-flex">
+    <ul class="flex">
       <li class="nav-item mr-14" >
         <router-link to="/The-F2E-tourism/">首頁</router-link>
       </li>
@@ -51,14 +51,20 @@
   </nav>
 </template>
 
-<script>
-export default {
-  name: 'Header',
-
-}
+<script lang="ts">
+  import { Component, Vue } from 'vue-property-decorator';
+  
+  @Component
+  export default class Header extends Vue {
+    // props
+  
+    // data
+  
+    // methods
+  }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .title{
     font-size: 30px;
     font-style: italic;

@@ -1,19 +1,4 @@
-@import url('https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css');
-@import url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js');
-@import './_variable.scss';
 @import './_mixin.scss';
-
-body{
-    // font-family: 'Roboto', 'Nunito Sans';
-    font-family: 'arial';
-    color: #6F7789;
-    font-size: 20px;
-    font-weight: 500;
-}
-
-.d-flex{
-    display: flex;
-}
 
 .btn{      
     @include btn;  
@@ -64,39 +49,26 @@ body{
     }
 }
 
-.card{
-    &-body{
-        padding: 0;
-    }
+// .card{
+//     &-body{
+//         padding: 0;
+//     }
 
-    &-title{
-        font-weight: 700;
-        color: #313131;
-        margin-bottom: 0 !important;
-    }
+//     &-title{
+//         font-weight: 700;
+//         color: #313131;
+//         margin-bottom: 0 !important;
+//     }
 
-    &-type{
-        color:#6F7789;
-        font-size: 12px;
-        margin-bottom: 0 !important;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-}
-
-.big-title{
-    font-weight: 700;
-    font-size: 30px;
-    color: #08A6BB;
-    margin-bottom: 24px;
-}
-
-.description{
-    color: #AEAEAE;
-    font-size: 16px;
-    font-weight: 700;
-}
+//     &-type{
+//         color:#6F7789;
+//         font-size: 12px;
+//         margin-bottom: 0 !important;
+//         overflow: hidden;
+//         white-space: nowrap;
+//         text-overflow: ellipsis;
+//     }
+// }
 
 .modal{
     &-header{
