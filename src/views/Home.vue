@@ -1,54 +1,62 @@
 <template>
-	<div>
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<h1 class="font-bold text-h1 text-primary mb-6">熱門景點</h1>
-					<h5 class="h5 text-gray font-bold mb-12">
-						台灣的各個美景，都美不勝收。<br>
-						等你一同來發現這座寶島的奧妙！
-					</h5>
-				</div>
-			</div>
+  <div>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h1 class="font-bold text-h1 text-primary mb-6">熱門景點</h1>
+          <h5 class="h5 text-gray font-bold mb-12">
+            台灣的各個美景，都美不勝收。
+            <br />
+            等你一同來發現這座寶島的奧妙！
+          </h5>
+        </div>
+      </div>
 
-			<div class="row grid grid-cols-4 gap-4 mb-30">
-				<div class="col" v-if="isLoading">
-					<!-- <b-spinner></b-spinner> -->
-				</div>
+      <div class="row grid grid-cols-4 gap-4 mb-30">
+        <div class="col" v-if="isLoading">
+          <!-- <b-spinner></b-spinner> -->
+        </div>
 
-				<div class=" mb-20" lg="3" v-for="(data, index) in attractionData" :key="index"  v-else>
-					<Card :data="data" :title="data.Name" :address="data.Address" :type="data.OpenTime === 'Sun 24 hours；Mon 24 hours；Tue 24 hours；Wed 24 hours；Thu 24 hours；Fri 24 hours；Sat 24 hours'? '全天開放' : modalData.OpenTime" :imgSrc="data.Picture.PictureUrl1" @showModal="showModal"></Card>
-				</div>
-			</div>
+        <div class="mb-20" lg="3" v-for="(data, index) in attractionData" :key="index" v-else>
+          <Card
+            :data="data"
+            :title="data.Name"
+            :address="data.Address"
+            :type="data.OpenTime === 'Sun 24 hours；Mon 24 hours；Tue 24 hours；Wed 24 hours；Thu 24 hours；Fri 24 hours；Sat 24 hours' ? '全天開放' : modalData.OpenTime"
+            :imgSrc="data.Picture.PictureUrl1"
+            @showModal="showModal"></Card>
+        </div>
+      </div>
 
-			<div class="row">
-				<div class="col">
-					<h1 class="font-bold text-h1 text-primary mb-6">活動類別</h1>
-					<h5 class="h5 text-gray font-bold mb-12">
-						各種不同的活動內容<br>
-						邀請您一銅來共襄盛舉！
-					</h5>
-				</div>
-			</div>
+      <div class="row">
+        <div class="col">
+          <h1 class="font-bold text-h1 text-primary mb-6">活動類別</h1>
+          <h5 class="h5 text-gray font-bold mb-12">
+            各種不同的活動內容
+            <br />
+            邀請您一銅來共襄盛舉！
+          </h5>
+        </div>
+      </div>
 
-			<div class="row mb-25">
-				<div class="col" v-if="isLoading2">
-					<!-- <b-spinner></b-spinner> -->
-				</div> 
-				<div class="col-3 mb-20" lg="3" v-for="(data, index) in activityData" :key="index" v-else>
-					<SimpleCard :title="data.Name" :imgSrc="data.Picture.PictureUrl1" :data="data" @showModal="showModal"></SimpleCard>
-				</div>
-			</div>      
-		</div>
+      <div class="row mb-25">
+        <div class="col" v-if="isLoading2">
+          <!-- <b-spinner></b-spinner> -->
+        </div>
+        <div class="col-3 mb-20" lg="3" v-for="(data, index) in activityData" :key="index" v-else>
+          <SimpleCard :title="data.Name" :imgSrc="data.Picture.PictureUrl1" :data="data" @showModal="showModal"></SimpleCard>
+        </div>
+      </div>
+    </div>
 
-
-		<div class="banner-bottom" v-if="this.$router.currentRoute.fullPath === '/'">
-			<h1 class="banner_text">
-				“To travel is to live” <br>
-				– Hans Christian Anderson-
-			</h1>
-		</div>    
-<!-- 
+    <div class="banner-bottom" v-if="this.$router.currentRoute.fullPath === '/'">
+      <h1 class="banner_text">
+        “To travel is to live”
+        <br />
+        – Hans Christian Anderson-
+      </h1>
+    </div>
+    <!-- 
     <b-modal id="detail-modal" :title="modalData.Name" size="lg">
         <h5 class="h5 mb-5 grey-blue">
           <svg width="12" height="15" viewBox="0 0 12 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-2">
@@ -112,89 +120,75 @@
           </ul>
         </template>
     </b-modal> -->
-	</div>
+  </div>
 </template>
 
 <script lang="ts">
-	import { Component, Vue } from 'vue-property-decorator';
-  
-	import Card from '../components/Card.vue';
-	import SimpleCard from '../components/SimpleCard.vue';
+  import { Component, Vue } from 'vue-property-decorator';
 
-	import getAuthorization from '@/utility/auth';
+  import Card from '../components/Card.vue';
+  import SimpleCard from '../components/SimpleCard.vue';
 
-	@Component({
-		components:{
-			Card,
-			SimpleCard,      
-		}
-	})
-  
+  import getAuthorization from '@/utility/auth';
+  import modalHelper from '@/utility/modalHelper.ts';
+
+  @Component({
+    components: {
+      Card,
+      SimpleCard,
+    },
+  })
   export default class Home extends Vue {
     // props
-  
+
     // data
-    attractionData:any[] = [];
-    activityData:any[] = [];
+    attractionData: any[] = [];
+    activityData: any[] = [];
     isLoading = false;
     isLoading2 = false;
     modalData = {
-		Name:'',
-		Address:'',
-		Picture:{
-			PictureUrl1:''
-		}
-    }
-    isAttraction = false; 
+      Name: '',
+      Address: '',
+      Picture: {
+        PictureUrl1: '',
+      },
+    };
+    isAttraction = false;
 
     // hooks
-    created():void{
-        this.queryAttraction();
-        this.queryAactivity();
-    } 
+    created(): void {
+      this.queryAttraction();
+      this.queryAactivity();
+    }
 
     // methods
-    async queryAttraction():Promise<void>{
-		this.isLoading = true;
+    async queryAttraction(): Promise<void> {
+      this.isLoading = true;
 
-		try{
-			const res = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$skip=50&$top=8&?$format=JSON`,{
-                method:'GET',
-                headers: getAuthorization(),
-            })
+      try {
+        const res = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$skip=50&$top=8&?$format=JSON`, {
+          method: 'GET',
+          headers: getAuthorization(),
+        });
 
-			res.json().then((d) => {
-              this.attractionData = d;
-            })
-		}finally{
-			this.isLoading = false;
-        }
-		
+        res.json().then((d) => {
+          this.attractionData = d;
+        });
+      } finally {
+        this.isLoading = false;
+      }
     }
-    async queryAactivity():Promise<void>{
+    async queryAactivity(): Promise<void> {
       this.isLoading = true;
     }
-    showModal(data:any, type:string):void{
+    showModal(data: any, type: string): void {
       this.modalData = data;
-      // this.$bvModal.show('detail-modal');
-      this.isAttraction = type === 'activity'? false : true;
-    }
-    // async queryAttraction(){
-    //   this.isLoading = true;
-    //       try{
-    //         let res = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$skip=50&$top=8&?$format=JSON`,{
-    //             method:'GET',
-    //             headers: getAuthorizationHeader()
-    //             'Accept-Encoding': 'gzip'
-    //         })
 
-    //         res.json().then((d) => {
-    //           this.attractionData = d;
-    //         })
-    //       }finally{
-    //         this.isLoading = false;
-    //       }
-    //     }
+      modalHelper(this, 'detail-modal');
+      // this.$bvModal.show('detail-modal');
+      this.isAttraction = type === 'activity' ? false : true;
+    }
+
     //     async queryAactivity(){
     //       this.isLoading2 = true;
     //       try{
@@ -225,44 +219,44 @@
 </script>
 
 <style lang="scss" scoped>
-	.banner{
-		&-bottom{
-			background-image: url('../assets/unsplash_dQejX2ucPBs.png');
-			background-size: cover;
-			height: 300px;
-		}
+  .banner {
+    &-bottom {
+      background-image: url('../assets/unsplash_dQejX2ucPBs.png');
+      background-size: cover;
+      height: 300px;
+    }
 
-		&_text{
-			line-height: 56px;
-			text-align: center;
-			font-size: 32px;
-			font-weight: 700;
-			color: white;
-			text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-			position: relative;
-			top: 120px;    
-		}
-	}
+    &_text {
+      font-size: 32px;
+      font-weight: 700;
+      text-align: center;
+      text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+      color: white;
+      position: relative;
+      top: 120px;
+      line-height: 56px;
+    }
+  }
 
-	.scroll-button{
-		border-radius: 50%;
-		width: 40px;
-		height: 40px;
-		background-color: #08A6BB;
-		position: fixed;     
-		left: 95vw;
-		top: 90vh;  
-		cursor: pointer; 
-		font-size: 30px;
-		color: white;
-		text-align: center;
-		border: 1px solid white;
-		transition-duration: 0.5s;
-		transform: rotate(0deg);     
-		
-		&-top{
-			transition-duration: 0.5s;
-			transform: rotate(180deg);
-		}  
-	}
+  .scroll-button {
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+    text-align: center;
+    color: white;
+    background-color: #08a6bb;
+    border: 1px solid white;
+    border-radius: 50%;
+    position: fixed;
+    top: 90vh;
+    left: 95vw;
+    cursor: pointer;
+    transform: rotate(0deg);
+    transition-duration: 0.5s;
+
+    &-top {
+      transition-duration: 0.5s;
+      transform: rotate(180deg);
+    }
+  }
 </style>

@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
+import Vue from 'vue';
+import VueRouter, { RouteConfig } from 'vue-router';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const Home = () => import('../views/Home.vue');
 const Attraction = () => import('../views/Attraction.vue');
@@ -10,19 +10,19 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
   },
   {
-    path:'/attraction',
-    name:'Attraction',
-    component:Attraction
-  }
-]
+    path: '/attraction',
+    name: 'Attraction',
+    component: Attraction,
+  },
+];
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

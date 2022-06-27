@@ -1,23 +1,21 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    attraction:[],
-    activiry:[],    
+    attraction: [],
+    activiry: [],
   },
   mutations: {
-    setAttractionData(state, data){
+    setAttractionData(state, data) {
       state.attraction = data;
     },
-    setActivityData(state, data){
+    setActivityData(state, data) {
       state.activiry = data;
-    },    
+    },
   },
-  actions: {
-  },
-  modules: {
-  }
-})
+  actions: {},
+  modules: {},
+});

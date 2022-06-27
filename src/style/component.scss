@@ -1,51 +1,57 @@
 @import './_mixin.scss';
 
 .btn{      
-    @include btn;  
+    @include btn;
+
+    color: #08A6BB;  
     background-color: white;
     border: 4px solid #08A6BB;
-    color: #08A6BB;
 
     &:hover{
         @include btn;
+
+        color: #6F7789;
         background-color: white;
-        border: 4px solid #6F7789;
-        color: #6F7789;      
+        border: 4px solid #6F7789;      
     }
 
     &-active{
         @include btn;
+
+        color: white;
         background-color: #08A6BB;
-        border: 4px solid #08A6BB;
-        color: white; 
+        border: 4px solid #08A6BB; 
     }
 
     &-search{
-        background-color: #08A6BB;
         width: 60%;
-        margin: 0 auto;
         width: 40px;
         height: 40px;
+        background-color: #08A6BB;
+        border: none;
         border-radius: 8px;
-        border: none
+        margin: 0 auto
     }
 }
 
 .carousel-indicators li{
     @include pagination;
-    background-color: white;
+
     color: #8F8F8F;
+    background-color: white;
 
     &:hover{
         @include pagination;
-        background-color: white;
+
         color: #08A6BB;
+        background-color: white;
     }
 
     &-active{
         @include pagination;
-        background-color: #08A6BB;
+
         color: white;
+        background-color: #08A6BB;
     }
 }
 
@@ -69,12 +75,6 @@
 //         text-overflow: ellipsis;
 //     }
 // }
-
-.modal{
-    &-header{
-        color:#6F7789 !important;
-    }
-}
 
 .picture{
     &-frame-small{
