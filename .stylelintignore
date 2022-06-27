@@ -1,0 +1,6 @@
+node_modules
+/dist
+
+# tailwind file
+/src/style/index.css
+/src/style/tailwind.css
