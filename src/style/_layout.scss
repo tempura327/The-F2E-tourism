@@ -1,0 +1,46 @@
+@import './_mixin.scss';
+
+// -------------------------layout-------------------------------
+.container{
+    width: 80%;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.row{
+    @apply flex flex-wrap;
+}
+
+.col{
+    flex-grow: 1;
+    padding: 0 16px;
+}
+
+// flex-shrink則是空間不足時被壓縮的比例，預設為1。
+// 如果改設為flex-shrink:0; 則螢幕寬度變小的時候元素寬/高讀不會雖小，然後就會突出去
+
+@include columnHelper(12);
+
+@media (max-width: 428px){
+    .container{
+        width: 90%;
+        padding: 0 8px;
+    }
+
+    .col{
+        padding: 0 8px;
+    }
+
+    @include columnHelper(12, 'sm', 0 8px); 
+}
+
+// -------------------------spacing-------------------------------
+
+// @include spacingHelper(10, 'm', 'margin');
+// @include spacingHelper(10, 'mb', 'margin-bottom');
+// @include spacingHelper(10, 'mt', 'margin-top');
+
+// @include spacingHelper(10, 'p', 'padding');
+// @include spacingHelper(10, 'px', 'padding');
+// @include spacingHelper(10, 'py', 'padding');
+

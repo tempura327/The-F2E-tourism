@@ -1,97 +1,53 @@
-@for $i from 1 to 4 {
-    .font-weight-#{$i}{
-        font-weight: $i * 100 + 400;
+@mixin columnHelper($columnNum, $size:'', $padding: 0 16px){
+    @for $i from 1 through $columnNum{
+        $className: if($size != '', '#{$size}-#{$i}', $i);
+
+        .col-#{$className}{
+            width: $i / 12 * 100%;
+            padding: $padding;
+            box-sizing: border-box;   
+        }
     }
 }
 
-@for $i from 1 to length($h) + 1 {
-    h#{$i}{
-        font-size:(24 - $i * 2)+px !important;
-        margin-bottom: 0 !important;
-    }
+@mixin spacingHelper($num, $prefix, $propertyName) {
+    @for $i from 1 through $num{
+        .#{$prefix}-#{$i}{
+            @if str-index($prefix, 'x'){
+                #{$propertyName}:0 $i * 4px;
+                
+            }@else if str-index($prefix, 'y'){
+                #{$propertyName}:$i * 4px 0;
 
-    .h#{$i}{
-        font-size:(24 - $i * 2)+px !important;
-        margin-bottom: 0 !important;
-    }
-
-    .w-#{$i*20}{
-        width: $i * 20% !important;
-    }
-
-    .border-#{$i}{
-        border-radius: $i * 4px !important;
+            }@else{
+                #{$propertyName}:$i * 4px;
+            }
+        }
     }
 }
 
-@for $i from 1 to 31{
-    .m-#{$i}{
-        margin: $i * 4px !important;
-    }
+@mixin sizeHelper($w, $h, $borderRadius:0){
+    width:$w;
+    height:$h;
 
-    .p-#{$i}{
-        padding: $i * 4px !important;
-    }
-
-    .mt-#{$i}{
-        margin-top: $i * 4px !important;
-    }
-
-    .pt-#{$i}{
-        padding-top: $i * 4px !important;
-    }
-
-    .mb-#{$i}{
-        margin-bottom: $i * 4px !important;
-    }
-
-    .pb-#{$i}{
-        padding-bottom: $i * 4px !important;
-    }
-
-    .ml-#{$i}{
-        margin-left: $i * 4px !important;
-    }
-
-    .pl-#{$i}{
-        padding-left: $i * 4px !important;
-    }
-
-    .mr-#{$i}{
-        margin-right: $i * 4px !important;
-    }
-
-    .pr-#{$i}{
-        padding-right: $i * 4px !important;
+    @if $borderRadius != 0{
+        border-radius: $borderRadius;
     }
 }
 
-@each $name in $color-name {
-    $i: index($color-name, $name);
+@mixin skinHelper($backgroundColor, $color, $border:''){
+    color: $color;
+    background-color: $backgroundColor;
 
-    .#{$name} { 
-        color: nth($text-color, $i);        
-    }
-
-    .bg-#{$name}{
-        background-color: nth($text-color, $i);
+    @if $border != ''{
+        border: $border;
     }
 }
 
-@mixin btn($w: 60%, $fz: 14px, $fw:700, $br: 8px) {
-    width: $w;   
-    height: 32px; 
-    font-size: $fz;
-    font-weight: $fw;
-    border-radius: $br;
-    line-height: 100%;
-}
+@mixin fontHelper($fontSize, $fontWeight){
+    font-size: $fontSize;
 
-@mixin pagination($w: 12px, $fz: 12px, $fw:700, $br: 50%) {
-    width: $w !important;
-    height: $w !important;    
-    font-size: $fz !important;
-    font-weight: $fw !important;
-    border-radius: $br !important;
+    @if $fontWeight{
+        font-weight: $fontWeight;
+    }
 }
-

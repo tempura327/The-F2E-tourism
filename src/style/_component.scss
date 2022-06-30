@@ -1,0 +1,120 @@
+@import './_mixin.scss';
+
+// button
+.btn{
+    @include skinHelper(white, #08A6BB, 4px solid #08A6BB);
+
+    &:hover{
+        @include skinHelper(white, #6F7789, 4px solid #08A6BB);
+    }
+
+    &-active{
+        @include skinHelper(#08A6BB, white, 4px solid #08A6BB);
+    }
+}
+
+.btn, .btn:hover, .btn-active{
+    @include sizeHelper(22px, 11px, 8px);
+    @include fontHelper(16px, 700);
+
+    line-height: 100%;
+}
+
+// carousel
+// .carousel{
+//     &_item{
+//         height: 600px;
+//     }
+
+//     &_caption{
+//         bottom: 40%;
+//         padding: 0;    
+        
+//         * {
+//             font-size: 32px;
+//             font-weight: 700;
+//             text-shadow: 10px 8px 12px rgba(0, 0, 0, 0.37);
+//             color: white;
+//             font-style: italic;
+//         }
+//     }
+
+//     &_search{
+//         display: inline;
+//         position: relative;
+//         top: -250px;
+//         left: 280px;        
+//     }
+
+//     &_search_input{
+//         border-radius: 8px;
+//         margin-right: 20px;
+//         z-index: 20;
+//         box-shadow: 4px 4px 11px rgba(0, 0, 0, 0.25);        
+//     }
+
+//     &_indicators{
+//         @include skinHelper(white, #8F8F8F);
+    
+//         &:hover{
+//             @include skinHelper(white, #08A6BB);
+//         }
+    
+//         &-active{
+//             @include skinHelper(#08A6BB, white);
+//         }
+//     }
+// }
+
+// .carousel_indicators, .carousel_indicators:hover, .carousel_indicators-active{
+//     @include sizeHelper(12px, 12px, 50%);
+//     @include fontHelper(12px, 700);
+// }
+
+// card
+.card{
+    width: 100%;
+    min-height: 380px;
+    @apply bg-white rounded-lg;
+
+    box-shadow: 2px 2px 4px rgba(114, 142, 171, 0.1), -6px -6px 20px rgba(255, 255, 255, 0.6), 4px 4px 20px rgba(111, 140, 176, 0.41);
+
+    &_body{
+        @apply p-0;
+    }
+
+    &_title{
+        @apply text-dark-gray font-bold mb-0;
+    }
+
+    &_type{
+        @apply text-gray-blue overflow-hidden mb-0;
+
+        font-size: 12px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    &_img{
+        height: 150px;
+        @apply overflow-hidden;
+
+        // overflow: hidden;        
+    }
+}
+
+.picture_frame{
+    &-small{
+        height: 150px;
+    }
+
+    &-big{
+        height: 320px;
+    }    
+}
+
+.picture_frame-small, .picture_frame-big{
+    @apply overflow-hidden;
+
+    // overflow: hidden;
+}

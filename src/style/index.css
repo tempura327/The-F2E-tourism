@@ -1,3 +1,248 @@
+.container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col {
+  flex-grow: 1;
+  padding: 0 16px;
+}
+
+.col-1 {
+  width: 8.33333%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.col-2 {
+  width: 16.66667%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.col-3 {
+  width: 25%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.col-4 {
+  width: 33.33333%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.col-5 {
+  width: 41.66667%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.col-6 {
+  width: 50%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.col-7 {
+  width: 58.33333%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.col-8 {
+  width: 66.66667%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.col-9 {
+  width: 75%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.col-10 {
+  width: 83.33333%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.col-11 {
+  width: 91.66667%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.col-12 {
+  width: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 428px) {
+  .container {
+    width: 90%;
+    padding: 0 8px;
+  }
+
+  .col {
+    padding: 0 8px;
+  }
+
+  .col-sm-1 {
+    width: 8.33333%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+
+  .col-sm-2 {
+    width: 16.66667%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+
+  .col-sm-3 {
+    width: 25%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+
+  .col-sm-4 {
+    width: 33.33333%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+
+  .col-sm-5 {
+    width: 41.66667%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+
+  .col-sm-6 {
+    width: 50%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+
+  .col-sm-7 {
+    width: 58.33333%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+
+  .col-sm-8 {
+    width: 66.66667%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+
+  .col-sm-9 {
+    width: 75%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+
+  .col-sm-10 {
+    width: 83.33333%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+
+  .col-sm-11 {
+    width: 91.66667%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+
+  .col-sm-12 {
+    width: 100%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+}
+
+.btn {
+  color: #08A6BB;
+  background-color: white;
+  border: 4px solid #08A6BB;
+}
+
+.btn:hover {
+  color: #6F7789;
+  background-color: white;
+  border: 4px solid #08A6BB;
+}
+
+.btn-active {
+  color: white;
+  background-color: #08A6BB;
+  border: 4px solid #08A6BB;
+}
+
+.btn, .btn:hover, .btn-active {
+  width: 22px;
+  height: 11px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 100%;
+}
+
+.card {
+  width: 100%;
+  min-height: 380px;
+  border-radius: 0.5rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  box-shadow: 2px 2px 4px rgba(114, 142, 171, 0.1), -6px -6px 20px rgba(255, 255, 255, 0.6), 4px 4px 20px rgba(111, 140, 176, 0.41);
+}
+
+.card_body {
+  padding: 0px;
+}
+
+.card_title {
+  margin-bottom: 0px;
+  font-weight: 700;
+  --tw-text-opacity: 1;
+  color: rgb(82 81 81 / var(--tw-text-opacity));
+}
+
+.card_type {
+  margin-bottom: 0px;
+  overflow: hidden;
+  --tw-text-opacity: 1;
+  color: rgb(111 119 137 / var(--tw-text-opacity));
+  font-size: 12px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.card_img {
+  height: 150px;
+  overflow: hidden;
+}
+
+.picture_frame-small {
+  height: 150px;
+}
+
+.picture_frame-big {
+  height: 320px;
+}
+
+.picture_frame-small,  .picture_frame-big {
+  overflow: hidden;
+}
+
 /*
 ! tailwindcss v3.1.4 | MIT License | https://tailwindcss.com
 */
@@ -591,6 +836,10 @@ video {
   position: fixed;
 }
 
+.absolute {
+  position: absolute;
+}
+
 .relative {
   position: relative;
 }
@@ -732,6 +981,10 @@ video {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.outline {
+  outline-style: solid;
+}
+
 .grayscale {
   --tw-grayscale: grayscale(100%);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
@@ -742,5 +995,4 @@ video {
 }
 
 /* @tailwind ; */
-
-/* @import './component.css'; */
+/*# sourceMappingURL=index.css.map */
