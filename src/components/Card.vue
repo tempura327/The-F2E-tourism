@@ -37,15 +37,13 @@
 <script lang="ts">
   import { Component, Vue, Prop } from 'vue-property-decorator';
 
-  import modalHelper from '@/utility/modalHelper.ts';
-
   @Component
   export default class Header extends Vue {
     // props
     @Prop() data: any;
     @Prop({ default: '' }) imgSrc!: string;
     @Prop({ default: '' }) title!: string;
-    @Prop({ default: '' }) type!: string;
+    // @Prop({ default: '' }) type!: string;
     @Prop({ default: '' }) address!: string;
 
     // data
@@ -54,6 +52,11 @@
     // methods
     showModal(data: any, type: string): void {
       this.$emit('showModal', data, type);
+    }
+
+    // computed
+    get type(): string {
+      return this.data.OpenTime.match(/24 hours/g).length === 7 ? '全天開放' : this.data.OpenTime;
     }
   }
 </script>

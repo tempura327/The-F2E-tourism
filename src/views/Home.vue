@@ -18,13 +18,7 @@
         </div>
 
         <div class="mb-20" lg="3" v-for="(data, index) in attractionData" :key="index" v-else>
-          <Card
-            :data="data"
-            :title="data.Name"
-            :address="data.Address"
-            :type="data.OpenTime === 'Sun 24 hours；Mon 24 hours；Tue 24 hours；Wed 24 hours；Thu 24 hours；Fri 24 hours；Sat 24 hours' ? '全天開放' : modalData.OpenTime"
-            :imgSrc="data.Picture.PictureUrl1"
-            @showModal="showModal"></Card>
+          <Card :data="data" :title="data.Name" :address="data.Address" :imgSrc="data.Picture.PictureUrl1" @showModal="showModal"></Card>
         </div>
       </div>
 
@@ -173,6 +167,7 @@
 
         res.json().then((d) => {
           this.attractionData = d;
+          console.log(d);
         });
       } finally {
         this.isLoading = false;
