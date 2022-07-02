@@ -1,6 +1,6 @@
 @import './_mixin.scss';
 
-// -------------------------layout-------------------------------
+// -------------------------container & row & column-------------------------------
 .container{
     width: 80%;
     margin: 0 auto;
@@ -16,9 +16,6 @@
     padding: 0 16px;
 }
 
-// flex-shrink則是空間不足時被壓縮的比例，預設為1。
-// 如果改設為flex-shrink:0; 則螢幕寬度變小的時候元素寬/高讀不會雖小，然後就會突出去
-
 @include columnHelper(12);
 
 @media (max-width: 428px){
@@ -32,6 +29,46 @@
     }
 
     @include columnHelper(12, 'sm', 0 8px); 
+}
+
+// -------------------------header & footer-------------------------------
+%nav{
+    @apply flex justify-between items-center border-solid border-2 border-transparent;
+
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;  
+}
+
+.nav{
+    padding: 24px 76px;
+    @extend %nav;
+
+
+    &-item{
+        @extend %nav;
+
+        &:hover {
+            padding-bottom: 4px;
+            @apply  border-solid border-2 border-gray-blue font-bold;
+
+        }
+
+        a {
+            text-decoration: none;
+            @apply text-gray-blue;
+        }
+    }
+}
+
+.router-link-active {
+  font-weight: 700;
+  color: #08a6bb !important;
+}
+
+.footer {
+    height: 120px;
+    line-height: 120px;
+    @apply bg-primary text-white text-center font-bold;
 }
 
 // -------------------------spacing-------------------------------

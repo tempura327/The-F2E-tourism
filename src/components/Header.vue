@@ -3,7 +3,9 @@
     <div class="flex">
       <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-5">
         <g clip-path="url(#clip0_53:24)">
-          <path d="M0 20C0 8.9543 8.9543 0 20 0C31.0457 0 40 8.9543 40 20C40 31.0457 31.0457 40 20 40C8.9543 40 0 31.0457 0 20Z" fill="url(#paint0_linear_53:24)" />
+          <path
+            d="M0 20C0 8.9543 8.9543 0 20 0C31.0457 0 40 8.9543 40 20C40 31.0457 31.0457 40 20 40C8.9543 40 0 31.0457 0 20Z"
+            fill="url(#paint0_linear_53:24)" />
           <path
             fill-rule="evenodd"
             clip-rule="evenodd"
@@ -75,38 +77,38 @@
 </script>
 
 <style scoped lang="scss">
-  .title {
-    font-size: 30px;
-    font-style: italic;
-  }
+  // .title {
+  //   font-size: 30px;
+  //   font-style: italic;
+  // }
 
-  .nav {
-    padding: 24px 76px;
-    display: flex;
-  }
+  // .nav {
+  //   padding: 24px 76px;
+  //   display: flex;
+  // }
 
-  .nav,
-  .nav-item {
-    padding-bottom: 4px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid transparent;
-  }
+  // .nav,
+  // .nav-item {
+  //   padding-bottom: 4px;
+  //   display: flex;
+  //   justify-content: space-between;
+  //   align-items: center;
+  //   border-bottom: 2px solid transparent;
+  // }
 
-  .nav-item:hover {
-    font-weight: 700;
-    border-bottom: 2px solid #6f7789;
-    padding-bottom: 4px;
-  }
+  // .nav-item:hover {
+  //   font-weight: 700;
+  //   border-bottom: 2px solid #6f7789;
+  //   padding-bottom: 4px;
+  // }
 
-  .nav-item a {
-    text-decoration: none !important;
-    color: #6f7789;
-  }
+  // .nav-item a {
+  //   text-decoration: none !important;
+  //   color: #6f7789;
+  // }
 
-  .router-link-active {
-    font-weight: 700;
-    color: #08a6bb !important;
-  }
+  // .router-link-active {
+  //   font-weight: 700;
+  //   color: #08a6bb !important;
+  // }
 </style>

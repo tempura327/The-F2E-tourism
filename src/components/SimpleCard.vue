@@ -27,24 +27,24 @@
 </script>
 
 <style scoped lang="scss">
-  .card-title,
-  .card {
-    cursor: pointer;
-  }
+  // .card-title,
+  // .card {
+  //   cursor: pointer;
+  // }
 
-  .card-title:hover {
-    color: #08a6bb;
-  }
+  // .card-title:hover {
+  //   color: #08a6bb;
+  // }
 
-  .card {
-    width: 100%;
-    height: 324px;
-    border-radius: 10px;
-    box-shadow: 2px 2px 4px rgba(114, 142, 171, 0.1), -6px -6px 20px rgba(255, 255, 255, 0.6), 4px 4px 20px rgba(111, 140, 176, 0.41);
-  }
+  // .card {
+  //   width: 100%;
+  //   height: 324px;
+  //   border-radius: 10px;
+  //   box-shadow: 2px 2px 4px rgba(114, 142, 171, 0.1), -6px -6px 20px rgba(255, 255, 255, 0.6), 4px 4px 20px rgba(111, 140, 176, 0.41);
+  // }
 
-  .card-img {
-    width: 100%;
-    height: 100%;
-  }
+  // .card-img {
+  //   width: 100%;
+  //   height: 100%;
+  // }
 </style>

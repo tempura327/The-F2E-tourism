@@ -1,6 +1,6 @@
 @import './_mixin.scss';
 
-// button
+// -------------------------button-------------------------------
 .btn{
     @include skinHelper(white, #08A6BB, 4px solid #08A6BB);
 
@@ -71,35 +71,64 @@
 //     @include fontHelper(12px, 700);
 // }
 
-// card
+// -------------------------card-------------------------------
 .card{
-    width: 100%;
     min-height: 380px;
-    @apply bg-white rounded-lg;
-
     box-shadow: 2px 2px 4px rgba(114, 142, 171, 0.1), -6px -6px 20px rgba(255, 255, 255, 0.6), 4px 4px 20px rgba(111, 140, 176, 0.41);
+    @apply w-full bg-white rounded-lg;
 
     &_body{
         @apply p-0;
     }
 
     &_title{
-        @apply text-dark-gray font-bold mb-0;
+        @apply text-gray-100 font-bold mb-0;
     }
 
     &_type{
-        @apply text-gray-blue overflow-hidden mb-0;
-
         font-size: 12px;
         white-space: nowrap;
         text-overflow: ellipsis;
+        @apply text-gray-blue overflow-hidden mb-0;
     }
 
     &_img{
         height: 150px;
         @apply overflow-hidden;
 
+
         // overflow: hidden;        
+    }
+}
+
+// -------------------------modal-------------------------------
+.modal {
+    @include sizeHelper(100vw, 100vh);
+    @apply flex justify-center items-center absolute top-0 left-0;
+
+    // width: 100vw;
+    // height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+
+    // outline: 2px solid gold;
+
+    &_dialog {
+      width: 80%;
+      border-radius: 0.25rem;
+      padding: 16px;
+      background: #fff;
+
+      &_title {
+        color: #6f7789;
+        border-bottom: 1px solid #ccc;
+      }
     }
 }
 
@@ -115,6 +144,4 @@
 
 .picture_frame-small, .picture_frame-big{
     @apply overflow-hidden;
-
-    // overflow: hidden;
 }

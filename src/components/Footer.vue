@@ -14,8 +14,8 @@
 </script>
 
 <style scoped lang="scss">
-  .footer {
-    height: 120px;
-    line-height: 120px;
-  }
+  // .footer {
+  //   height: 120px;
+  //   line-height: 120px;
+  // }
 </style>

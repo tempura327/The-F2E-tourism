@@ -5,6 +5,7 @@
       <div class="modal_dialog_body">
         <slot></slot>
       </div>
+
       <div class="modal_dialog_footer">
         <slot name="footer">
           <button @click="isModalShow = false">取消</button>
@@ -41,29 +42,29 @@
 <style lang="scss" scoped>
   // @import '@/style/app.scss';
 
-  .modal {
-    // @include sizeHelper(100vw, 100vh);
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.6);
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    outline: 2px solid gold;
+  // .modal {
+  //   // @include sizeHelper(100vw, 100vh);
+  //   width: 100vw;
+  //   height: 100vh;
+  //   background-color: rgba(0, 0, 0, 0.6);
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   outline: 2px solid gold;
 
-    &_dialog {
-      width: 80%;
-      padding: 16px;
-      background: #fff;
-      border-radius: 0.25rem;
+  //   &_dialog {
+  //     width: 80%;
+  //     border-radius: 0.25rem;
+  //     padding: 16px;
+  //     background: #fff;
 
-      &_title {
-        color: #6f7789;
-        border-bottom: 1px solid #ccc;
-      }
-    }
-  }
+  //     &_title {
+  //       color: #6f7789;
+  //       border-bottom: 1px solid #ccc;
+  //     }
+  //   }
+  // }
 </style>

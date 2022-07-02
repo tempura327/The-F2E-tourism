@@ -62,37 +62,37 @@
 </script>
 
 <style scoped lang="scss">
-  .card {
-    width: 100%;
-    min-height: 380px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 2px 2px 4px rgba(114, 142, 171, 0.1), -6px -6px 20px rgba(255, 255, 255, 0.6), 4px 4px 20px rgba(111, 140, 176, 0.41);
-  }
+  // .card {
+  //   width: 100%;
+  //   min-height: 380px;
+  //   background-color: white;
+  //   border-radius: 8px;
+  //   box-shadow: 2px 2px 4px rgba(114, 142, 171, 0.1), -6px -6px 20px rgba(255, 255, 255, 0.6), 4px 4px 20px rgba(111, 140, 176, 0.41);
+  // }
 
-  .card-img-frame {
-    height: 150px;
-    overflow: hidden;
-  }
+  // .card-img-frame {
+  //   height: 150px;
+  //   overflow: hidden;
+  // }
 
-  .card {
-    &_body {
-      padding: 0;
-    }
+  // .card {
+  //   &_body {
+  //     padding: 0;
+  //   }
 
-    &_title {
-      font-weight: 700;
-      color: #313131;
-      margin-bottom: 0 !important;
-    }
+  //   &_title {
+  //     font-weight: 700;
+  //     color: #313131;
+  //     margin-bottom: 0 !important;
+  //   }
 
-    &_type {
-      font-size: 12px;
-      white-space: nowrap;
-      color: #6f7789;
-      margin-bottom: 0 !important;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
+  //   &_type {
+  //     font-size: 12px;
+  //     white-space: nowrap;
+  //     color: #6f7789;
+  //     margin-bottom: 0 !important;
+  //     overflow: hidden;
+  //     text-overflow: ellipsis;
+  //   }
+  // }
 </style>
