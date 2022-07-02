@@ -8,10 +8,11 @@ module.exports = {
     },
     colors: {
       primary: '#08A6BB',
-      'light-gray': '#CBCBCB',
-      gray: '#AEAEAE',
+      'gray-40': '#CBCBCB',
+      'gray-60': '#AEAEAE',
+      'gray-80': '#525151',
+      'gray-100': '#313131',
       'gray-blue': '#6F7789',
-      'dark-gray': '#525151',
       white: '#ffffff',
     },
     fontFamily: {
