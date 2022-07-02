@@ -14,6 +14,7 @@ module.exports = {
       'gray-100': '#313131',
       'gray-blue': '#6F7789',
       white: '#ffffff',
+      transparent: 'rgba(0,0,0,0)',
     },
     fontFamily: {
       primary: ['Roboto', 'Nunito Sans'],
