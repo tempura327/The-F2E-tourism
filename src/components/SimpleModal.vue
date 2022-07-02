@@ -8,7 +8,7 @@
 
       <div class="modal_dialog_footer">
         <slot name="footer">
-          <button @click="isModalShow = false">取消</button>
+          <button @click="close">取消</button>
           <button @click="confirm">確認</button>
         </slot>
       </div>
@@ -18,6 +18,8 @@
 
 <script lang="ts">
   import { Component, Vue, Prop } from 'vue-property-decorator';
+
+  import App from '@/App.vue';
 
   @Component
   export default class SimpleModal extends Vue {
@@ -31,6 +33,13 @@
     // methods
     show(): void {
       this.isModalShow = true;
+
+      (this.$root.$children[0] as App).isFixed = true;
+    }
+    close(): void {
+      this.isModalShow = false;
+
+      (this.$root.$children[0] as App).isFixed = false;
     }
     confirm(): void {
       this.isModalShow = false;

@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{ fix: isFixed }">
     <Header></Header>
     <Carousel></Carousel>
     <router-view></router-view>
@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
+  import { Component, Vue, Watch } from 'vue-property-decorator';
 
   import Header from '@/components/Header.vue';
   import Footer from '@/components/Footer.vue';
@@ -31,6 +31,7 @@
 
     // data
     isScrollBottom = true;
+    isFixed = false;
 
     // methods
     scrollTopDown(): void {
@@ -47,6 +48,12 @@
         behavior: 'smooth',
       });
     }
+
+    //watch
+    @Watch('isFixed')
+    aaa(val): void {
+      console.log(val);
+    }
   }
 </script>
 
@@ -58,5 +65,9 @@
     //   -moz-osx-font-smoothing: grayscale;
     //   text-align: center;
     //   color: #2c3e50;
+  }
+
+  .fix {
+    position: fixed;
   }
 </style>
