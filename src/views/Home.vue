@@ -12,13 +12,13 @@
         </div>
       </div>
 
-      <div class="row grid grid-cols-4 gap-4 mb-30">
+      <div class="row grid grid-cols-4 gap-4 gap-y-20 mb-32">
         <div class="col" v-if="isLoading">
           <!-- <b-spinner></b-spinner> -->
         </div>
 
-        <div class="mb-20" lg="3" v-for="(data, index) in attractionData" :key="index" v-else>
-          <Card :data="data" :title="data.Name" :address="data.Address" :imgSrc="data.Picture.PictureUrl1" @showModal="showModal"></Card>
+        <div lg="3" v-for="(data, index) in attractionData" :key="index" v-else>
+          <Card :data="data" :imgSrc="data.Picture.PictureUrl1" :title="data.ScenicSpotName" :address="data.Address" @showModal="showModal"></Card>
         </div>
       </div>
 
@@ -38,7 +38,7 @@
           <!-- <b-spinner></b-spinner> -->
         </div>
         <div class="col-3 mb-20" lg="3" v-for="(data, index) in activityData" :key="index" v-else>
-          <SimpleCard :title="data.Name" :imgSrc="data.Picture.PictureUrl1" :data="data" @showModal="showModal"></SimpleCard>
+          <SimpleCard :data="data" @showModal="showModal"></SimpleCard>
         </div>
       </div>
     </div>
@@ -50,6 +50,13 @@
         – Hans Christian Anderson-
       </h1>
     </div>
+
+    <SimpleModal id="detail-modal" :title="modalData.ScenicSpotName">
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum dolorem ullam, tenetur assumenda voluptatem voluptatibus! Quo ab asperiores
+        sit fugiat consequatur, quaerat numquam nihil quasi suscipit distinctio vero, ad aut.
+      </p>
+    </SimpleModal>
     <!-- 
     <b-modal id="detail-modal" :title="modalData.Name" size="lg">
         <h5 class="h5 mb-5 grey-blue">
@@ -120,8 +127,9 @@
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator';
 
-  import Card from '../components/Card.vue';
-  import SimpleCard from '../components/SimpleCard.vue';
+  import Card from '@/components/Card.vue';
+  import SimpleCard from '@/components/SimpleCard.vue';
+  import SimpleModal from '@/components/SimpleModal.vue';
 
   import getAuthorization from '@/utility/auth';
   import modalHelper from '@/utility/modalHelper.ts';
@@ -130,6 +138,7 @@
     components: {
       Card,
       SimpleCard,
+      SimpleModal,
     },
   })
   export default class Home extends Vue {
@@ -152,7 +161,7 @@
     // hooks
     created(): void {
       this.queryAttraction();
-      this.queryAactivity();
+      // this.queryAactivity();
     }
 
     // methods
@@ -160,14 +169,16 @@
       this.isLoading = true;
 
       try {
-        const res = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$skip=50&$top=8&?$format=JSON`, {
-          method: 'GET',
-          headers: getAuthorization(),
-        });
+        const res = await fetch(
+          `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?%24filter=ScenicSpotName%20ne%20null&%24top=8&%24skip=8&%24format=JSON`,
+          {
+            method: 'GET',
+            headers: getAuthorization(),
+          },
+        );
 
         res.json().then((d) => {
           this.attractionData = d;
-          console.log(d);
         });
       } finally {
         this.isLoading = false;
@@ -175,41 +186,29 @@
     }
     async queryAactivity(): Promise<void> {
       this.isLoading = true;
+
+      try {
+        let res = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Tourism/Activity?$skip=5&$top=4&?$format=JSON`, {
+          method: 'GET',
+          headers: getAuthorization(),
+        });
+
+        res.json().then((d) => {
+          this.activityData = d;
+        });
+      } catch {
+        console.log('fail');
+      } finally {
+        this.isLoading2 = false;
+      }
     }
-    showModal(data: any, type: string): void {
-      this.modalData = data;
+    showModal(data: { data: any; type: string }): void {
+      this.modalData = data.data;
 
       modalHelper(this, 'detail-modal');
-      // this.$bvModal.show('detail-modal');
-      this.isAttraction = type === 'activity' ? false : true;
+
+      this.isAttraction = data.type === 'activity' ? false : true;
     }
-
-    //     async queryAactivity(){
-    //       this.isLoading2 = true;
-    //       try{
-    //         let res = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Tourism/Activity?$skip=5&$top=4&?$format=JSON`, {
-    //           method:'GET',
-    //           header:{
-    //             Authorization:'hmac username=83592d8c997f4933ae965e60e5995a2d',
-    //             'X-Date':new Date().toGMTString(),
-    //           }
-    //           'Accept-Encoding': 'gzip'
-    //         })
-
-    //         res.json().then((d) => {
-    //           this.activityData = d;
-    //         })
-    //       }catch{
-    //         console.log('fail');
-    //       }finally{
-    //         this.isLoading2 = false;
-    //       }
-    //     }
-    //     showModal(data, type){
-    //       this.modalData = data;
-    //       this.$bvModal.show('detail-modal');
-    //       this.isAttraction = type === 'activity'? false : true;
-    //     }
   }
 </script>
 
