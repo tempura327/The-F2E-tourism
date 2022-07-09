@@ -44,26 +44,25 @@
     @extend %nav;
 
 
-    &-item{
+    &_item{
         @extend %nav;
 
         &:hover {
-            padding-bottom: 4px;
-            @apply  border-solid border-2 border-gray-blue font-bold;
-
+            @apply font-bold pb-1;
         }
 
         a {
-            text-decoration: none;
             @apply text-gray-blue;
+
+            text-decoration: none;
         }
+
+        a.router-link-exact-active {
+            @apply text-primary font-bold;
+        }        
     }
 }
 
-.router-link-active {
-  font-weight: 700;
-  color: #08a6bb !important;
-}
 
 .footer {
     height: 120px;

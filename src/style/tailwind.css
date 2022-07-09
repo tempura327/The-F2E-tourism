@@ -155,6 +155,35 @@
   }
 }
 
+.nav, .nav_item {
+  @apply flex justify-between items-center border-solid border-2 border-transparent;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+}
+
+.nav {
+  padding: 24px 76px;
+}
+
+.nav_item:hover {
+  @apply font-bold pb-1;
+}
+
+.nav_item a {
+  @apply text-gray-blue;
+  text-decoration: none;
+}
+
+.nav_item a.router-link-exact-active {
+  @apply text-primary font-bold;
+}
+
+.footer {
+  height: 120px;
+  line-height: 120px;
+  @apply bg-primary text-white text-center font-bold;
+}
+
 .btn {
   color: #08A6BB;
   background-color: white;
@@ -162,31 +191,23 @@
 }
 
 .btn:hover {
-  color: #6F7789;
-  background-color: white;
-  border: 4px solid #08A6BB;
-}
-
-.btn-active {
   color: white;
   background-color: #08A6BB;
   border: 4px solid #08A6BB;
 }
 
 .btn, .btn:hover, .btn-active {
-  width: 22px;
-  height: 11px;
+  width: 100%;
+  height: auto;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 700;
+  padding: 8px;
   line-height: 100%;
 }
 
 .card {
-  width: 100%;
-  min-height: 380px;
-  @apply bg-white rounded-lg;
-  box-shadow: 2px 2px 4px rgba(114, 142, 171, 0.1), -6px -6px 20px rgba(255, 255, 255, 0.6), 4px 4px 20px rgba(111, 140, 176, 0.41);
+  @apply rounded-lg shadow-lg bg-white shadow-gray-100/50 overflow-hidden;
 }
 
 .card_body {
@@ -194,19 +215,36 @@
 }
 
 .card_title {
-  @apply text-dark-gray font-bold mb-0;
+  @apply text-gray-100 font-bold mb-0;
 }
 
 .card_type {
-  @apply text-gray-blue overflow-hidden mb-0;
-  font-size: 12px;
+  @apply text-gray-blue overflow-hidden mb-0 text-h6;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
 .card_img {
-  height: 150px;
+  max-height: 13rem;
   @apply overflow-hidden;
+}
+
+.modal {
+  @apply flex justify-center items-center absolute top-0 left-0;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal_dialog {
+  width: 80%;
+  border-radius: 0.25rem;
+  padding: 16px;
+  background: #fff;
+}
+
+.modal_dialog_title {
+  color: #6f7789;
+  border-bottom: 1px solid #ccc;
 }
 
 .picture_frame-small {

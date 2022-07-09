@@ -50,16 +50,16 @@
     </div>
 
     <ul class="flex">
-      <li class="nav-item mr-14">
-        <router-link to="/The-F2E-tourism/">首頁</router-link>
+      <li class="nav_item mr-14">
+        <router-link to="/">首頁</router-link>
       </li>
 
-      <li class="nav-item mr-14">
-        <router-link to="/attraction/">景點導覽</router-link>
+      <li class="nav_item mr-14">
+        <router-link to="/attraction">景點導覽</router-link>
       </li>
 
-      <li class="nav-item mr-14">
-        <router-link to="/activity/">觀光活動</router-link>
+      <li class="nav_item mr-14">
+        <router-link to="/activity">觀光活動</router-link>
       </li>
     </ul>
   </nav>
@@ -75,40 +75,3 @@
     // methods
   }
 </script>
-
-<style scoped lang="scss">
-  // .title {
-  //   font-size: 30px;
-  //   font-style: italic;
-  // }
-
-  // .nav {
-  //   padding: 24px 76px;
-  //   display: flex;
-  // }
-
-  // .nav,
-  // .nav-item {
-  //   padding-bottom: 4px;
-  //   display: flex;
-  //   justify-content: space-between;
-  //   align-items: center;
-  //   border-bottom: 2px solid transparent;
-  // }
-
-  // .nav-item:hover {
-  //   font-weight: 700;
-  //   border-bottom: 2px solid #6f7789;
-  //   padding-bottom: 4px;
-  // }
-
-  // .nav-item a {
-  //   text-decoration: none !important;
-  //   color: #6f7789;
-  // }
-
-  // .router-link-active {
-  //   font-weight: 700;
-  //   color: #08a6bb !important;
-  // }
-</style>

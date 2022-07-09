@@ -4,19 +4,20 @@
 .btn{
     @include skinHelper(white, #08A6BB, 4px solid #08A6BB);
 
-    &:hover{
-        @include skinHelper(white, #6F7789, 4px solid #08A6BB);
-    }
+    // &-active{
+    //     @include skinHelper(white, #6F7789, 4px solid #08A6BB);
+    // }
 
-    &-active{
+    &:hover{
         @include skinHelper(#08A6BB, white, 4px solid #08A6BB);
     }
 }
 
 .btn, .btn:hover, .btn-active{
-    @include sizeHelper(22px, 11px, 8px);
+    @include sizeHelper(100%, auto, 8px);
     @include fontHelper(16px, 700);
 
+    padding: 8px;
     line-height: 100%;
 }
 
@@ -73,9 +74,7 @@
 
 // -------------------------card-------------------------------
 .card{
-    min-height: 380px;
-    box-shadow: 2px 2px 4px rgba(114, 142, 171, 0.1), -6px -6px 20px rgba(255, 255, 255, 0.6), 4px 4px 20px rgba(111, 140, 176, 0.41);
-    @apply w-full bg-white rounded-lg;
+    @apply rounded-lg shadow-lg bg-white shadow-gray-100/50 overflow-hidden;
 
     &_body{
         @apply p-0;
@@ -86,14 +85,15 @@
     }
 
     &_type{
-        font-size: 12px;
+        @apply text-gray-blue overflow-hidden mb-0 text-h6;
+
+        // font-size: 12px;
         white-space: nowrap;
         text-overflow: ellipsis;
-        @apply text-gray-blue overflow-hidden mb-0;
     }
 
     &_img{
-        height: 150px;
+        max-height: 13rem;
         @apply overflow-hidden;
 
 
@@ -103,13 +103,13 @@
 
 // -------------------------modal-------------------------------
 .modal {
-    @include sizeHelper(100vw, 100vh);
     @apply flex justify-center items-center absolute top-0 left-0;
-
-    // width: 100vw;
-    // height: 100vh;
+    
+    height: 100vh;
     background-color: rgba(0, 0, 0, 0.6);
-
+    
+    // @include sizeHelper(100vw, 100vh);
+    // width: 100vw;
     // display: flex;
     // justify-content: center;
     // align-items: center;
