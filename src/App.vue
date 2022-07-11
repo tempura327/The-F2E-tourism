@@ -1,7 +1,7 @@
 <template>
   <div id="app" :class="{ fix: isFixed }">
     <Header></Header>
-    <Carousel></Carousel>
+    <FadeCarousel :data="carouselData" :config="carouselConfig"></FadeCarousel>
     <router-view></router-view>
 
     <div class="scroll-button" :class="isScrollBottom ? 'scroll-button' : 'scroll-button-top'" @click="scrollTopDown">
@@ -17,13 +17,13 @@
 
   import Header from '@/components/Header.vue';
   import Footer from '@/components/Footer.vue';
-  import Carousel from '@/components/Carousel.vue';
+  import FadeCarousel from '@/components/FadeCarousel.vue';
 
   @Component({
     components: {
       Header,
       Footer,
-      Carousel,
+      FadeCarousel,
     },
   })
   export default class App extends Vue {
@@ -32,6 +32,25 @@
     // data
     isScrollBottom = true;
     isFixed = false;
+    carouselConfig = { autoPlay: false, period: 3000 };
+    carouselData = [
+      {
+        image:
+          'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
+      },
+      {
+        image:
+          'https://images.unsplash.com/photo-1566371486490-560ded23b5e4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
+      },
+      {
+        image:
+          'https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+      },
+      {
+        image:
+          'https://images.unsplash.com/photo-1621682372775-533449e550ed?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
+      },
+    ];
 
     // methods
     scrollTopDown(): void {

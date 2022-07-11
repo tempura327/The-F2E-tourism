@@ -21,56 +21,52 @@
     line-height: 100%;
 }
 
-// carousel
-// .carousel{
-//     &_item{
-//         height: 600px;
-//     }
+// -------------------------carousel-------------------------------
+.carousel{
+    &_item{
+        height: 600px;
+    }
 
-//     &_caption{
-//         bottom: 40%;
-//         padding: 0;    
+    &_caption{
+        bottom: 40%;
+        padding: 0;    
         
-//         * {
-//             font-size: 32px;
-//             font-weight: 700;
-//             text-shadow: 10px 8px 12px rgba(0, 0, 0, 0.37);
-//             color: white;
-//             font-style: italic;
-//         }
-//     }
+        * {
+            @apply text-white font-bold italic;
 
-//     &_search{
-//         display: inline;
-//         position: relative;
-//         top: -250px;
-//         left: 280px;        
-//     }
+            font-size: 32px;
+            text-shadow: 10px 8px 12px rgba(0, 0, 0, 0.37);
+        }
+    }
 
-//     &_search_input{
-//         border-radius: 8px;
-//         margin-right: 20px;
-//         z-index: 20;
-//         box-shadow: 4px 4px 11px rgba(0, 0, 0, 0.25);        
-//     }
+    &_search{
+        display: inline;
+        position: relative;
+        top: -250px;
+        left: 280px;        
+    }
 
-//     &_indicators{
-//         @include skinHelper(white, #8F8F8F);
+    &_search_input{
+        @apply rounded-lg shadow-gray-100/25 mr-5 z-20;
+    }
+
+    &_indicators{
+        @include skinHelper(white, #8F8F8F);
     
-//         &:hover{
-//             @include skinHelper(white, #08A6BB);
-//         }
+        &:hover{
+            @include skinHelper(white, #08A6BB);
+        }
     
-//         &-active{
-//             @include skinHelper(#08A6BB, white);
-//         }
-//     }
-// }
+        &-active{
+            @include skinHelper(#08A6BB, white);
+        }
+    }
+}
 
-// .carousel_indicators, .carousel_indicators:hover, .carousel_indicators-active{
-//     @include sizeHelper(12px, 12px, 50%);
-//     @include fontHelper(12px, 700);
-// }
+.carousel_indicators, .carousel_indicators:hover, .carousel_indicators-active{
+    @include sizeHelper(12px, 12px, 50%);
+    @include fontHelper(12px, 700);
+}
 
 // -------------------------card-------------------------------
 .card{
@@ -87,7 +83,6 @@
     &_type{
         @apply text-gray-blue overflow-hidden mb-0 text-h6;
 
-        // font-size: 12px;
         white-space: nowrap;
         text-overflow: ellipsis;
     }
@@ -95,9 +90,6 @@
     &_img{
         max-height: 13rem;
         @apply overflow-hidden;
-
-
-        // overflow: hidden;        
     }
 }
 

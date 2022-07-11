@@ -206,6 +206,55 @@
   line-height: 100%;
 }
 
+.carousel_item {
+  height: 600px;
+}
+
+.carousel_caption {
+  bottom: 40%;
+  padding: 0;
+}
+
+.carousel_caption * {
+  @apply text-white font-bold italic;
+  font-size: 32px;
+  text-shadow: 10px 8px 12px rgba(0, 0, 0, 0.37);
+}
+
+.carousel_search {
+  display: inline;
+  position: relative;
+  top: -250px;
+  left: 280px;
+}
+
+.carousel_search_input {
+  @apply rounded-lg shadow-gray-100/25 mr-5 z-20;
+}
+
+.carousel_indicators {
+  color: #8F8F8F;
+  background-color: white;
+}
+
+.carousel_indicators:hover {
+  color: #08A6BB;
+  background-color: white;
+}
+
+.carousel_indicators-active {
+  color: white;
+  background-color: #08A6BB;
+}
+
+.carousel_indicators, .carousel_indicators:hover, .carousel_indicators-active {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .card {
   @apply rounded-lg shadow-lg bg-white shadow-gray-100/50 overflow-hidden;
 }
