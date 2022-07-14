@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer bg-primary text-white text-center font-bold">CopyRight : Travel Taiwan Design By : Tracy</footer>
+  <footer class="footer">CopyRight : Travel Taiwan Design By : Tempura</footer>
 </template>
 
 <script lang="ts">
