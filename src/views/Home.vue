@@ -1,5 +1,7 @@
 <template>
   <div>
+    <FadeCarousel :data="carouselData" :config="carouselConfig" carouselClass="mb-28"></FadeCarousel>
+
     <div class="container">
       <div class="row">
         <div class="col">
@@ -18,7 +20,7 @@
         </div>
 
         <div lg="3" v-for="(data, index) in attractionData" :key="index" v-else>
-          <Card :data="data" :imgSrc="data.Picture.PictureUrl1" :title="data.ScenicSpotName" :address="data.Address" @showModal="showModal"></Card>
+          <Card :data="data" @showModal="showModal"></Card>
         </div>
       </div>
 
@@ -28,16 +30,17 @@
           <h5 class="h5 text-gray font-bold mb-12">
             各種不同的活動內容
             <br />
-            邀請您一銅來共襄盛舉！
+            邀請您一同來共襄盛舉！
           </h5>
         </div>
       </div>
 
-      <div class="row mb-25">
+      <div class="row grid grid-cols-4 gap-4 gap-y-20 mb-32">
         <div class="col" v-if="isLoading2">
           <!-- <b-spinner></b-spinner> -->
         </div>
-        <div class="col-3 mb-20" lg="3" v-for="(data, index) in activityData" :key="index" v-else>
+
+        <div lg="3" v-for="(data, index) in activityData" :key="index" v-else>
           <SimpleCard :data="data" @showModal="showModal"></SimpleCard>
         </div>
       </div>
@@ -130,15 +133,18 @@
   import Card from '@/components/Card.vue';
   import SimpleCard from '@/components/SimpleCard.vue';
   import SimpleModal from '@/components/SimpleModal.vue';
+  import FadeCarousel from '@/components/FadeCarousel.vue';
 
-  import getAuthorization from '@/utility/auth';
   import modalHelper from '@/utility/modalHelper.ts';
+  import query from '@/utility/queryHelper';
+  import dateConvertor from '@/utility/dateConvertor';
 
   @Component({
     components: {
       Card,
       SimpleCard,
       SimpleModal,
+      FadeCarousel,
     },
   })
   export default class Home extends Vue {
@@ -157,11 +163,30 @@
       },
     };
     isAttraction = false;
+    carouselData = [
+      {
+        image:
+          'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
+      },
+      {
+        image:
+          'https://images.unsplash.com/photo-1566371486490-560ded23b5e4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
+      },
+      {
+        image:
+          'https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+      },
+      {
+        image:
+          'https://images.unsplash.com/photo-1621682372775-533449e550ed?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
+      },
+    ];
+    carouselConfig = { autoPlay: false, period: 3000 };
 
     // hooks
     created(): void {
       this.queryAttraction();
-      // this.queryAactivity();
+      this.queryActivity();
     }
 
     // methods
@@ -169,38 +194,37 @@
       this.isLoading = true;
 
       try {
-        const res = await fetch(
-          `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?%24filter=ScenicSpotName%20ne%20null&%24top=8&%24skip=8&%24format=JSON`,
-          {
-            method: 'GET',
-            headers: getAuthorization(),
-          },
-        );
+        // filter attractions which Picture.PictureUrl1 !== null
+        const res = await query(`
+          https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?%24filter=Picture%2FPictureUrl1%20ne%20null&%24top=8&%24format=JSON
+        `);
 
-        res.json().then((d) => {
-          this.attractionData = d;
-        });
+        this.attractionData = res;
       } finally {
         this.isLoading = false;
       }
     }
-    async queryAactivity(): Promise<void> {
+    async queryActivity(): Promise<void> {
       this.isLoading = true;
+      const range = this.getActivityDateRange(new Date());
 
       try {
-        let res = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Tourism/Activity?$skip=5&$top=4&?$format=JSON`, {
-          method: 'GET',
-          headers: getAuthorization(),
-        });
+        // filter activities which Picture.PictureUrl1 !== null && startTime between today and the day 2 months later.
+        const res = await query(`
+          https://ptx.transportdata.tw/MOTC/v2/Tourism/Activity?%24filter=Picture%2FPictureUrl1%20ne%20null%20and%20StartTime%20ge%20${range[0]}%20and%20StartTime%20le%20${range[1]}&%24orderby=StartTime%20asc&%24top=8&%24format=JSON
+        `);
 
-        res.json().then((d) => {
-          this.activityData = d;
-        });
+        this.activityData = res;
       } catch {
         console.log('fail');
       } finally {
         this.isLoading2 = false;
       }
+    }
+    getActivityDateRange(fistDay: Date): string[] {
+      const twoMonthsLater = new Date(Number(fistDay) + 31 * 24 * 60 * 60 * 1000);
+
+      return [dateConvertor(fistDay), dateConvertor(twoMonthsLater)];
     }
     showModal(data: { data: any; type: string }): void {
       this.modalData = data.data;
