@@ -71,6 +71,9 @@
 }
 
 // -------------------------spacing-------------------------------
+.no-more-word{
+    @apply overflow-hidden text-ellipsis whitespace-nowrap;
+}
 
 // @include spacingHelper(10, 'm', 'margin');
 // @include spacingHelper(10, 'mb', 'margin-bottom');

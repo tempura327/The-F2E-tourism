@@ -184,6 +184,10 @@
   @apply bg-primary text-white text-center font-bold;
 }
 
+.no-more-word {
+  @apply overflow-hidden text-ellipsis whitespace-nowrap;
+}
+
 .btn {
   color: #08A6BB;
   background-color: white;
