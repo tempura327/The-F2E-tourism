@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative" :class="carouselClass">
     <div class="overflow-hidden relative h-56 sm:h-64 xl:h-80 2xl:h-96">
       <div
         class="duration-700 ease-in-out relative top-1/2"
@@ -74,6 +74,7 @@
     })
     config!: { autoPlay: boolean; isContentShow?: boolean; period: number };
     @Prop({ default: () => [] }) data!: { content?: string; image: string; class?: string }[];
+    @Prop() carouselClass!: string;
 
     // data
     count = 0;
@@ -112,8 +113,6 @@
 </script>
 
 <style lang="scss" scoped>
-  // @import '../style/app.css';
-
   .opacity-0 {
     opacity: 0;
     transition: all 2s;
