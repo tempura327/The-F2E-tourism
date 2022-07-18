@@ -2,8 +2,8 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <h1 class="big-title mb-6">景點</h1>
-        <h5 class="h5 description mb-12">
+        <h1 class="font-bold text-h1 text-primary mb-6">景點</h1>
+        <h5 class="h5 text-gray font-bold mb-12">
           台灣的各個美景，都美不勝收。
           <br />
           等你一同來發現這座寶島的奧妙！
@@ -11,12 +11,21 @@
       </div>
     </div>
 
-    <div class="mb-20">
-      <div class="col" v-if="isLoading">
-        <!-- <b-spinner></b-spinner> -->
+    <div class="row">
+      <div class="col">
+        <!-- SearchBar -->
       </div>
-      <div class="col mb-20" lg="3" v-for="(data, index) in attractionData" :key="index" v-else>
-        <Card :data="data" :title="data.Name" :address="data.Address" :type="data.OpenTime" :imgSrc="data.Picture.PictureUrl1" @showModal="showModal(index)"></Card>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div id="map"></div>
+      </div>
+
+      <div class="col">
+        <section class="info">
+          <h2 class="h2 text-bold"></h2>
+        </section>
       </div>
     </div>
   </div>
@@ -25,62 +34,64 @@
 <script lang="ts">
   import { Component, Vue, Watch } from 'vue-property-decorator';
 
-  import modalHelper from '@/utility/modalHelper.ts';
+  import { Map, Marker, Point } from 'mapbox-gl';
+  import 'mapbox-gl/dist/mapbox-gl.css';
 
-  @Component
+  import Card from '@/components/Card.vue';
+
+  // import modalHelper from '@/utility/modalHelper.ts';
+  // import query from '@/utility/queryHelper';
+
+  @Component({
+    components: {
+      Card,
+    },
+  })
   export default class SimpleCard extends Vue {
     // props
 
     // data
-    attractionData = this.$store.state.attraction;
-    modalData = {
-      Picture: {
-        PictureUrl1: '',
-      },
-    };
-    isLoading = false;
+    // isLoading = false;
 
     // hooks
     created(): void {
-      if (localStorage.getItem('attractionData')) {
-        this.attractionData = JSON.parse(localStorage.getItem('attractionData') as string);
-      } else {
-        this.queryData();
-      }
+      this.getCurrentPosition();
     }
 
     // methods
-    async queryData(): Promise<void> {
-      this.isLoading = true;
-      // try{
-      //   let res = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$top=8&?$format=JSON`,{
-      // 		method:'GET',
-      // 		header:{
-      // 			':'hmac username=83592d8c997f4933ae965e60e5995a2d',
-      // 			'X-Date':new Date().toGMTString(),
-      // 		},
-      // 		'Accept-Encoding': 'gzip'
-      //   })
-      //   res.json().then((d) => {
-      //     this.attractionData = d;
-      //     console.log(d);
-      //   })
-      // }finally{
-      //   this.isLoading = false;
-      // }
+    getCurrentPosition(): void {
+      window.navigator.geolocation.getCurrentPosition((pos) => {
+        this.drawMap(pos.coords.longitude, pos.coords.latitude);
+      });
     }
-    showModal(index: number): void {
-      this.modalData = this.attractionData[index];
+    drawMap(long: number, lat: number): void {
+      const map = new Map({
+        container: 'map', // id
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [long, lat],
+        zoom: 10, // starting zoom
+        accessToken: 'pk.eyJ1IjoidGVtcHVyYTMyNyIsImEiOiJja3Z6eXVqdnQ1YTdxMm9tdHUwMGx4eXBmIn0.7SOTd4xVrpfdvJiDx5R34g',
+      });
 
-      modalHelper(this, 'detail-modal');
-      //   this.$bvModal.show('detail-modal');
+      map.on('style.load', () => {
+        map.setFog({}); // Set the default atmosphere style
+      });
+
+      new Marker({
+        // element:this.$refs.mark1,
+        color: 'gold',
+        draggable: false,
+        // content: '<img src="" />' // icon of marker
+      })
+        .setLngLat([long, lat])
+        .addTo(map as any);
     }
 
     // watch
-    @Watch('$store.state.attraction')
-    attractionWatch(): void {
-      this.attractionData = this.$store.state.attraction;
-      this.isLoading = this.$store.state.isAttractionLoading;
-    }
+    // @Watch('$store.state.attraction')
+    // attractionWatch(): void {
+    //   this.attractionData = this.$store.state.attraction;
+    //   this.isLoading = this.$store.state.isAttractionLoading;
+    // }
   }
 </script>
