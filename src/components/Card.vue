@@ -26,7 +26,7 @@
           <span class="no-more-word">{{ data.Address }}</span>
         </h4>
         <div>
-          <button class="btn" @click="showModal(data, 'attraction')">了解更多</button>
+          <button class="btn btn-block" @click="showModal(data, 'attraction')">了解更多</button>
         </div>
       </div>
     </slot>
