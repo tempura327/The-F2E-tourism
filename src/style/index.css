@@ -219,25 +219,43 @@
 }
 
 .btn {
+  color: white;
+  background-color: #08A6BB;
+  border: 4px solid #08A6BB;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 8px;
+  line-height: 100%;
+}
+
+.btn:hover {
+  color: white;
+  background-color: #067b8a;
+  border: 4px solid #067b8a;
+}
+
+.btn, .btn:hover {
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+}
+
+.btn.btn-outline {
   color: #08A6BB;
   background-color: white;
   border: 4px solid #08A6BB;
 }
 
-.btn:hover {
+.btn.btn-outline:hover {
   color: white;
   background-color: #08A6BB;
   border: 4px solid #08A6BB;
 }
 
-.btn, .btn:hover, .btn-active {
+.btn.btn-block, .btn.btn-block:hover {
   width: 100%;
   height: auto;
   border-radius: 8px;
-  font-size: 16px;
-  font-weight: 700;
-  padding: 8px;
-  line-height: 100%;
 }
 
 .carousel_item {
@@ -1032,10 +1050,6 @@ video {
 
 .mb-12 {
   margin-bottom: 3rem;
-}
-
-.mb-20 {
-  margin-bottom: 5rem;
 }
 
 .mb-28 {

@@ -1,24 +1,34 @@
-@import './_mixin.scss';
+@import './_mixin';
 
 // -------------------------button-------------------------------
 .btn{
-    @include skinHelper(white, #08A6BB, 4px solid #08A6BB);
+    @include skinHelper(#08A6BB, white, 4px solid #08A6BB);
+    @include fontHelper(16px, 700);
 
-    // &-active{
-    //     @include skinHelper(white, #6F7789, 4px solid #08A6BB);
-    // }
+    padding: 8px;
+    line-height: 100%;
+
+    &:hover{
+        @include skinHelper(darken(#08A6BB, 10%), white, 4px solid darken(#08A6BB, 10%));
+    }
+}
+
+// , .btn-active
+.btn, .btn:hover{
+    @include sizeHelper(auto, auto, 8px);
+}
+
+.btn.btn-outline{
+    @include skinHelper(white, #08A6BB, 4px solid #08A6BB);
 
     &:hover{
         @include skinHelper(#08A6BB, white, 4px solid #08A6BB);
     }
 }
 
-.btn, .btn:hover, .btn-active{
+// , .btn-active
+.btn.btn-block, .btn.btn-block:hover{
     @include sizeHelper(100%, auto, 8px);
-    @include fontHelper(16px, 700);
-
-    padding: 8px;
-    line-height: 100%;
 }
 
 // -------------------------carousel-------------------------------
