@@ -387,6 +387,35 @@
   overflow: hidden;
 }
 
+.group {
+  display: flex;
+}
+
+.group * {
+  border-radius: 0;
+}
+
+.group *:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.group *:last-child {
+  border-radius: 0 8px 8px 0;
+}
+
+.group_input {
+  border-style: solid;
+  --tw-border-opacity: 1;
+  border-color: rgb(174 174 174 / var(--tw-border-opacity));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  border-width: 1px;
+}
+
 /*
 ! tailwindcss v3.1.4 | MIT License | https://tailwindcss.com
 */

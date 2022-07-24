@@ -330,6 +330,27 @@
   @apply overflow-hidden;
 }
 
+.group {
+  display: flex;
+}
+
+.group * {
+  border-radius: 0;
+}
+
+.group *:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.group *:last-child {
+  border-radius: 0 8px 8px 0;
+}
+
+.group_input {
+  @apply border-solid border-gray-60 outline-none px-2 py-1;
+  border-width: 1px;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
