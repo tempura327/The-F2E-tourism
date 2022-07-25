@@ -11,20 +11,27 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col">
-        <SearchBar></SearchBar>
+    <div class="row mb-4">
+      <div class="col-6">
+        <SearchBar :options="searchOption" :isSelectorShow="true"></SearchBar>
       </div>
+      <div class="col-6"></div>
     </div>
 
-    <div class="row">
-      <div class="col">
-        <div id="map"></div>
+    <div class="row mb-32">
+      <div class="col-6">
+        <div id="map" class="rounded"></div>
       </div>
 
-      <div class="col">
-        <section class="info">
-          <h2 class="h2 text-bold"></h2>
+      <div class="col-6">
+        <section class="info bg-gray-60 text-white rounded p-4">
+          <!-- Gallery -->
+          <h2 class="text-h2 text-white font-bold">info.ScenicSpotName</h2>
+          <h4 class="text-h2 text-white">info.Address</h4>
+          <h4 class="text-h2 text-white">info.Class1</h4>
+          <h4 class="text-h2 text-white">info.OpenTime</h4>
+          <h4 class="text-h2 text-white">info.Phone</h4>
+          <h4 class="text-h2 text-white">info.DescriptionDetail</h4>
         </section>
       </div>
     </div>
@@ -54,6 +61,15 @@
 
     // data
     // isLoading = false;
+    searchOption = [
+      { value: 5, label: '5km' },
+      { value: 10, label: '10km' },
+      { value: 15, label: '15km' },
+      { value: 20, label: '20km' },
+      { value: 25, label: '25km' },
+      { value: 30, label: '30km' },
+      { value: -1, label: '全部' },
+    ];
     map!: Map;
     currentPosMarker!: Marker;
     currentBoundary: { xMax: number; xMin: number; yMax: number; yMin: number; center: number[]; radius: number } = {
@@ -63,6 +79,46 @@
       yMin: 0,
       center: [],
       radius: 5,
+    };
+    info: {
+      Address: string;
+      City: string;
+      Class1: string;
+      Description: string;
+      DescriptionDetail: string;
+      OpenTime: string;
+      ParkingPosition: { PositionLon?: number; PositionLat?: number; GeoHash?: string };
+      Phone: string;
+      Picture: { PictureUrl1: string; PictureDescription1: string };
+      Position: { PositionLon: number; PositionLat: number; GeoHash: string };
+      ScenicSpotID: string;
+      ScenicSpotName: string;
+      SrcUpdateTime: string;
+      UpdateTime: string;
+      ZipCode: string;
+    } = {
+      Address: '',
+      City: '',
+      Class1: '',
+      Description: '',
+      DescriptionDetail: '',
+      OpenTime: '',
+      Phone: '',
+      Picture: {
+        PictureUrl1: '',
+        PictureDescription1: '',
+      },
+      Position: {
+        PositionLon: 0,
+        PositionLat: 0,
+        GeoHash: '',
+      },
+      ScenicSpotID: '',
+      ScenicSpotName: '',
+      SrcUpdateTime: '',
+      UpdateTime: '',
+      ZipCode: '',
+      ParkingPosition: {},
     };
 
     // hooks
@@ -119,3 +175,14 @@
     // }
   }
 </script>
+
+<style lang="scss" scoped>
+  #map {
+    width: 100%;
+    height: 600px;
+  }
+
+  .info {
+    height: 600px;
+  }
+</style>
