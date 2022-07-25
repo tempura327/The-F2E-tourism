@@ -1,14 +1,12 @@
 <template>
   <InputGroup>
     <template #input-group-prepend>
-      <select name="type" id="type" v-model="search.type">
-        <option value="">全部</option>
-        <option value="attraction">景點</option>
-        <option value="activity">活動</option>
+      <select name="type" id="type" class="group_input" v-model="search.type" v-if="isSelectorShow">
+        <option v-for="(item, index) in options" :value="item.value" :key="index">{{ item.label }}</option>
       </select>
     </template>
 
-    <input v-model="search.keyword" class="group_input" type="text" />
+    <input v-model="search.keyword" class="group_input" :class="{ 'group_input-block': isBlock }" type="text" />
 
     <template #input-group-append>
       <button class="btn" @click="searchClick">
@@ -19,7 +17,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
+  import { Component, Vue, Prop } from 'vue-property-decorator';
 
   import InputGroup from '@/components/InputGroup.vue';
 
@@ -29,10 +27,15 @@
     },
   })
   export default class SearchBar extends Vue {
+    // props
+    @Prop({ default: false }) isSelectorShow!: boolean;
+    @Prop({ default: true }) isBlock!: boolean;
+    @Prop() options?: { value: any; label: string }[];
+
     // data
-    search: { keyword: string; type: string } = {
+    search: { keyword: string; type: any } = {
       keyword: '',
-      type: '',
+      type: 20,
     };
     // hook
     // methods

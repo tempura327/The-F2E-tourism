@@ -351,6 +351,10 @@
   border-width: 1px;
 }
 
+.group_input-block {
+  width: 100%;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

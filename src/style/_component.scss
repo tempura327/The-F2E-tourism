@@ -168,5 +168,9 @@
       @apply border-solid border-gray-60 outline-none px-2 py-1;
 
       border-width: 1px;
+
+      &-block{
+        width: 100%;
+      }
     }
   }
