@@ -13,7 +13,7 @@
 
     <div class="row">
       <div class="col">
-        <!-- SearchBar -->
+        <SearchBar></SearchBar>
       </div>
     </div>
 
@@ -34,10 +34,11 @@
 <script lang="ts">
   import { Component, Vue, Watch } from 'vue-property-decorator';
 
-  import { Map, Marker, Point } from 'mapbox-gl';
+  import { Map, Marker, LngLatLike, Popup } from 'mapbox-gl';
   import 'mapbox-gl/dist/mapbox-gl.css';
 
   import Card from '@/components/Card.vue';
+  import SearchBar from '@/components/SearchBar.vue';
 
   // import modalHelper from '@/utility/modalHelper.ts';
   // import query from '@/utility/queryHelper';
@@ -45,6 +46,7 @@
   @Component({
     components: {
       Card,
+      SearchBar,
     },
   })
   export default class SimpleCard extends Vue {
@@ -52,6 +54,16 @@
 
     // data
     // isLoading = false;
+    map!: Map;
+    currentPosMarker!: Marker;
+    currentBoundary: { xMax: number; xMin: number; yMax: number; yMin: number; center: number[]; radius: number } = {
+      xMax: 0,
+      xMin: 0,
+      yMax: 0,
+      yMin: 0,
+      center: [],
+      radius: 5,
+    };
 
     // hooks
     created(): void {
@@ -61,11 +73,14 @@
     // methods
     getCurrentPosition(): void {
       window.navigator.geolocation.getCurrentPosition((pos) => {
+        this.currentBoundary.center = [pos.coords.longitude, pos.coords.latitude];
+
         this.drawMap(pos.coords.longitude, pos.coords.latitude);
+        this.setCurrentPositionMarker(pos.coords.longitude, pos.coords.latitude);
       });
     }
     drawMap(long: number, lat: number): void {
-      const map = new Map({
+      this.map = new Map({
         container: 'map', // id
         style: 'mapbox://styles/mapbox/streets-v11',
         center: [long, lat],
@@ -73,18 +88,27 @@
         accessToken: 'pk.eyJ1IjoidGVtcHVyYTMyNyIsImEiOiJja3Z6eXVqdnQ1YTdxMm9tdHUwMGx4eXBmIn0.7SOTd4xVrpfdvJiDx5R34g',
       });
 
-      map.on('style.load', () => {
-        map.setFog({}); // Set the default atmosphere style
+      this.map.on('style.load', () => {
+        this.map.setFog({}); // Set the default atmosphere style
       });
+    }
+    setMarker(color = 'gold'): any {
+      return (method: { name: string; para: any }) => {
+        return (lngLat: LngLatLike) => {
+          const process: any = new Marker({ color, draggable: false }).setLngLat(lngLat);
 
-      new Marker({
-        // element:this.$refs.mark1,
-        color: 'gold',
-        draggable: false,
-        // content: '<img src="" />' // icon of marker
-      })
-        .setLngLat([long, lat])
-        .addTo(map as any);
+          if (method.name) {
+            process[method.name](method.para);
+          }
+
+          return process.addTo(this.map);
+        };
+      };
+    }
+    setCurrentPositionMarker(lng: number, lat: number): void {
+      this.currentPosMarker = this.setMarker('#dc3545')({ name: 'setPopup', para: new Popup().setHTML("<p class='text-lg'>Here!</p>") })([lng, lat]);
+
+      this.currentPosMarker.togglePopup();
     }
 
     // watch
