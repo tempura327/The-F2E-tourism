@@ -135,6 +135,73 @@
         this.setCurrentPositionMarker(pos.coords.longitude, pos.coords.latitude);
       });
     }
+    setBoundary(lng: number, lat: number, radius: number): void {
+      if ((this.map as Map).getLayer('polygon')) {
+        (this.map as Map).removeLayer('polygon').removeSource('polygon');
+      }
+
+      (this.map as Map).addSource('polygon', this.createGeoJSONCircle([lng, lat], radius));
+
+      (this.map as Map).addLayer({
+        id: 'polygon',
+        type: 'fill',
+        source: 'polygon',
+        layout: {},
+        paint: {
+          'fill-color': '#333333',
+          'fill-opacity': 0.1,
+        },
+      });
+
+      (this.map as Map).setCenter([lng, lat]);
+    }
+    createGeoJSONCircle(center: number[], radiusInKm: number, points = 64): any {
+      const coords = {
+        latitude: center[1],
+        longitude: center[0],
+      };
+
+      // in Taiwan
+      // longtitude 1deg:101.77545km
+      // latitude 1deg:110.9362km.
+
+      const ret = []; // put coordinates in ret
+      const distanceX = radiusInKm / (101.77545 * Math.cos((coords.latitude * Math.PI) / 180));
+      const distanceY = radiusInKm / 110.9362;
+
+      let theta, x, y;
+
+      for (let i = 0; i < points; i++) {
+        theta = (i / points) * (2 * Math.PI); // width of a part of circle
+
+        x = distanceX * Math.cos(theta);
+        y = distanceY * Math.sin(theta);
+
+        ret.push([coords.longitude + x, coords.latitude + y]);
+      }
+      ret.push(ret[0]);
+
+      this.currentBoundary.xMax = ret[0][0];
+      this.currentBoundary.xMin = ret[32][0];
+      this.currentBoundary.yMax = ret[16][1];
+      this.currentBoundary.yMin = ret[48][1];
+
+      return {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: [
+            {
+              type: 'Feature',
+              geometry: {
+                type: 'Polygon',
+                coordinates: [ret],
+              },
+            },
+          ],
+        },
+      };
+    }
     drawMap(long: number, lat: number): void {
       this.map = new Map({
         container: 'map', // id
