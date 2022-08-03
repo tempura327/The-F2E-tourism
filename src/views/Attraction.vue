@@ -48,7 +48,7 @@
   import SearchBar from '@/components/SearchBar.vue';
 
   // import modalHelper from '@/utility/modalHelper.ts';
-  // import query from '@/utility/queryHelper';
+  import query from '@/utility/queryHelper';
 
   @Component({
     components: {
@@ -72,6 +72,7 @@
     ];
     map!: Map;
     currentPosMarker!: Marker;
+    markerMap: { [key: string]: Marker } = {};
     currentBoundary: { xMax: number; xMin: number; yMax: number; yMin: number; center: number[]; radius: number } = {
       xMax: 0,
       xMin: 0,
@@ -228,10 +229,53 @@
         };
       };
     }
+    setMultipleMarker(data: any): void {
+      let attractionData;
+      let html = '';
+
+      for (let i = 0; i < data.length; i++) {
+        attractionData = data[i];
+        html = `
+            <h1 class='text-xl'>${attractionData.ScenicSpotName}</h1>
+            <span>${attractionData.Address ?? ''}</span>
+            <span>${attractionData.Phone ?? ''}</span>
+            <span>${attractionData.Position.PositionLon}, ${attractionData.Position.PositionLat}</span>
+          `;
+
+        this.markerMap[`attraction-${attractionData.ScenicSpotID}`] = this.setMarker()({ name: 'setPopup', para: new Popup().setHTML(html) })([
+          attractionData.Position.PositionLon,
+          attractionData.Position.PositionLat,
+        ]);
+
+        // https://github.com/mapbox/mapbox-gl-js/issues/7793
+        // mapbox does not support click event of marker.
+        this.markerMap[`attraction-${attractionData.ScenicSpotID}`].getElement().addEventListener('click', () => {
+          this.info = data[i];
+          const target = ((this.currentPosMarker.getElement().firstChild as HTMLElement).querySelectorAll('path') as NodeList)[0] as HTMLElement;
+
+          if (target.getAttribute('fill') === 'orange') {
+            target.setAttribute('fill', 'gold');
+          } else {
+            target.setAttribute('fill', 'orange');
+          }
+        });
+      }
+    }
     setCurrentPositionMarker(lng: number, lat: number): void {
       this.currentPosMarker = this.setMarker('#dc3545')({ name: 'setPopup', para: new Popup().setHTML("<p class='text-lg'>Here!</p>") })([lng, lat]);
 
       this.currentPosMarker.togglePopup();
+    }
+    async searchAttraction(keyword: string): Promise<void> {
+      const res = await query(`
+          https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?%24filter=contains(ScenicSpotName%2C'${keyword}')%20and%20Position%2FPositionLon%20ge%20${this.currentBoundary.xMin}%20and%20Position%2FPositionLon%20le%20${this.currentBoundary.xMax}%20and%20Position%2FPositionLat%20ge%20${this.currentBoundary.yMin}%20and%20Position%2FPositionLat%20le%20${this.currentBoundary.yMax}&%24top=10&%24format=JSON
+        `);
+
+      // console.log(res);
+
+      if (res.length < 1) return;
+
+      this.setMultipleMarker(res);
     }
 
     // watch
