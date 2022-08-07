@@ -13,7 +13,7 @@
 
     <div class="row mb-4">
       <div class="col-6">
-        <SearchBar :options="searchOption" :isSelectorShow="true"></SearchBar>
+        <SearchBar :options="searchOption" :isSelectorShow="true" @searchClick="searchAttraction"></SearchBar>
       </div>
       <div class="col-6"></div>
     </div>
@@ -24,14 +24,18 @@
       </div>
 
       <div class="col-6">
-        <section class="info bg-gray-60 text-white rounded p-4">
+        <section class="info bg-gray-80 text-white rounded overflow-y-auto p-4">
           <!-- Gallery -->
-          <h2 class="text-h2 text-white font-bold">info.ScenicSpotName</h2>
-          <h4 class="text-h2 text-white">info.Address</h4>
-          <h4 class="text-h2 text-white">info.Class1</h4>
-          <h4 class="text-h2 text-white">info.OpenTime</h4>
-          <h4 class="text-h2 text-white">info.Phone</h4>
-          <h4 class="text-h2 text-white">info.DescriptionDetail</h4>
+
+          <h2 class="text-h2 text-white font-bold mb-4">
+            {{ info.ScenicSpotName }}
+            <span class="text-h4 text-white">{{ info.OpenTime }}</span>
+          </h2>
+          <h4 class="text-h4 text-white">{{ info.Address }}</h4>
+          <h4 class="text-h4 text-white">{{ info.Class1 }}</h4>
+          <h4 class="text-h4 text-white">{{ info.Phone }}</h4>
+          <hr class="my-2" v-if="info.DescriptionDetail" />
+          <h4 class="text-h4 text-white">{{ info.DescriptionDetail }}</h4>
         </section>
       </div>
     </div>
@@ -236,9 +240,9 @@
       for (let i = 0; i < data.length; i++) {
         attractionData = data[i];
         html = `
-            <h1 class='text-xl'>${attractionData.ScenicSpotName}</h1>
-            <span>${attractionData.Address ?? ''}</span>
-            <span>${attractionData.Phone ?? ''}</span>
+            <h1 class='text-md font-bold'>${attractionData.ScenicSpotName}</h1>
+            <span>${attractionData.Address || ''}</span>
+            <span>${attractionData.Phone || ''}</span>
             <span>${attractionData.Position.PositionLon}, ${attractionData.Position.PositionLat}</span>
           `;
 
@@ -249,8 +253,9 @@
 
         // https://github.com/mapbox/mapbox-gl-js/issues/7793
         // mapbox does not support click event of marker.
-        this.markerMap[`attraction-${attractionData.ScenicSpotID}`].getElement().addEventListener('click', () => {
+        this.markerMap[`attraction-${attractionData.ScenicSpotID}`].getElement().addEventListener('click', (e) => {
           this.info = data[i];
+          // need to be fixed
           const target = ((this.currentPosMarker.getElement().firstChild as HTMLElement).querySelectorAll('path') as NodeList)[0] as HTMLElement;
 
           if (target.getAttribute('fill') === 'orange') {
@@ -265,17 +270,42 @@
       this.currentPosMarker = this.setMarker('#dc3545')({ name: 'setPopup', para: new Popup().setHTML("<p class='text-lg'>Here!</p>") })([lng, lat]);
 
       this.currentPosMarker.togglePopup();
+      console.log(this.currentPosMarker);
     }
-    async searchAttraction(keyword: string): Promise<void> {
+    async searchAttraction(data: { keyword: string; type: number }): Promise<void> {
+      this.setBoundary(this.currentBoundary.center[0], this.currentBoundary.center[1], this.currentBoundary.radius);
+      console.log(data);
       const res = await query(`
-          https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?%24filter=contains(ScenicSpotName%2C'${keyword}')%20and%20Position%2FPositionLon%20ge%20${this.currentBoundary.xMin}%20and%20Position%2FPositionLon%20le%20${this.currentBoundary.xMax}%20and%20Position%2FPositionLat%20ge%20${this.currentBoundary.yMin}%20and%20Position%2FPositionLat%20le%20${this.currentBoundary.yMax}&%24top=10&%24format=JSON
+          https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?%24filter=contains(ScenicSpotName%2C'${data.keyword}')%20and%20Position%2FPositionLon%20ge%20${this.currentBoundary.xMin}%20and%20Position%2FPositionLon%20le%20${this.currentBoundary.xMax}%20and%20Position%2FPositionLat%20ge%20${this.currentBoundary.yMin}%20and%20Position%2FPositionLat%20le%20${this.currentBoundary.yMax}&%24top=10&%24format=JSON
         `);
+      console.log(res);
+      const validatedRes = this.countDistance(res);
+      console.log(validatedRes);
 
-      // console.log(res);
+      if (validatedRes.length < 1) return;
 
-      if (res.length < 1) return;
+      this.setMultipleMarker(validatedRes);
+    }
+    countDistance(data: any): any[] {
+      // there 2 reasons why countDistance() is necessary .
+      // 1. transport data api don't support distance filter
+      // 2. if you use this.currentBoundary.xMax, this.currentBoundary.xMin, this.currentBoundary.yMax and this.currentBoundary.yMin to be conditions,
+      // there will still some data which are not in this.currentBoundary.radius.
 
-      this.setMultipleMarker(res);
+      // in Taiwan
+      // longtitude 1deg:101.77545km
+      // latitude 1deg:110.9362km.
+
+      const res = data.filter((i: any) => {
+        const lat = i.Position.PositionLat - this.currentBoundary.center[1];
+        const latDistance = lat * 110.9362;
+        const lngDistance = (i.Position.PositionLon - this.currentBoundary.center[0]) * 101.77545 * Math.cos(lat);
+        const distance = Math.sqrt(Math.pow(lngDistance, 2) + Math.pow(latDistance, 2));
+
+        return distance <= this.currentBoundary.radius;
+      });
+
+      return res;
     }
 
     // watch
