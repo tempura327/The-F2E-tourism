@@ -272,6 +272,13 @@
       this.currentPosMarker.togglePopup();
       console.log(this.currentPosMarker);
     }
+    removeMarker(): void {
+      for (const i in this.markerMap) {
+        this.markerMap[i].remove();
+      }
+
+      this.markerMap = {};
+    }
     async searchAttraction(data: { keyword: string; type: number }): Promise<void> {
       this.setBoundary(this.currentBoundary.center[0], this.currentBoundary.center[1], this.currentBoundary.radius);
       console.log(data);
