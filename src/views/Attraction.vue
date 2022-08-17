@@ -19,11 +19,11 @@
     </div>
 
     <div class="row mb-32">
-      <div class="col-6">
+      <div :class="mapClass.map">
         <div id="map" class="rounded"></div>
       </div>
 
-      <div class="col-6">
+      <div :class="mapClass.info">
         <section class="info bg-gray-80 text-white rounded overflow-y-auto p-4">
           <h2 class="text-h2 text-white font-bold mb-4">
             {{ info.ScenicSpotName }}
@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue, Watch } from 'vue-property-decorator';
+  import { Component, Vue } from 'vue-property-decorator';
 
   import { Map, Marker, LngLatLike, Popup } from 'mapbox-gl';
   import 'mapbox-gl/dist/mapbox-gl.css';
@@ -62,11 +62,12 @@
       Gallery,
     },
   })
-  export default class SimpleCard extends Vue {
+  export default class Attraction extends Vue {
     // props
 
     // data
     // isLoading = false;
+    entireDayOtherWord = ['<p>24HR</p>', 'Sun 24 hours；Mon 24 hours；Tue 24 hours；Wed 24 hours；Thu 24 hours；Fri 24 hours；Sat 24 hours'];
     searchOption = [
       { value: 5, label: '5km' },
       { value: 10, label: '10km' },
@@ -128,6 +129,7 @@
       ParkingPosition: {},
     };
     images: string[] = [];
+    isMapExpanded = true;
 
     // hooks
     created(): void {
@@ -257,7 +259,13 @@
         // https://github.com/mapbox/mapbox-gl-js/issues/7793
         // mapbox does not support click event of marker.
         this.markerMap[`attraction-${attractionData.ScenicSpotID}`].getElement().addEventListener('click', (e) => {
+          this.isMapExpanded = false;
+
           this.info = data[i];
+
+          if (this.entireDayOtherWord.includes(this.info.OpenTime)) {
+            this.info.OpenTime = '全天';
+          }
 
           this.images = Object.values(this.info.Picture).filter((d: string) => d.startsWith('https'));
         });
@@ -267,7 +275,6 @@
       this.currentPosMarker = this.setMarker('#dc3545')({ name: 'setPopup', para: new Popup().setHTML("<p class='text-lg'>Here!</p>") })([lng, lat]);
 
       this.currentPosMarker.togglePopup();
-      console.log(this.currentPosMarker);
     }
     removeMarker(): void {
       for (const i in this.markerMap) {
@@ -312,19 +319,35 @@
       return res;
     }
 
-    // watch
-    // @Watch('$store.state.attraction')
-    // attractionWatch(): void {
-    //   this.attractionData = this.$store.state.attraction;
-    //   this.isLoading = this.$store.state.isAttractionLoading;
-    // }
+    // computed
+    get mapClass(): { map: string; info: string } {
+      return this.isMapExpanded ? { map: 'map-col-12', info: 'hidden' } : { map: 'map-col-6', info: 'map-col-6' };
+    }
   }
 </script>
 
 <style lang="scss" scoped>
   #map {
+    // @apply w-full;
     width: 100%;
     height: 600px;
+  }
+
+  .map-col-12,
+  .map-col-6 {
+    padding: 0 16px;
+    box-sizing: border-box;
+    transition: all 1s;
+  }
+
+  .map-col-12 {
+    // @apply col-12 ease-in duration-1000;
+    width: 100%;
+  }
+
+  .map-col-6 {
+    // @apply col-6 ease-in duration-1000;
+    width: 50%;
   }
 
   .info {
