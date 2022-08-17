@@ -25,12 +25,13 @@
 
       <div class="col-6">
         <section class="info bg-gray-80 text-white rounded overflow-y-auto p-4">
-          <!-- Gallery -->
-
           <h2 class="text-h2 text-white font-bold mb-4">
             {{ info.ScenicSpotName }}
             <span class="text-h4 text-white">{{ info.OpenTime }}</span>
           </h2>
+
+          <Gallery :images="images" galleryClass="mb-4"></Gallery>
+
           <h4 class="text-h4 text-white">{{ info.Address }}</h4>
           <h4 class="text-h4 text-white">{{ info.Class1 }}</h4>
           <h4 class="text-h4 text-white">{{ info.Phone }}</h4>
@@ -50,14 +51,15 @@
 
   import Card from '@/components/Card.vue';
   import SearchBar from '@/components/SearchBar.vue';
+  import Gallery from '@/components/Gallery.vue';
 
-  // import modalHelper from '@/utility/modalHelper.ts';
   import query from '@/utility/queryHelper';
 
   @Component({
     components: {
       Card,
       SearchBar,
+      Gallery,
     },
   })
   export default class SimpleCard extends Vue {
@@ -125,6 +127,7 @@
       ZipCode: '',
       ParkingPosition: {},
     };
+    images: string[] = [];
 
     // hooks
     created(): void {
@@ -255,14 +258,8 @@
         // mapbox does not support click event of marker.
         this.markerMap[`attraction-${attractionData.ScenicSpotID}`].getElement().addEventListener('click', (e) => {
           this.info = data[i];
-          // need to be fixed
-          const target = ((this.currentPosMarker.getElement().firstChild as HTMLElement).querySelectorAll('path') as NodeList)[0] as HTMLElement;
 
-          if (target.getAttribute('fill') === 'orange') {
-            target.setAttribute('fill', 'gold');
-          } else {
-            target.setAttribute('fill', 'orange');
-          }
+          this.images = Object.values(this.info.Picture).filter((d: string) => d.startsWith('https'));
         });
       }
     }
