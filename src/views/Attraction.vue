@@ -165,6 +165,11 @@
 
       (this.map as Map).setCenter([lng, lat]);
     }
+    removeBoundary(): void {
+      if ((this.map as Map).getLayer('polygon')) {
+        (this.map as Map).removeLayer('polygon').removeSource('polygon');
+      }
+    }
     createGeoJSONCircle(center: number[], radiusInKm: number, points = 64): any {
       const coords = {
         latitude: center[1],
@@ -284,14 +289,17 @@
       this.markerMap = {};
     }
     async searchAttraction(data: { keyword: string; type: number }): Promise<void> {
-      this.setBoundary(this.currentBoundary.center[0], this.currentBoundary.center[1], this.currentBoundary.radius);
-      console.log(data);
+      if (data.type > 0) {
+        this.setBoundary(this.currentBoundary.center[0], this.currentBoundary.center[1], this.currentBoundary.radius);
+      } else {
+        this.removeBoundary();
+      }
+
       const res = await query(`
           https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?%24filter=contains(ScenicSpotName%2C'${data.keyword}')%20and%20Position%2FPositionLon%20ge%20${this.currentBoundary.xMin}%20and%20Position%2FPositionLon%20le%20${this.currentBoundary.xMax}%20and%20Position%2FPositionLat%20ge%20${this.currentBoundary.yMin}%20and%20Position%2FPositionLat%20le%20${this.currentBoundary.yMax}&%24top=10&%24format=JSON
         `);
-      console.log(res);
+
       const validatedRes = this.countDistance(res);
-      console.log(validatedRes);
 
       if (validatedRes.length < 1) return;
 
