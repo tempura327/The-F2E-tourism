@@ -213,13 +213,13 @@
 .btn.btn-outline {
   color: #08A6BB;
   background-color: white;
-  border: 4px solid #08A6BB;
+  border: 2px solid #08A6BB;
 }
 
 .btn.btn-outline:hover {
   color: white;
   background-color: #08A6BB;
-  border: 4px solid #08A6BB;
+  border: 2px solid #08A6BB;
 }
 
 .btn.btn-block, .btn.btn-block:hover {
@@ -353,6 +353,29 @@
 
 .group_input-block {
   width: 100%;
+}
+
+.calendar {
+  @apply outline-1 outline-primary outline grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar_cell {
+  @apply text-center text-gray-80;
+  padding: 8px;
+}
+
+.calendar_title {
+  @apply bg-primary text-white font-bold text-center;
+}
+
+.calendar_title, .calendar_navigator {
+  grid-column: 1/8;
+  padding: 8px;
+}
+
+.calendar_navigator {
+  @apply flex justify-between;
 }
 
 @tailwind base;
