@@ -35,7 +35,7 @@
           <h4 class="text-h4 text-white">{{ info.Address }}</h4>
           <h4 class="text-h4 text-white">{{ info.Class1 }}</h4>
           <h4 class="text-h4 text-white">{{ info.Phone }}</h4>
-          <hr class="my-2" v-if="info.DescriptionDetail" />
+          <hr class="my-3" v-if="info.DescriptionDetail" />
           <h4 class="text-h4 text-white">{{ info.DescriptionDetail }}</h4>
         </section>
       </div>
@@ -277,7 +277,10 @@
       }
     }
     setCurrentPositionMarker(lng: number, lat: number): void {
-      this.currentPosMarker = this.setMarker('#dc3545')({ name: 'setPopup', para: new Popup().setHTML("<p class='text-lg'>Here!</p>") })([lng, lat]);
+      this.currentPosMarker = this.setMarker('#dc3545')({ name: 'setPopup', para: new Popup().setHTML("<p class='text-lg'>目前位置</p>") })([
+        lng,
+        lat,
+      ]);
 
       this.currentPosMarker.togglePopup();
     }
@@ -289,17 +292,26 @@
       this.markerMap = {};
     }
     async searchAttraction(data: { keyword: string; type: number }): Promise<void> {
+      this.removeMarker();
+
       if (data.type > 0) {
+        this.currentBoundary.radius = data.type;
+
         this.setBoundary(this.currentBoundary.center[0], this.currentBoundary.center[1], this.currentBoundary.radius);
       } else {
+        this.currentBoundary.xMax = 123;
+        this.currentBoundary.xMin = 120;
+        this.currentBoundary.yMax = 26;
+        this.currentBoundary.yMin = 20;
+
         this.removeBoundary();
       }
-
+      console.log(this.currentBoundary);
       const res = await query(`
-          https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?%24filter=contains(ScenicSpotName%2C'${data.keyword}')%20and%20Position%2FPositionLon%20ge%20${this.currentBoundary.xMin}%20and%20Position%2FPositionLon%20le%20${this.currentBoundary.xMax}%20and%20Position%2FPositionLat%20ge%20${this.currentBoundary.yMin}%20and%20Position%2FPositionLat%20le%20${this.currentBoundary.yMax}&%24top=10&%24format=JSON
+          https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?%24filter=contains(ScenicSpotName%2C'${data.keyword}')%20and%20Position%2FPositionLon%20ge%20${this.currentBoundary.xMin}%20and%20Position%2FPositionLon%20le%20${this.currentBoundary.xMax}%20and%20Position%2FPositionLat%20ge%20${this.currentBoundary.yMin}%20and%20Position%2FPositionLat%20le%20${this.currentBoundary.yMax}&%24format=JSON
         `);
-
-      const validatedRes = this.countDistance(res);
+      console.log(res);
+      const validatedRes = data.type > 0 ? this.countDistance(res) : res;
 
       if (validatedRes.length < 1) return;
 
@@ -329,7 +341,7 @@
 
     // computed
     get mapClass(): { map: string; info: string } {
-      return this.isMapExpanded ? { map: 'map-col-12', info: 'hidden' } : { map: 'map-col-6', info: 'map-col-6' };
+      return this.isMapExpanded ? { map: 'map-col-12', info: 'map-col-0' } : { map: 'map-col-6', info: 'map-col-6' };
     }
   }
 </script>
@@ -342,10 +354,11 @@
   }
 
   .map-col-12,
-  .map-col-6 {
+  .map-col-6,
+  .map-col-0 {
     padding: 0 16px;
     box-sizing: border-box;
-    transition: all 1s;
+    transition: width 1s, opacity 3s;
   }
 
   .map-col-12 {
@@ -356,9 +369,19 @@
   .map-col-6 {
     // @apply col-6 ease-in duration-1000;
     width: 50%;
+    opacity: 1;
+  }
+
+  .map-col-0 {
+    width: 0%;
+    opacity: 0;
   }
 
   .info {
     height: 600px;
+  }
+
+  .mapboxgl-popup-close-button {
+    right: 4px;
   }
 </style>
