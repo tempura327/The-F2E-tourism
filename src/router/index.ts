@@ -5,6 +5,7 @@ Vue.use(VueRouter);
 
 const Home = () => import('../views/Home.vue');
 const Attraction = () => import('../views/Attraction.vue');
+const Activity = () => import('../views/Activity.vue');
 
 const routes: Array<RouteConfig> = [
   {
@@ -16,6 +17,11 @@ const routes: Array<RouteConfig> = [
     path: '/attraction',
     name: 'Attraction',
     component: Attraction,
+  },
+  {
+    path: '/activity',
+    name: 'Activity',
+    component: Activity,
   },
 ];
 
