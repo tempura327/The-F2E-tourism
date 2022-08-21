@@ -356,13 +356,25 @@
 }
 
 .calendar {
-  @apply outline-1 outline-primary outline grid;
+  @apply outline-2 outline-gray-40 outline grid rounded;
   grid-template-columns: repeat(7, 1fr);
 }
 
 .calendar_cell {
-  @apply text-center text-gray-80;
+  @apply text-left text-gray-80;
   padding: 8px;
+}
+
+.calendar_cell.date {
+  @apply outline-1 outline-gray-40 outline;
+  min-height: 108px;
+}
+
+.calendar_marker {
+  @apply rounded;
+  background: gold;
+  margin-bottom: 2px;
+  padding: 4px;
 }
 
 .calendar_title {

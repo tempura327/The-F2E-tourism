@@ -4,18 +4,21 @@
 
     <div class="calendar_navigator">
       <div>
-        <button class="btn btn-outline" @click="changeCurrent('year', -1)">prev year</button>
-        <button class="btn btn-outline ml-2" @click="changeCurrent('month', -1)">prev month</button>
+        <button class="btn btn-outline" @click="moveMonth -= 12">prev year</button>
+        <button class="btn btn-outline ml-2" @click="moveMonth -= 1">prev month</button>
       </div>
-      <button class="btn btn-outline" @click="changeCurrent('today', 0)">today</button>
+      <button class="btn btn-outline" @click="moveMonth = 0">today</button>
       <div>
-        <button class="btn btn-outline" @click="changeCurrent('month', 1)">next month</button>
-        <button class="btn btn-outline ml-2" @click="changeCurrent('year', 1)">next year</button>
+        <button class="btn btn-outline" @click="moveMonth += 1">next month</button>
+        <button class="btn btn-outline ml-2" @click="moveMonth += 12">next year</button>
       </div>
     </div>
 
     <div v-for="(day, index) in weekDayArray" :key="`day-${index}`" class="calendar_cell bg-primary font-bold text-white">{{ day }}</div>
-    <div v-for="(date, index) in currentDateArray" :key="`date-${index}`" class="calendar_cell">{{ date }}</div>
+    <div v-for="(date, index) in currentDateArray" :key="`date-${index}`" class="calendar_cell date">
+      {{ date }}
+      <!-- <div class="calendar_marker"></div> -->
+    </div>
   </div>
 </template>
 
@@ -53,9 +56,16 @@
       startDateObj: undefined,
       year: 0,
     };
+    moveMonth = 0;
 
     // hook
     created(): void {
+      this.initCurrent();
+    }
+    // mounted(): void {}
+
+    // methods
+    initCurrent(): void {
       const { year: currentYear, month: currentMonth } = this.today;
 
       this.current = {
@@ -65,35 +75,33 @@
         endDateObj: new Date(currentYear, currentMonth + 1, 0),
       };
     }
-    // mounted(): void {}
-
-    // methods
-    changeCurrent(type: string, num: number): void {
-      if (type === 'month') {
-        // 0 / +12
-        // 1~12 / +num
-        // 13 / -12
-        this.current.month = this.current.month + num || 12;
-      } else if (type === 'year') {
-        this.current.year += num;
-      } else {
-        this.current.year = this.today.year;
-        this.current.month = this.today.month;
-      }
-    }
 
     // computed
     get currentDateArray(): number[] {
-      const blank = [...Array((this.current.startDateObj as Date).getDay()).values()];
+      const lastMonthBlank = [...Array((this.current.startDateObj as Date).getDay()).values()];
       const length = (this.current.endDateObj as Date).getDate();
+      const nextMonthBlank = [...Array(6 - (this.current.endDateObj as Date).getDay()).values()];
 
-      return blank.concat(Array.from({ length: length }, (d, i) => i + 1));
+      return lastMonthBlank.concat(
+        Array.from({ length: length }, (d, i) => i + 1),
+        nextMonthBlank,
+      );
     }
 
     // watch
-    // @Watch('', { immediate: true, deep: true })
-    // (newVal: any): void {
+    @Watch('moveMonth')
+    moveWatch(newVal: number, oldVal: number): void {
+      if (newVal === 0) {
+        this.initCurrent();
+        return;
+      }
 
-    // }
+      const needToChange = Math.abs(newVal - oldVal) > 11 ? 'year' : 'month';
+
+      this.current[needToChange] += newVal > oldVal ? 1 : -1;
+
+      this.current.startDateObj = new Date(this.current.year, this.current.month, 1);
+      this.current.endDateObj = new Date(this.current.year, this.current.month + 1, 0);
+    }
   }
 </script>
