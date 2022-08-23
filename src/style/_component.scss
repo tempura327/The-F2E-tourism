@@ -214,3 +214,41 @@
         @apply flex justify-between;
     }
   }
+  
+// -------------------------spinner-------------------------------
+.spinner{
+    @apply rounded-full inline-block  border-solid border-r-transparent;
+
+    vertical-align: text-bottom;
+    animation: spinner-animation .75s linear infinite;
+
+    &.spinner-lg{
+        @apply w-32 h-32 border-8;
+    }
+
+    &.spinner-md{
+        @apply w-16 h-16 border-8;
+    }    
+
+    &.spinner-sm{
+        @apply w-4 h-4 border-4;
+    }
+
+    span{
+        @apply p-0 overflow-hidden whitespace-nowrap border-0 absolute;
+
+        width: 1px;
+        height: 1px;
+        clip: rect(0, 0, 0, 0);
+    }
+}
+
+@keyframes spinner-animation {
+    0% {
+        transform:rotate(0deg);
+    }
+
+    100% {
+        transform:rotate(360deg);
+    }
+}
