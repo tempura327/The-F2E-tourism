@@ -1,10 +1,10 @@
 <template>
   <div class="group">
-    <slot name="input-group-prepend"></slot>
+    <slot name="input-group-prepend" class="group_prepend"></slot>
 
     <slot></slot>
 
-    <slot name="input-group-append"></slot>
+    <slot name="input-group-append" class="group_append"></slot>
   </div>
 </template>
 

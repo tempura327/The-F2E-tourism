@@ -1,10 +1,12 @@
-@import './mixin';
-@import './layout';
-@import './component';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @tailwind screens;
+
+@import './mixin';
+@import './layout';
+@import './component';
+
+
 
 /* @tailwind ; */

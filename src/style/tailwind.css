@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind screens;
 .container {
   width: 80%;
   margin: 0 auto;
@@ -338,11 +342,11 @@
   border-radius: 0;
 }
 
-.group *:first-child {
+.group_prepend {
   border-radius: 8px 0 0 8px;
 }
 
-.group *:last-child {
+.group_append {
   border-radius: 0 8px 8px 0;
 }
 
@@ -390,9 +394,5 @@
   @apply flex justify-between;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@tailwind screens;
 /* @tailwind ; */
 /*# sourceMappingURL=tailwind.css.map */

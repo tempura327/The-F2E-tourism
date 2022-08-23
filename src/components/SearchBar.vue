@@ -1,7 +1,7 @@
 <template>
   <InputGroup>
     <template #input-group-prepend>
-      <select name="type" id="type" class="group_input" v-model="search.type" v-if="isSelectorShow">
+      <select name="type" id="type" class="group_input group_prepend" v-model="search.type" v-if="isSelectorShow">
         <option v-for="(item, index) in options" :value="item.value" :key="index">{{ item.label }}</option>
       </select>
     </template>
@@ -9,7 +9,7 @@
     <input v-model="search.keyword" class="group_input" :class="{ 'group_input-block': isBlock }" type="text" />
 
     <template #input-group-append>
-      <button class="btn" @click="searchClick">
+      <button class="btn group_append" @click="searchClick">
         <img src="../assets/search.svg" alt="" />
       </button>
     </template>
@@ -30,10 +30,10 @@
     // props
     @Prop({ default: false }) isSelectorShow!: boolean;
     @Prop({ default: true }) isBlock!: boolean;
-    @Prop() options?: { value: any; label: string }[];
+    @Prop() options?: { value: number | string; label: string }[];
 
     // data
-    search: { keyword: string; type: any } = {
+    search: { keyword: string; type: number | string } = {
       keyword: '',
       type: 20,
     };
