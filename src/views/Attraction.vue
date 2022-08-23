@@ -54,6 +54,7 @@
   import Gallery from '@/components/Gallery.vue';
 
   import query from '@/utility/queryHelper';
+  import { attraction } from '@/utility/type';
 
   @Component({
     components: {
@@ -88,23 +89,7 @@
       center: [],
       radius: 5,
     };
-    info: {
-      Address: string;
-      City: string;
-      Class1: string;
-      Description: string;
-      DescriptionDetail: string;
-      OpenTime: string;
-      ParkingPosition: { PositionLon?: number; PositionLat?: number; GeoHash?: string };
-      Phone: string;
-      Picture: { PictureUrl1: string; PictureDescription1: string };
-      Position: { PositionLon: number; PositionLat: number; GeoHash: string };
-      ScenicSpotID: string;
-      ScenicSpotName: string;
-      SrcUpdateTime: string;
-      UpdateTime: string;
-      ZipCode: string;
-    } = {
+    info: attraction = {
       Address: '',
       City: '',
       Class1: '',
@@ -243,7 +228,7 @@
         };
       };
     }
-    setMultipleMarker(data: any): void {
+    setMultipleMarker(data: attraction[]): void {
       let attractionData;
       let html = '';
 
@@ -263,7 +248,7 @@
 
         // https://github.com/mapbox/mapbox-gl-js/issues/7793
         // mapbox does not support click event of marker.
-        this.markerMap[`attraction-${attractionData.ScenicSpotID}`].getElement().addEventListener('click', (e) => {
+        this.markerMap[`attraction-${attractionData.ScenicSpotID}`].getElement().addEventListener('click', () => {
           this.isMapExpanded = false;
 
           this.info = data[i];
@@ -306,18 +291,18 @@
 
         this.removeBoundary();
       }
-      console.log(this.currentBoundary);
+
       const res = await query(`
           https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?%24filter=contains(ScenicSpotName%2C'${data.keyword}')%20and%20Position%2FPositionLon%20ge%20${this.currentBoundary.xMin}%20and%20Position%2FPositionLon%20le%20${this.currentBoundary.xMax}%20and%20Position%2FPositionLat%20ge%20${this.currentBoundary.yMin}%20and%20Position%2FPositionLat%20le%20${this.currentBoundary.yMax}&%24format=JSON
         `);
-      console.log(res);
+
       const validatedRes = data.type > 0 ? this.countDistance(res) : res;
 
       if (validatedRes.length < 1) return;
 
       this.setMultipleMarker(validatedRes);
     }
-    countDistance(data: any): any[] {
+    countDistance(data: attraction[]): attraction[] {
       // there 2 reasons why countDistance() is necessary .
       // 1. transport data api don't support distance filter
       // 2. if you use this.currentBoundary.xMax, this.currentBoundary.xMin, this.currentBoundary.yMax and this.currentBoundary.yMin to be conditions,
@@ -327,7 +312,7 @@
       // longtitude 1deg:101.77545km
       // latitude 1deg:110.9362km.
 
-      const res = data.filter((i: any) => {
+      const res = data.filter((i: attraction) => {
         const lat = i.Position.PositionLat - this.currentBoundary.center[1];
         const latDistance = lat * 110.9362;
         const lngDistance = (i.Position.PositionLon - this.currentBoundary.center[0]) * 101.77545 * Math.cos(lat);

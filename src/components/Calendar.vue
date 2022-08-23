@@ -4,13 +4,13 @@
 
     <div class="calendar_navigator">
       <div>
-        <button class="btn btn-outline" @click="moveMonth -= 12">prev year</button>
-        <button class="btn btn-outline ml-2" @click="moveMonth -= 1">prev month</button>
+        <button class="btn btn-outline" @click="changeTime(-12)">prev year</button>
+        <button class="btn btn-outline ml-2" @click="changeTime(-1)">prev month</button>
       </div>
-      <button class="btn btn-outline" @click="moveMonth = 0">today</button>
+      <button class="btn btn-outline" @click="changeTime(0)">today</button>
       <div>
-        <button class="btn btn-outline" @click="moveMonth += 1">next month</button>
-        <button class="btn btn-outline ml-2" @click="moveMonth += 12">next year</button>
+        <button class="btn btn-outline" @click="changeTime(1)">next month</button>
+        <button class="btn btn-outline ml-2" @click="changeTime(12)">next year</button>
       </div>
     </div>
 
@@ -25,12 +25,7 @@
 <script lang="ts">
   import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 
-  declare type current = {
-    endDateObj?: Date;
-    month: number;
-    startDateObj?: Date;
-    year: number;
-  };
+  import { activity, current } from '@/utility/type';
 
   @Component
   export default class Calendar extends Vue {
@@ -40,7 +35,7 @@
         return [];
       },
     })
-    activityData!: any[];
+    activityData!: activity[];
 
     // data
     weekDayArray = ['日', '一', '二', '三', '四', '五', '六'];
