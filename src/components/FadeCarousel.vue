@@ -73,7 +73,11 @@
       },
     })
     config!: { autoPlay: boolean; isContentShow?: boolean; period: number };
-    @Prop({ default: () => [] }) data!: { content?: string; image: string; class?: string }[];
+    @Prop({ default: () => [] }) data!: {
+      content?: string;
+      image: string;
+      class?: string;
+    }[];
     @Prop() carouselClass!: string;
 
     // data

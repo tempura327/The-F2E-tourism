@@ -81,7 +81,14 @@
     map!: Map;
     currentPosMarker!: Marker;
     markerMap: { [key: string]: Marker } = {};
-    currentBoundary: { xMax: number; xMin: number; yMax: number; yMin: number; center: number[]; radius: number } = {
+    currentBoundary: {
+      xMax: number;
+      xMin: number;
+      yMax: number;
+      yMin: number;
+      center: number[];
+      radius: number;
+    } = {
       xMax: 0,
       xMin: 0,
       yMax: 0,
@@ -262,10 +269,10 @@
       }
     }
     setCurrentPositionMarker(lng: number, lat: number): void {
-      this.currentPosMarker = this.setMarker('#dc3545')({ name: 'setPopup', para: new Popup().setHTML("<p class='text-lg'>目前位置</p>") })([
-        lng,
-        lat,
-      ]);
+      this.currentPosMarker = this.setMarker('#dc3545')({
+        name: 'setPopup',
+        para: new Popup().setHTML("<p class='text-lg'>目前位置</p>"),
+      })([lng, lat]);
 
       this.currentPosMarker.togglePopup();
     }
