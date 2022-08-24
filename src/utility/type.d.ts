@@ -12,7 +12,11 @@ export declare type attraction = {
   Description: string;
   DescriptionDetail: string;
   OpenTime: string;
-  ParkingPosition: { PositionLon?: number; PositionLat?: number; GeoHash?: string };
+  ParkingPosition: {
+    PositionLon?: number;
+    PositionLat?: number;
+    GeoHash?: string;
+  };
   Phone: string;
   Picture: { PictureUrl1: string; PictureDescription1: string };
   Position: { PositionLon: number; PositionLat: number; GeoHash: string };
