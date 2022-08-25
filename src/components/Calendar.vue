@@ -14,28 +14,46 @@
       </div>
     </div>
 
-    <div v-for="(day, index) in weekDayArray" :key="`day-${index}`" class="calendar_cell bg-primary font-bold text-white">{{ day }}</div>
-    <div v-for="(date, index) in currentDateArray" :key="`date-${index}`" class="calendar_cell date">
-      {{ date }}
-      <!-- <div class="calendar_marker"></div> -->
+    <div v-for="(day, index) in weekDayArray" :key="`day-${index}`" class="calendar_cell bg-primary font-bold text-white">
+      {{ day }}
     </div>
+
+    <div v-if="isLoading" class="spinner_wrapper col-start-1 col-end-8 py-6 flex justify-center items-center">
+      <Spinner></Spinner>
+    </div>
+
+    <template v-else>
+      <div v-for="(date, index) in currentDateArray" :key="`date-${index}`" class="calendar_cell date">
+        {{ date }}
+        <div class="calendar_marker" v-for="(item, index) in activityData[date]?.slice(0, 3)" :key="`${date}-${index}`">{{ item.ActivityName }}</div>
+        <div v-if="activityData[date]?.length > 3">...</div>
+      </div>
+    </template>
   </div>
 </template>
 
 <script lang="ts">
   import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 
+  import Spinner from '@/components/Spinner.vue';
+
+  import { dateStringConvertor } from '@/utility/dateConvertor';
   import { activity, current } from '@/utility/type';
 
-  @Component
+  @Component({
+    components: {
+      Spinner,
+    },
+  })
   export default class Calendar extends Vue {
     // props
+    @Prop({ default: true }) isLoading!: boolean;
     @Prop({
       default: () => {
-        return [];
+        return {};
       },
     })
-    activityData!: activity[];
+    activityData!: { [key: string]: activity[] };
 
     // data
     weekDayArray = ['日', '一', '二', '三', '四', '五', '六'];
@@ -70,6 +88,14 @@
         endDateObj: new Date(currentYear, currentMonth + 1, 0),
       };
     }
+    changeTime(num: number): void {
+      if (num === 0) {
+        this.moveMonth = 0;
+        return;
+      }
+
+      this.moveMonth += num;
+    }
 
     // computed
     get currentDateArray(): number[] {
@@ -78,7 +104,7 @@
       const nextMonthBlank = [...Array(6 - (this.current.endDateObj as Date).getDay()).values()];
 
       return lastMonthBlank.concat(
-        Array.from({ length: length }, (d, i) => i + 1),
+        Array.from({ length: length }, (d, i) => dateStringConvertor(this.current.year, this.current.month, i + 1)),
         nextMonthBlank,
       );
     }
@@ -97,6 +123,14 @@
 
       this.current.startDateObj = new Date(this.current.year, this.current.month, 1);
       this.current.endDateObj = new Date(this.current.year, this.current.month + 1, 0);
+
+      this.$emit('onCurrentChange', this.current);
     }
   }
 </script>
+
+<style scoped>
+  .spinner_wrapper {
+    height: 500px;
+  }
+</style>

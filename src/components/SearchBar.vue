@@ -2,7 +2,9 @@
   <InputGroup>
     <template #input-group-prepend>
       <select name="type" id="type" class="group_input group_prepend" v-model="search.type" v-if="isSelectorShow">
-        <option v-for="(item, index) in options" :value="item.value" :key="index">{{ item.label }}</option>
+        <option v-for="(item, index) in options" :value="item.value" :key="index">
+          {{ item.label }}
+        </option>
       </select>
     </template>
 

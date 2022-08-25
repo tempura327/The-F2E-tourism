@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.1.4 | MIT License | https://tailwindcss.com
+! tailwindcss v3.1.8 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -631,6 +631,14 @@ video {
   z-index: 30;
 }
 
+.col-start-1 {
+  grid-column-start: 1;
+}
+
+.col-end-8 {
+  grid-column-end: 8;
+}
+
 .my-3 {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
@@ -849,6 +857,11 @@ video {
 
 .p-4 {
   padding: 1rem;
+}
+
+.py-6 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .px-4 {
