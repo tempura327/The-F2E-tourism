@@ -208,7 +208,7 @@
   border: 4px solid #067b8a;
 }
 
-.btn, .btn:hover {
+.btn, .btn:not(.group_append):hover {
   width: auto;
   height: auto;
   border-radius: 8px;

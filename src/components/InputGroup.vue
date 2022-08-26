@@ -1,5 +1,5 @@
 <template>
-  <div class="group">
+  <div class="group" :class="className">
     <slot name="input-group-prepend" class="group_prepend"></slot>
 
     <slot></slot>
@@ -9,10 +9,12 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
+  import { Component, Vue, Prop } from 'vue-property-decorator';
 
   @Component
   export default class InputGroup extends Vue {
+    // props
+    @Prop({ default: '' }) className?: string;
     // data
     // hook
     // methods

@@ -14,7 +14,7 @@
 }
 
 // , .btn-active
-.btn, .btn:hover{
+.btn, .btn:not(.group_append):hover{
     @include sizeHelper(auto, auto, 8px);
 }
 

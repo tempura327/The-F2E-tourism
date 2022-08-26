@@ -1,10 +1,8 @@
 <template>
-  <InputGroup>
+  <InputGroup :className="className">
     <template #input-group-prepend>
       <select name="type" id="type" class="group_input group_prepend" v-model="search.type" v-if="isSelectorShow">
-        <option v-for="(item, index) in options" :value="item.value" :key="index">
-          {{ item.label }}
-        </option>
+        <option v-for="(item, index) in options" :value="item.value" :key="index">{{ item.label }}</option>
       </select>
     </template>
 
@@ -30,6 +28,8 @@
   })
   export default class SearchBar extends Vue {
     // props
+    @Prop({ default: '' }) className?: string;
+    @Prop() defaultType!: string | number;
     @Prop({ default: false }) isSelectorShow!: boolean;
     @Prop({ default: true }) isBlock!: boolean;
     @Prop() options?: { value: number | string; label: string }[];
@@ -39,7 +39,14 @@
       keyword: '',
       type: 20,
     };
+
     // hook
+    created(): void {
+      if (this.defaultType) {
+        this.search.type = this.defaultType;
+      }
+    }
+
     // methods
     searchClick(): void {
       this.$emit('searchClick', this.search);
