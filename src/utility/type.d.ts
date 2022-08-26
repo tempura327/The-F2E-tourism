@@ -5,6 +5,14 @@ export declare type current = {
   endDateObj?: Date;
 };
 
+export declare type boundary = {
+  xMax: number;
+  xMin: number;
+  yMax: number;
+  yMin: number;
+  center: number[];
+  radius: number;
+};
 export declare type attraction = {
   Address: string;
   City: string;

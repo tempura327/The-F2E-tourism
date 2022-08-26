@@ -54,7 +54,7 @@
   import Gallery from '@/components/Gallery.vue';
 
   import query from '@/utility/queryHelper';
-  import { attraction } from '@/utility/type';
+  import { attraction, boundary } from '@/utility/type';
 
   @Component({
     components: {
@@ -81,14 +81,7 @@
     map!: Map;
     currentPosMarker!: Marker;
     markerMap: { [key: string]: Marker } = {};
-    currentBoundary: {
-      xMax: number;
-      xMin: number;
-      yMax: number;
-      yMin: number;
-      center: number[];
-      radius: number;
-    } = {
+    currentBoundary: boundary = {
       xMax: 0,
       xMin: 0,
       yMax: 0,
