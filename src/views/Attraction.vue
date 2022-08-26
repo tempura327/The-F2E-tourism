@@ -11,24 +11,18 @@
       </div>
     </div>
 
-    <div class="row mb-4">
-      <div class="col-6">
-        <SearchBar :options="searchOption" :isSelectorShow="true" @searchClick="searchAttraction"></SearchBar>
-      </div>
-      <div class="col-6"></div>
-    </div>
-
     <div class="row mb-32">
       <div :class="mapClass.map">
+        <SearchBar className="mb-4" :options="searchOption" :isSelectorShow="true" @searchClick="searchAttraction"></SearchBar>
+
         <div id="map" class="rounded"></div>
       </div>
 
       <div :class="mapClass.info">
         <section class="info bg-gray-80 text-white rounded overflow-y-auto p-4">
-          <h2 class="text-h2 text-white font-bold mb-4">
-            {{ info.ScenicSpotName }}
-            <span class="text-h4 text-white">{{ info.OpenTime }}</span>
-          </h2>
+          <h2 class="text-h2 text-white font-bold mb-2">{{ info.ScenicSpotName }}</h2>
+
+          <h4 class="text-h5 text-white mb-2">{{ info.OpenTime }}</h4>
 
           <Gallery :images="images" galleryClass="mb-4"></Gallery>
 
@@ -68,6 +62,7 @@
 
     // data
     // isLoading = false;
+    baseUrl = 'https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?%24filter=';
     entireDayOtherWord = ['<p>24HR</p>', 'Sun 24 hours；Mon 24 hours；Tue 24 hours；Wed 24 hours；Thu 24 hours；Fri 24 hours；Sat 24 hours'];
     searchOption = [
       { value: 5, label: '5km' },
@@ -281,26 +276,39 @@
 
       if (data.type > 0) {
         this.currentBoundary.radius = data.type;
-
         this.setBoundary(this.currentBoundary.center[0], this.currentBoundary.center[1], this.currentBoundary.radius);
       } else {
-        this.currentBoundary.xMax = 123;
-        this.currentBoundary.xMin = 120;
-        this.currentBoundary.yMax = 26;
-        this.currentBoundary.yMin = 20;
-
         this.removeBoundary();
       }
 
-      const res = await query(`
-          https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?%24filter=contains(ScenicSpotName%2C'${data.keyword}')%20and%20Position%2FPositionLon%20ge%20${this.currentBoundary.xMin}%20and%20Position%2FPositionLon%20le%20${this.currentBoundary.xMax}%20and%20Position%2FPositionLat%20ge%20${this.currentBoundary.yMin}%20and%20Position%2FPositionLat%20le%20${this.currentBoundary.yMax}&%24format=JSON
-        `);
+      const res = await query(this.getQueryUrl(data));
 
       const validatedRes = data.type > 0 ? this.countDistance(res) : res;
 
       if (validatedRes.length < 1) return;
 
       this.setMultipleMarker(validatedRes);
+
+      if (validatedRes.length === 1) {
+        const { PositionLon, PositionLat } = validatedRes[0].Position;
+
+        this.map.flyTo({
+          center: [PositionLon, PositionLat] as LngLatLike,
+        });
+      }
+    }
+    getQueryUrl(data: { keyword: string; type: number }): string {
+      let queryUrl = this.baseUrl;
+
+      if (data.keyword) {
+        queryUrl += `contains(ScenicSpotName%2C'${data.keyword}')&`;
+      }
+
+      if (data.type > 0) {
+        queryUrl += `Position%2FPositionLon%20ge%20${this.currentBoundary.xMin}%20and%20Position%2FPositionLon%20le%20${this.currentBoundary.xMax}%20and%20Position%2FPositionLat%20ge%20${this.currentBoundary.yMin}%20and%20Position%2FPositionLat%20le%20${this.currentBoundary.yMax}&`;
+      }
+
+      return `${queryUrl}%24format=JSON`;
     }
     countDistance(data: attraction[]): attraction[] {
       // there 2 reasons why countDistance() is necessary .
@@ -363,7 +371,8 @@
   }
 
   .info {
-    height: 600px;
+    height: 100%;
+    max-height: 657px;
   }
 
   .mapboxgl-popup-close-button {

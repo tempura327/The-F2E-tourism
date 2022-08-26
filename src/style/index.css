@@ -684,6 +684,10 @@ video {
   margin-bottom: 8rem;
 }
 
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
 .mb-28 {
   margin-bottom: 7rem;
 }
@@ -883,6 +887,10 @@ video {
 
 .text-h4 {
   font-size: 20px;
+}
+
+.text-h5 {
+  font-size: 16px;
 }
 
 .font-bold {
