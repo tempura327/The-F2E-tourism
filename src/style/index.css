@@ -885,12 +885,12 @@ video {
   font-size: 28px;
 }
 
-.text-h4 {
-  font-size: 20px;
-}
-
 .text-h5 {
   font-size: 16px;
+}
+
+.text-h4 {
+  font-size: 20px;
 }
 
 .font-bold {
@@ -1434,24 +1434,30 @@ video {
 }
 
 .calendar_cell {
+  padding: 0.5rem;
   text-align: left;
   --tw-text-opacity: 1;
   color: rgb(82 81 81 / var(--tw-text-opacity));
-  padding: 8px;
 }
 
 .calendar_cell.date {
+  overflow: hidden;
   outline-style: solid;
   outline-width: 1px;
   outline-color: #CBCBCB;
   min-height: 108px;
+  max-height: 200px;
 }
 
 .calendar_marker {
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   border-radius: 0.25rem;
-  background: gold;
+  padding: 0.25rem;
+  background-color: gold;
   margin-bottom: 2px;
-  padding: 4px;
 }
 
 .calendar_title {

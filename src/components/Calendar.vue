@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+  import { Component, Vue, Prop } from 'vue-property-decorator';
 
   import Spinner from '@/components/Spinner.vue';
 
@@ -69,13 +69,11 @@
       startDateObj: undefined,
       year: 0,
     };
-    moveMonth = 0;
 
     // hook
     created(): void {
       this.initCurrent();
     }
-    // mounted(): void {}
 
     // methods
     initCurrent(): void {
@@ -89,12 +87,27 @@
       };
     }
     changeTime(num: number): void {
+      // 26
       if (num === 0) {
-        this.moveMonth = 0;
+        this.initCurrent();
         return;
       }
 
-      this.moveMonth += num;
+      const property = Math.abs(num) > 11 ? 'year' : 'month';
+      this.current[property] += num > 0 ? 1 : -1;
+
+      // if month is not between 0 and 11, means cross year.
+      if (this.current.month > 11 || this.current.month < 0) {
+        // once month === 12, take away 12 from it. once month === -1, add 12 to it.
+        // because 12 === 11 + 1(num) and -1 === 0 + (-1)(num), so I put minus marker in front of num.
+        this.current.month += -num * 12;
+        this.current.year += num;
+      }
+
+      this.current.startDateObj = new Date(this.current.year, this.current.month, 1);
+      this.current.endDateObj = new Date(this.current.year, this.current.month + 1, 0);
+
+      this.$emit('onCurrentChange', this.current);
     }
 
     // computed
@@ -107,24 +120,6 @@
         Array.from({ length: length }, (d, i) => dateStringConvertor(this.current.year, this.current.month, i + 1)),
         nextMonthBlank,
       );
-    }
-
-    // watch
-    @Watch('moveMonth')
-    moveWatch(newVal: number, oldVal: number): void {
-      if (newVal === 0) {
-        this.initCurrent();
-        return;
-      }
-
-      const needToChange = Math.abs(newVal - oldVal) > 11 ? 'year' : 'month';
-
-      this.current[needToChange] += newVal > oldVal ? 1 : -1;
-
-      this.current.startDateObj = new Date(this.current.year, this.current.month, 1);
-      this.current.endDateObj = new Date(this.current.year, this.current.month + 1, 0);
-
-      this.$emit('onCurrentChange', this.current);
     }
   }
 </script>

@@ -182,23 +182,21 @@
     grid-template-columns: repeat(7, 1fr);
 
     &_cell {
-        @apply  text-left text-gray-80;
-
-        padding: 8px;
+        @apply p-2 text-left text-gray-80;
 
         &.date{
-            @apply outline-1 outline-gray-40 outline ;
+            @apply outline-1 outline-gray-40 outline overflow-hidden;
 
             min-height: 108px;
+            max-height: 200px;
         }
     }
 
     &_marker{
-        @apply rounded;
+        @apply p-1 rounded truncate cursor-pointer;
 
-        background: gold;
+        background-color: gold;
         margin-bottom: 2px;
-        padding: 4px;
     }
 
     &_title{
