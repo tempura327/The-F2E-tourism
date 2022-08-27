@@ -14,19 +14,19 @@
         </div>
       </div>
 
-      <div class="row grid grid-cols-4 gap-4 gap-y-20 mb-32">
+      <div class="row grid grid-cols-4 gap-y-20 mb-32">
         <div class="col" v-if="isLoading">
           <!-- <b-spinner></b-spinner> -->
         </div>
 
-        <div lg="3" v-for="(data, index) in attractionData" :key="index" v-else>
+        <div class="col-3" v-for="(data, index) in attractionData" :key="index" v-else>
           <Card :data="data" @showModal="showModal"></Card>
         </div>
       </div>
 
       <div class="row">
         <div class="col">
-          <h1 class="font-bold text-h1 text-primary mb-6">活動類別</h1>
+          <h1 class="font-bold text-h1 text-primary mb-6">本月活動</h1>
           <h5 class="h5 text-gray font-bold mb-12">
             各種不同的活動內容
             <br />
@@ -35,12 +35,12 @@
         </div>
       </div>
 
-      <div class="row grid grid-cols-4 gap-4 gap-y-20 mb-32">
+      <div class="row grid grid-cols-4 gap-y-20 mb-32">
         <div class="col" v-if="isLoading2">
           <!-- <b-spinner></b-spinner> -->
         </div>
 
-        <div lg="3" v-for="(data, index) in activityData" :key="index" v-else>
+        <div class="col-3" v-for="(data, index) in activityData" :key="index" v-else>
           <SimpleCard :data="data" @showModal="showModal"></SimpleCard>
         </div>
       </div>

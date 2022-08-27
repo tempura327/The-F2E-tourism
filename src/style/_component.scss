@@ -33,42 +33,32 @@
 
 // -------------------------carousel-------------------------------
 .carousel{
-    &_item{
-        height: 600px;
-    }
+    @apply overflow-hidden relative h-56 sm:h-64 xl:h-80 2xl:h-96;
 
-    &_caption{
-        bottom: 40%;
-        padding: 0;    
-        
-        * {
-            @apply text-white font-bold italic;
+    &_body{
+        @apply duration-700 ease-in-out relative top-1/2;
 
-            font-size: 32px;
-            text-shadow: 10px 8px 12px rgba(0, 0, 0, 0.37);
+        &_caption{
+            @apply absolute z-10 top-1/2 left-1/2 font-semibold text-white -translate-x-1/2 -translate-y-1/2;
         }
-    }
-
-    &_search{
-        display: inline;
-        position: relative;
-        top: -250px;
-        left: 280px;        
-    }
-
-    &_search_input{
-        @apply rounded-lg shadow-gray-100/25 mr-5 z-20;
-    }
-
-    &_indicators{
-        @include skinHelper(white, #8F8F8F);
     
+        &_img{
+            @apply block absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2;
+        }        
+    }
+
+
+
+    &_control{
+        @apply flex absolute top-0 z-30 justify-center items-center px-4 h-full cursor-pointer focus:outline-none;
+
+
         &:hover{
-            @include skinHelper(white, #08A6BB);
+            opacity: 0.8;
         }
-    
-        &-active{
-            @include skinHelper(#08A6BB, white);
+
+        &_content{
+            @apply inline-flex justify-center items-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30;
         }
     }
 }
@@ -91,15 +81,15 @@
     }
 
     &_type{
-        @apply text-gray-blue overflow-hidden mb-0 text-h6;
+        @apply text-h6 text-gray-blue truncate mb-0 ;
 
-        white-space: nowrap;
-        text-overflow: ellipsis;
+        max-width: 40%;
     }
 
     &_img{
-        max-height: 13rem;
         @apply overflow-hidden;
+
+        max-height: 13rem;
     }
 }
 

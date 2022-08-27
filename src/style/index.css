@@ -599,20 +599,12 @@ video {
   position: relative;
 }
 
-.top-1\/2 {
-  top: 50%;
-}
-
-.left-1\/2 {
-  left: 50%;
-}
-
 .bottom-5 {
   bottom: 1.25rem;
 }
 
-.top-0 {
-  top: 0px;
+.left-1\/2 {
+  left: 50%;
 }
 
 .left-0 {
@@ -623,12 +615,20 @@ video {
   right: 0px;
 }
 
-.z-10 {
-  z-index: 10;
+.top-1\/2 {
+  top: 50%;
+}
+
+.top-0 {
+  top: 0px;
 }
 
 .z-30 {
   z-index: 30;
+}
+
+.z-10 {
+  z-index: 10;
 }
 
 .col-start-1 {
@@ -720,12 +720,16 @@ video {
   height: 12rem;
 }
 
-.h-56 {
-  height: 14rem;
-}
-
 .h-3 {
   height: 0.75rem;
+}
+
+.h-5 {
+  height: 1.25rem;
+}
+
+.h-56 {
+  height: 14rem;
 }
 
 .h-full {
@@ -736,24 +740,20 @@ video {
   height: 2rem;
 }
 
-.h-5 {
-  height: 1.25rem;
+.w-3 {
+  width: 0.75rem;
+}
+
+.w-5 {
+  width: 1.25rem;
 }
 
 .w-full {
   width: 100%;
 }
 
-.w-3 {
-  width: 0.75rem;
-}
-
 .w-8 {
   width: 2rem;
-}
-
-.w-5 {
-  width: 1.25rem;
 }
 
 .w-60 {
@@ -796,10 +796,6 @@ video {
 
 .justify-center {
   justify-content: center;
-}
-
-.gap-4 {
-  gap: 1rem;
 }
 
 .gap-y-20 {
@@ -969,6 +965,10 @@ video {
 }
 
 @media (min-width: 640px) {
+  .sm\:h-6 {
+    height: 1.5rem;
+  }
+
   .sm\:h-64 {
     height: 16rem;
   }
@@ -977,16 +977,12 @@ video {
     height: 2.5rem;
   }
 
-  .sm\:h-6 {
-    height: 1.5rem;
+  .sm\:w-6 {
+    width: 1.5rem;
   }
 
   .sm\:w-10 {
     width: 2.5rem;
-  }
-
-  .sm\:w-6 {
-    width: 1.5rem;
   }
 }
 
@@ -1262,52 +1258,98 @@ video {
   border-radius: 8px;
 }
 
-.carousel_item {
-  height: 600px;
+.carousel {
+  position: relative;
+  height: 14rem;
+  overflow: hidden;
 }
 
-.carousel_caption {
-  bottom: 40%;
-  padding: 0;
+@media (min-width: 640px) {
+  .carousel {
+    height: 16rem;
+  }
 }
 
-.carousel_caption * {
-  font-weight: 700;
-  font-style: italic;
+@media (min-width: 1280px) {
+  .carousel {
+    height: 20rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .carousel {
+    height: 24rem;
+  }
+}
+
+.carousel_body {
+  position: relative;
+  top: 50%;
+  transition-duration: 700ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.carousel_body_caption {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  --tw-translate-x: -50%;
+  --tw-translate-y: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  font-weight: 600;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-  font-size: 32px;
-  text-shadow: 10px 8px 12px rgba(0, 0, 0, 0.37);
 }
 
-.carousel_search {
-  display: inline;
-  position: relative;
-  top: -250px;
-  left: 280px;
+.carousel_body_img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 100%;
+  --tw-translate-x: -50%;
+  --tw-translate-y: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-.carousel_search_input {
-  z-index: 20;
-  margin-right: 1.25rem;
-  border-radius: 0.5rem;
-  --tw-shadow-color: rgb(49 49 49 / 0.25);
-  --tw-shadow: var(--tw-shadow-colored);
+.carousel_control {
+  position: absolute;
+  top: 0px;
+  z-index: 30;
+  display: flex;
+  height: 100%;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
-.carousel_indicators {
-  color: #8F8F8F;
-  background-color: white;
+.carousel_control:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
 }
 
-.carousel_indicators:hover {
-  color: #08A6BB;
-  background-color: white;
+.carousel_control:hover {
+  opacity: 0.8;
 }
 
-.carousel_indicators-active {
-  color: white;
-  background-color: #08A6BB;
+.carousel_control_content {
+  display: inline-flex;
+  height: 2rem;
+  width: 2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: rgb(255 255 255 / 0.3);
+}
+
+@media (min-width: 640px) {
+  .carousel_control_content {
+    height: 2.5rem;
+    width: 2.5rem;
+  }
 }
 
 .carousel_indicators, .carousel_indicators:hover, .carousel_indicators-active {
@@ -1344,16 +1386,17 @@ video {
 .card_type {
   margin-bottom: 0px;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 12px;
   --tw-text-opacity: 1;
   color: rgb(111 119 137 / var(--tw-text-opacity));
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  max-width: 40%;
 }
 
 .card_img {
-  max-height: 13rem;
   overflow: hidden;
+  max-height: 13rem;
 }
 
 .modal {

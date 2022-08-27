@@ -232,45 +232,32 @@
   border-radius: 8px;
 }
 
-.carousel_item {
-  height: 600px;
+.carousel {
+  @apply overflow-hidden relative h-56 sm:h-64 xl:h-80 2xl:h-96;
 }
 
-.carousel_caption {
-  bottom: 40%;
-  padding: 0;
+.carousel_body {
+  @apply duration-700 ease-in-out relative top-1/2;
 }
 
-.carousel_caption * {
-  @apply text-white font-bold italic;
-  font-size: 32px;
-  text-shadow: 10px 8px 12px rgba(0, 0, 0, 0.37);
+.carousel_body_caption {
+  @apply absolute z-10 top-1/2 left-1/2 font-semibold text-white -translate-x-1/2 -translate-y-1/2;
 }
 
-.carousel_search {
-  display: inline;
-  position: relative;
-  top: -250px;
-  left: 280px;
+.carousel_body_img {
+  @apply block absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2;
 }
 
-.carousel_search_input {
-  @apply rounded-lg shadow-gray-100/25 mr-5 z-20;
+.carousel_control {
+  @apply flex absolute top-0 z-30 justify-center items-center px-4 h-full cursor-pointer focus:outline-none;
 }
 
-.carousel_indicators {
-  color: #8F8F8F;
-  background-color: white;
+.carousel_control:hover {
+  opacity: 0.8;
 }
 
-.carousel_indicators:hover {
-  color: #08A6BB;
-  background-color: white;
-}
-
-.carousel_indicators-active {
-  color: white;
-  background-color: #08A6BB;
+.carousel_control_content {
+  @apply inline-flex justify-center items-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30;
 }
 
 .carousel_indicators, .carousel_indicators:hover, .carousel_indicators-active {
@@ -294,14 +281,13 @@
 }
 
 .card_type {
-  @apply text-gray-blue overflow-hidden mb-0 text-h6;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  @apply text-h6 text-gray-blue truncate mb-0;
+  max-width: 40%;
 }
 
 .card_img {
-  max-height: 13rem;
   @apply overflow-hidden;
+  max-height: 13rem;
 }
 
 .modal {
