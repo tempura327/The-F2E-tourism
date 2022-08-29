@@ -1,4 +1,4 @@
-@import './_mixin.scss';
+@import './_mixin';
 
 // -------------------------container & row & column-------------------------------
 .container{
@@ -14,6 +14,15 @@
 .col{
     flex-grow: 1;
     padding: 0 16px;
+}
+
+.col-0{
+    width: 0;
+    opacity: 0;
+}
+
+.col-transition{
+    transition: width 1s, opacity 3s;
 }
 
 @include columnHelper(12);

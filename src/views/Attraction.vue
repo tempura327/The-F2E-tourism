@@ -334,48 +334,21 @@
 
     // computed
     get mapClass(): { map: string; info: string } {
-      return this.isMapExpanded ? { map: 'map-col-12', info: 'map-col-0' } : { map: 'map-col-6', info: 'map-col-6' };
+      return this.isMapExpanded
+        ? { map: 'col-12 col-transition', info: 'col-0 col-transition' }
+        : { map: 'col-6 col-transition', info: 'col-6 col-transition' };
     }
   }
 </script>
 
 <style lang="scss" scoped>
   #map {
-    // @apply w-full;
     width: 100%;
     height: 600px;
-  }
-
-  .map-col-12,
-  .map-col-6,
-  .map-col-0 {
-    padding: 0 16px;
-    box-sizing: border-box;
-    transition: width 1s, opacity 3s;
-  }
-
-  .map-col-12 {
-    // @apply col-12 ease-in duration-1000;
-    width: 100%;
-  }
-
-  .map-col-6 {
-    // @apply col-6 ease-in duration-1000;
-    width: 50%;
-    opacity: 1;
-  }
-
-  .map-col-0 {
-    width: 0%;
-    opacity: 0;
   }
 
   .info {
     height: 100%;
     max-height: 657px;
-  }
-
-  .mapboxgl-popup-close-button {
-    right: 4px;
   }
 </style>

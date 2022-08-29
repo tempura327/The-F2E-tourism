@@ -17,6 +17,15 @@
   padding: 0 16px;
 }
 
+.col-0 {
+  width: 0;
+  opacity: 0;
+}
+
+.col-transition {
+  transition: width 1s, opacity 3s;
+}
+
 .col-1 {
   width: 8.33333%;
   padding: 0 16px;

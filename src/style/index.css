@@ -935,10 +935,6 @@ video {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.ease-in {
-  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
-}
-
 .focus\:outline-none:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
@@ -1012,6 +1008,15 @@ video {
 .col {
   flex-grow: 1;
   padding: 0 16px;
+}
+
+.col-0 {
+  width: 0;
+  opacity: 0;
+}
+
+.col-transition {
+  transition: width 1s, opacity 3s;
 }
 
 .col-1 {
