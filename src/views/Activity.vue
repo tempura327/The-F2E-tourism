@@ -13,7 +13,9 @@
 
     <div class="row mb-4">
       <div class="col">
-        <Calendar :isLoading="!isDone" :activityData="map" @onCurrentChange="onCurrentChange"></Calendar>
+        <SearchBar className="mb-4" :options="searchOption" :defaultType="''" :isSelectorShow="true" @searchClick="searchActivity"></SearchBar>
+
+        <Calendar :isLoading="isLoading" :activityData="map" @onCurrentChange="onCurrentChange"></Calendar>
       </div>
     </div>
   </div>
@@ -23,19 +25,25 @@
   import { Component, Vue } from 'vue-property-decorator';
 
   import Calendar from '@/components/Calendar.vue';
+  import SearchBar from '@/components/SearchBar.vue';
 
   import query from '@/utility/queryHelper';
   import dateConvertor from '@/utility/dateConvertor';
   import { current, activity } from '@/utility/type';
 
+  import taiwanCity from '@/config/taiwanCity.json';
+
   @Component({
     components: {
       Calendar,
+      SearchBar,
     },
   })
   export default class Activity extends Vue {
     // data
-    isDone = false;
+    isLoading = true;
+    searchOption = taiwanCity;
+    baseUrl = `https://ptx.transportdata.tw/MOTC/v2/Tourism/Activity`;
     todayDateObj = new Date();
     today = {
       year: this.todayDateObj.getFullYear(),
@@ -56,33 +64,66 @@
 
     // methods
     async queryActivity(firstDate: string, lastDate: string): Promise<void> {
-      this.isDone = false;
+      this.isLoading = true;
 
       try {
         const res = await query(`
-          https://ptx.transportdata.tw/MOTC/v2/Tourism/Activity?%24filter=StartTime%20ge%20${firstDate}%20and%20EndTime%20le%20${lastDate}&%24orderby=StartTime%20ASC&%24format=JSON
+          ${this.baseUrl}?%24filter=StartTime%20ge%20${firstDate}%20and%20EndTime%20le%20${lastDate}&%24orderby=StartTime%20ASC&%24format=JSON
         `);
 
         this.mappingActivity(res);
         this.activityData = this.activityData.concat(res);
-        console.log(res);
       } catch {
-        console.log('query failed');
+        throw Error('query activity failed');
       } finally {
-        this.isDone = true;
+        this.isLoading = false;
+      }
+    }
+    async searchActivity(data: { keyword: string; type: string }): Promise<void> {
+      this.isLoading = true;
+
+      try {
+        const res = await query(this.getQueryUrl(data));
+
+        this.map = {};
+        this.mappingActivity(res);
+
+        this.activityData = res;
+      } catch (e: any) {
+        throw Error(`search activity fail. ${e.message}`);
+      } finally {
+        this.isLoading = false;
       }
     }
     mappingActivity(data: activity[]): void {
-      for (const i of data) {
-        const firstDate = i.StartTime.slice(0, 10);
+      const { year, month } = this.today;
 
-        if (firstDate in this.map) {
-          this.map[firstDate].push(i);
-        } else {
-          this.map[firstDate] = [i];
+      const lastDate = new Date(year, month + 1, 0).getDate();
+
+      for (let i = 1; i < lastDate + 1; i++) {
+        const key = dateConvertor([year, month, i]);
+
+        if (!(key in this.map)) {
+          this.map[key] = data.filter((i) => i.StartTime.slice(0, 10) <= key && i.EndTime.slice(0, 10) >= key);
         }
       }
-      console.log(this.map);
+    }
+    getQueryUrl(data: { keyword: string; type: string }): string {
+      let res = this.baseUrl;
+
+      if (data.type) {
+        res += `${data.type}?`;
+      }
+
+      if (!res.endsWith('?')) {
+        res += '?';
+      }
+
+      if (data.keyword) {
+        res += `%24filter=contains(ActivityName%2C'${data.keyword}')`;
+      }
+
+      return `${res}&%24orderby=StartTime%20ASC&%24format=JSON`;
     }
     onCurrentChange(current: current): void {
       const { startDateObj, endDateObj } = current;
