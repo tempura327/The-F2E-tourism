@@ -10,6 +10,10 @@
     "tailwind-w": "npx tailwindcss -i ./src/style/tailwind.css -o ./src/style/index.css --watch"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.1.2",
+    "@fortawesome/free-regular-svg-icons": "^6.1.2",
+    "@fortawesome/free-solid-svg-icons": "^6.1.2",
+    "@fortawesome/vue-fontawesome": "^2.0.8",
     "core-js": "^3.8.3",
     "jssha": "^3.2.0",
     "mapbox-gl": "^2.10.0",
