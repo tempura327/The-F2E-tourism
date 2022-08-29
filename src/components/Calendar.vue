@@ -48,7 +48,7 @@
 
   import Spinner from '@/components/Spinner.vue';
 
-  import { dateStringConvertor } from '@/utility/dateConvertor';
+  import dateConvertor from '@/utility/dateConvertor';
   import { activity, current } from '@/utility/type';
 
   @Component({
@@ -128,7 +128,7 @@
       const nextMonthBlank = [...Array(6 - (this.current.endDateObj as Date).getDay()).values()];
 
       return lastMonthBlank.concat(
-        Array.from({ length: length }, (d, i) => dateStringConvertor(this.current.year, this.current.month, i + 1)),
+        Array.from({ length: length }, (d, i) => dateConvertor([this.current.year, this.current.month, i + 1])),
         nextMonthBlank,
       );
     }
