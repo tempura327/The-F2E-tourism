@@ -10,7 +10,7 @@
 
     <template #input-group-append>
       <button class="btn group_append" @click="searchClick">
-        <img src="../assets/search.svg" alt="" />
+        <font-awesome-icon class="text-white" icon="magnifying-glass" />
       </button>
     </template>
   </InputGroup>

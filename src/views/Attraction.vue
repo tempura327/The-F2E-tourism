@@ -19,7 +19,8 @@
       </div>
 
       <div :class="mapClass.info">
-        <section class="info bg-gray-80 text-white rounded overflow-y-auto p-4">
+        <section class="info flex flex-col bg-gray-80 text-white rounded overflow-y-auto p-4">
+          <font-awesome-icon class="text-white ml-auto mb-2 hover:scale-150 cursor-pointer" icon="xmark" @click="isMapExpanded = true" />
           <h2 class="text-h2 text-white font-bold mb-2">{{ info.ScenicSpotName }}</h2>
 
           <h4 class="text-h5 text-white mb-2">{{ info.OpenTime }}</h4>

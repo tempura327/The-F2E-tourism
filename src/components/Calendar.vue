@@ -4,17 +4,28 @@
 
     <div class="calendar_navigator">
       <div>
-        <button class="btn btn-outline" @click="changeTime(-12)">prev year</button>
-        <button class="btn btn-outline ml-2" @click="changeTime(-1)">prev month</button>
+        <button class="btn btn-transparent" @click="changeTime(-12)">
+          <font-awesome-icon class="text-primary" icon="angles-left" />
+        </button>
+
+        <button class="btn btn-transparent ml-2" @click="changeTime(-1)">
+          <font-awesome-icon class="text-primary" icon="angle-left" />
+        </button>
       </div>
-      <button class="btn btn-outline" @click="changeTime(0)">today</button>
+      <button class="btn btn-transparent" @click="changeTime(0)">
+        <font-awesome-icon class="text-primary" icon="fa-solid fa-circle" />
+      </button>
       <div>
-        <button class="btn btn-outline" @click="changeTime(1)">next month</button>
-        <button class="btn btn-outline ml-2" @click="changeTime(12)">next year</button>
+        <button class="btn btn-transparent" @click="changeTime(1)">
+          <font-awesome-icon class="text-primary" icon="angle-right" />
+        </button>
+        <button class="btn btn-transparent ml-2" @click="changeTime(12)">
+          <font-awesome-icon class="text-primary" icon="angles-right" />
+        </button>
       </div>
     </div>
 
-    <div v-for="(day, index) in weekDayArray" :key="`day-${index}`" class="calendar_cell bg-primary font-bold text-white">
+    <div v-for="(day, index) in weekDayArray" :key="`day-${index}`" class="calendar_cell bg-primary text-white font-bold">
       {{ day }}
     </div>
 
@@ -23,7 +34,7 @@
     </div>
 
     <template v-else>
-      <div v-for="(date, index) in currentDateArray" :key="`date-${index}`" class="calendar_cell date">
+      <div v-for="(date, index) in currentDateArray" :key="`date-${index}`" class="calendar_cell date text-gray-80">
         {{ date }}
         <div class="calendar_marker" v-for="(item, index) in activityData[date]?.slice(0, 3)" :key="`${date}-${index}`">{{ item.ActivityName }}</div>
         <div v-if="activityData[date]?.length > 3">...</div>

@@ -790,6 +790,10 @@ video {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.flex-col {
+  flex-direction: column;
+}
+
 .items-center {
   align-items: center;
 }
@@ -897,14 +901,24 @@ video {
   font-weight: 600;
 }
 
+.text-primary {
+  --tw-text-opacity: 1;
+  color: rgb(8 166 187 / var(--tw-text-opacity));
+}
+
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.text-primary {
+.text-gray-blue {
   --tw-text-opacity: 1;
-  color: rgb(8 166 187 / var(--tw-text-opacity));
+  color: rgb(111 119 137 / var(--tw-text-opacity));
+}
+
+.text-gray-80 {
+  --tw-text-opacity: 1;
+  color: rgb(82 81 81 / var(--tw-text-opacity));
 }
 
 .opacity-0 {
@@ -933,6 +947,12 @@ video {
 
 .ease-in-out {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover\:scale-150:hover {
+  --tw-scale-x: 1.5;
+  --tw-scale-y: 1.5;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .focus\:outline-none:focus {
@@ -1245,6 +1265,16 @@ video {
   border-radius: 8px;
 }
 
+.btn.btn-transparent {
+  color: transparent;
+  background-color: transparent;
+  border: 2px solid transparent;
+}
+
+.btn.btn-transparent:hover {
+  background-color: rgb(203 203 203 / 0.5);
+}
+
 .btn.btn-outline {
   color: #08A6BB;
   background-color: white;
@@ -1375,6 +1405,7 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   --tw-shadow-color: rgb(49 49 49 / 0.5);
   --tw-shadow: var(--tw-shadow-colored);
+  height: 100%;
 }
 
 .card_body {
@@ -1383,9 +1414,13 @@ video {
 
 .card_title {
   margin-bottom: 0px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-weight: 700;
   --tw-text-opacity: 1;
   color: rgb(49 49 49 / var(--tw-text-opacity));
+  max-width: 60%;
 }
 
 .card_type {
@@ -1484,8 +1519,6 @@ video {
 .calendar_cell {
   padding: 0.5rem;
   text-align: left;
-  --tw-text-opacity: 1;
-  color: rgb(82 81 81 / var(--tw-text-opacity));
 }
 
 .calendar_cell.date {

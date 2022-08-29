@@ -223,6 +223,16 @@
   border-radius: 8px;
 }
 
+.btn.btn-transparent {
+  color: transparent;
+  background-color: transparent;
+  border: 2px solid transparent;
+}
+
+.btn.btn-transparent:hover {
+  @apply bg-gray-40/50;
+}
+
 .btn.btn-outline {
   color: #08A6BB;
   background-color: white;
@@ -279,6 +289,7 @@
 
 .card {
   @apply rounded-lg shadow-lg bg-white shadow-gray-100/50 overflow-hidden;
+  height: 100%;
 }
 
 .card_body {
@@ -286,7 +297,8 @@
 }
 
 .card_title {
-  @apply text-gray-100 font-bold mb-0;
+  @apply text-gray-100 font-bold mb-0 truncate;
+  max-width: 60%;
 }
 
 .card_type {
@@ -360,7 +372,7 @@
 }
 
 .calendar_cell {
-  @apply p-2 text-left text-gray-80;
+  @apply p-2 text-left;
 }
 
 .calendar_cell.date {
