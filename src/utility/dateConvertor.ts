@@ -1,11 +1,11 @@
-export default function (dateObj: Date | number[]): string {
+export default function (dateObj: Date | number[], separator = '-'): string {
   const isDate = dateObj instanceof Date;
 
   const year = isDate ? dateObj.getFullYear() : dateObj[0];
   const month = isDate ? dateObj.getMonth() + 1 : dateObj[1] + 1;
   const date = isDate ? dateObj.getDate() : dateObj[2];
 
-  return `${year}-${month.toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`;
+  return `${year}${separator}${month.toString().padStart(2, '0')}${separator}${date.toString().padStart(2, '0')}`;
 }
 
 export function extractDateRangeStr(str: string): string {

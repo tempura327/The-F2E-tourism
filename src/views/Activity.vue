@@ -67,7 +67,7 @@
       const scriptTag = document.createElement('script');
 
       scriptTag.src = 'https://apis.google.com/js/api.js';
-
+      scriptTag.fetchpriority = 'high';
       scriptTag.id = 'gapi-script';
 
       // append script tag into head tag
