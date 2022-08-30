@@ -28,8 +28,11 @@ module.exports = {
       h5: '16px',
       h6: '12px',
     },
-
-    extend: {},
+    extend: {
+      screens: {
+        xs: '414px',
+      },
+    },
   },
   plugins: [],
 };
