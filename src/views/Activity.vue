@@ -61,22 +61,9 @@
 
       this.queryActivity(firstDateStr, lastDateStr);
     }
-    mounted(): void {
-      if (document.getElementById('gapi-script')) return; // if script has been loaded, return.
-
-      const scriptTag = document.createElement('script');
-
-      scriptTag.src = 'https://apis.google.com/js/api.js';
-      scriptTag.fetchpriority = 'high';
-      scriptTag.id = 'gapi-script';
-
-      // append script tag into head tag
-      document.getElementsByTagName('head')[0].appendChild(scriptTag);
-
-      setTimeout(() => {
-        // eslint-disable-next-line no-undef
-        gapi.load('client', this.start);
-      }, 200);
+    updated(): void {
+      // eslint-disable-next-line no-undef
+      gapi.load('client', this.clientInit);
     }
 
     // methods
@@ -158,7 +145,7 @@
 
       return new RegExp(yearMonth).test(JSON.stringify(this.map));
     }
-    start(): void {
+    clientInit(): void {
       // 2. Initialize the JavaScript client library.
       // eslint-disable-next-line no-undef
       gapi.client

@@ -28,6 +28,19 @@
     isScrollBottom = true;
     isFixed = false;
 
+    // hooks
+    mounted(): void {
+      if (document.getElementById('gapi-script')) return; // if script has been loaded, return.
+
+      const scriptTag = document.createElement('script');
+
+      scriptTag.src = 'https://apis.google.com/js/api.js';
+      scriptTag.id = 'gapi-script';
+
+      // append script tag into head tag
+      document.getElementsByTagName('head')[0].appendChild(scriptTag);
+    }
+
     // methods
     scrollTopDown(): void {
       const distance = document.documentElement.scrollTop < document.documentElement.scrollHeight - window.innerHeight;
