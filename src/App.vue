@@ -1,9 +1,9 @@
 <template>
-  <div id="app" :class="{ fix: isFixed }">
+  <div id="app">
     <Header></Header>
     <router-view></router-view>
 
-    <div class="scroll-button" :class="isScrollBottom ? 'scroll-button' : 'scroll-button-top'" @click="scrollTopDown"></div>
+    <!-- <div class="scroll-button" :class="isScrollBottom ? 'scroll-button' : 'scroll-button-top'" @click="scrollTopDown"></div> -->
 
     <Footer></Footer>
   </div>
@@ -25,8 +25,8 @@
     // props
 
     // data
-    isScrollBottom = true;
-    isFixed = false;
+    // isScrollBottom = true;
+    // isFixed = false;
 
     // hooks
     mounted(): void {
@@ -42,22 +42,26 @@
     }
 
     // methods
-    scrollTopDown(): void {
-      const distance = document.documentElement.scrollTop < document.documentElement.scrollHeight - window.innerHeight;
-      let top =
-        document.documentElement.scrollTop < document.documentElement.scrollHeight - window.innerHeight
-          ? document.documentElement.scrollHeight - window.innerHeight
-          : 0;
-      this.isScrollBottom = document.documentElement.scrollTop < document.documentElement.scrollHeight - window.innerHeight;
+    // scrollTopDown(): void {
+    //   const distance = document.documentElement.scrollTop < document.documentElement.scrollHeight - window.innerHeight;
+    //   let top =
+    //     document.documentElement.scrollTop < document.documentElement.scrollHeight - window.innerHeight
+    //       ? document.documentElement.scrollHeight - window.innerHeight
+    //       : 0;
+    //   this.isScrollBottom = document.documentElement.scrollTop < document.documentElement.scrollHeight - window.innerHeight;
 
-      window.scrollTo({
-        top: top,
-        left: 0,
-        behavior: 'smooth',
-      });
+    //   window.scrollTo({
+    //     top: top,
+    //     left: 0,
+    //     behavior: 'smooth',
+    //   });
+    // }
+
+    // watch
+    @Watch('$store.state.isModalShow')
+    modalShowWatch(): void {
+      this.$el.parentElement?.classList.toggle('overflow-hidden');
     }
-
-    //watch
   }
 </script>
 
