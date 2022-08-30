@@ -54,6 +54,7 @@ export declare type activity = {
     PositionLat: number;
     PositionLon: number;
   };
+  WebUrl?: string;
   SrcUpdateTime: string;
   StartTime: string;
   UpdateTime: string;
