@@ -48,7 +48,7 @@
       </div>
     </template>
 
-    <Tooltip :isShow="isTooltipSHow" :position="position">
+    <SimpleModal :isShow="isTooltipSHow">
       <template #control>
         <div class="flex mb-2">
           <button class="">
@@ -96,7 +96,7 @@
         <hr class="my-3" v-if="info.Description" />
         <h4 class="text-h5 text-gray-80">{{ info.Description }}</h4>
       </section>
-    </Tooltip>
+    </SimpleModal>
   </div>
 </template>
 
@@ -104,7 +104,7 @@
   import { Component, Vue, Prop } from 'vue-property-decorator';
 
   import Spinner from '@/components/Spinner.vue';
-  import Tooltip from '@/components/Tooltip.vue';
+  import SimpleModal from '@/components/SimpleModal.vue';
   import Gallery from '@/components/Gallery.vue';
 
   import dateConvertor, { extractDateRangeStr } from '@/utility/dateConvertor';
@@ -113,7 +113,7 @@
   @Component({
     components: {
       Spinner,
-      Tooltip,
+      SimpleModal,
       Gallery,
     },
   })

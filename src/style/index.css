@@ -939,10 +939,6 @@ video {
   opacity: 0;
 }
 
-.outline {
-  outline-style: solid;
-}
-
 .filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
@@ -1462,38 +1458,59 @@ video {
 }
 
 .modal {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: fixed;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6);
+  width: 100vw;
+  background-color: rgb(49 49 49 / 0.5);
+  top: 0;
+  left: 0;
 }
 
-.modal_dialog {
-  width: 80%;
+.modal_body {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
   border-radius: 0.25rem;
-  padding: 16px;
-  background: #fff;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  padding: 2rem;
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  --tw-shadow-color: rgb(82 81 81 / 0.3);
+  --tw-shadow: var(--tw-shadow-colored);
+  z-index: 100;
+  max-height: 80vh;
 }
 
-.modal_dialog_title {
-  color: #6f7789;
-  border-bottom: 1px solid #ccc;
+.modal_body.lg {
+  width: 80%;
 }
 
-.picture_frame-small {
-  height: 150px;
+.modal_body.md {
+  width: 60%;
 }
 
-.picture_frame-big {
-  height: 320px;
+.modal_body.sm {
+  width: 40%;
 }
 
-.picture_frame-small,  .picture_frame-big {
-  overflow: hidden;
+.modal-show {
+  position: fixed;
+  top: 10%;
+}
+
+.modal-show.lg {
+  left: 10%;
+}
+
+.modal-show.md {
+  left: 20%;
+}
+
+.modal-show.sm {
+  left: 30%;
 }
 
 .group {

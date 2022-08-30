@@ -312,33 +312,44 @@
 }
 
 .modal {
-  @apply flex justify-center items-center absolute top-0 left-0;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6);
+  @apply w-screen h-screen bg-gray-100/50 fixed;
+  top: 0;
+  left: 0;
 }
 
-.modal_dialog {
-  width: 80%;
-  border-radius: 0.25rem;
-  padding: 16px;
-  background: #fff;
+.modal_body {
+  @apply absolute flex flex-col p-8 rounded bg-white shadow-lg shadow-gray-80/30 overflow-y-auto;
+  z-index: 100;
+  max-height: 80vh;
 }
 
-.modal_dialog_title {
-  color: #6f7789;
-  border-bottom: 1px solid #ccc;
+.modal_body.lg {
+  @apply w-4/5;
 }
 
-.picture_frame-small {
-  height: 150px;
+.modal_body.md {
+  @apply w-3/5;
 }
 
-.picture_frame-big {
-  height: 320px;
+.modal_body.sm {
+  @apply w-2/5;
 }
 
-.picture_frame-small, .picture_frame-big {
-  @apply overflow-hidden;
+.modal-show {
+  @apply fixed;
+  top: 10%;
+}
+
+.modal-show.lg {
+  left: 10%;
+}
+
+.modal-show.md {
+  left: 20%;
+}
+
+.modal-show.sm {
+  left: 30%;
 }
 
 .group {
