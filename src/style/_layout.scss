@@ -70,7 +70,12 @@
             @apply text-primary font-bold;
         }        
     }
+
+    &_avatar{
+        @apply w-10 h-10 rounded-full overflow-hidden cursor-pointer;
+    }
 }
+
 
 
 .footer {
@@ -80,15 +85,4 @@
 }
 
 // -------------------------spacing-------------------------------
-.no-more-word{
-    @apply overflow-hidden text-ellipsis whitespace-nowrap;
-}
-
-// @include spacingHelper(10, 'm', 'margin');
-// @include spacingHelper(10, 'mb', 'margin-bottom');
-// @include spacingHelper(10, 'mt', 'margin-top');
-
-// @include spacingHelper(10, 'p', 'padding');
-// @include spacingHelper(10, 'px', 'padding');
-// @include spacingHelper(10, 'py', 'padding');
 

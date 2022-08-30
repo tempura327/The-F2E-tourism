@@ -5,15 +5,21 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    attraction: [],
-    activiry: [],
+    currentUser: {
+      firstName: '',
+      lastName: '',
+      mail: '',
+      avatar: '',
+      isLogin: undefined as boolean | undefined,
+    },
   },
   mutations: {
-    setAttractionData(state, data) {
-      state.attraction = data;
-    },
-    setActivityData(state, data) {
-      state.activiry = data;
+    setCurrentUser(state, data: { firstName: string; lastName: string; mail: string; avatar: string; isLogin: boolean }): void {
+      state.currentUser.firstName = data.firstName;
+      state.currentUser.lastName = data.lastName;
+      state.currentUser.mail = data.mail;
+      state.currentUser.avatar = data.avatar;
+      state.currentUser.isLogin = data.isLogin;
     },
   },
   actions: {},

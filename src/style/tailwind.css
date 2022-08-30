@@ -191,14 +191,14 @@
   @apply text-primary font-bold;
 }
 
+.nav_avatar {
+  @apply w-10 h-10 rounded-full overflow-hidden cursor-pointer;
+}
+
 .footer {
   height: 120px;
   line-height: 120px;
   @apply bg-primary text-white text-center font-bold;
-}
-
-.no-more-word {
-  @apply overflow-hidden text-ellipsis whitespace-nowrap;
 }
 
 .btn {

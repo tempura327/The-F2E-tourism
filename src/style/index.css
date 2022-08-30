@@ -885,8 +885,8 @@ video {
   text-align: center;
 }
 
-.text-h3 {
-  font-size: 24px;
+.text-h4 {
+  font-size: 20px;
 }
 
 .text-h2 {
@@ -899,10 +899,6 @@ video {
 
 .text-h1 {
   font-size: 30px;
-}
-
-.text-h4 {
-  font-size: 20px;
 }
 
 .font-bold {
@@ -1255,6 +1251,14 @@ video {
   color: rgb(8 166 187 / var(--tw-text-opacity));
 }
 
+.nav_avatar {
+  height: 2.5rem;
+  width: 2.5rem;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 9999px;
+}
+
 .footer {
   height: 120px;
   line-height: 120px;
@@ -1264,12 +1268,6 @@ video {
   font-weight: 700;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.no-more-word {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .btn {
