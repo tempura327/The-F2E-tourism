@@ -252,3 +252,19 @@
         transform:rotate(360deg);
     }
 }
+
+// -------------------------tooltip-------------------------------
+
+.tooltip {
+    @apply bg-white rounded p-2 absolute;
+
+    outline: 1px solid #CBCBCB;
+
+    &_body {
+        @apply flex flex-col;
+
+        &_close{
+            @apply text-gray-80 ml-auto mb-2 hover:scale-150 cursor-pointer;
+        }
+    }
+}

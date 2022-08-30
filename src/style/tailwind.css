@@ -434,5 +434,18 @@
   }
 }
 
+.tooltip {
+  @apply bg-white rounded p-2 absolute;
+  outline: 1px solid #CBCBCB;
+}
+
+.tooltip_body {
+  @apply flex flex-col;
+}
+
+.tooltip_body_close {
+  @apply text-gray-80 ml-auto mb-2 hover:scale-150 cursor-pointer;
+}
+
 /* @tailwind ; */
 /*# sourceMappingURL=tailwind.css.map */
