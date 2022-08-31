@@ -32,13 +32,14 @@
     mounted(): void {
       if (document.getElementById('gapi-script')) return; // if script has been loaded, return.
 
-      const scriptTag = document.createElement('script');
+      const gsiScriptTag = document.createElement('script');
 
-      scriptTag.src = 'https://apis.google.com/js/api.js';
-      scriptTag.id = 'gapi-script';
+      // new api. the old one will be deprecated in March 2023.
+      gsiScriptTag.src = 'https://accounts.google.com/gsi/client';
+      gsiScriptTag.id = 'gsi-script';
 
       // append script tag into head tag
-      document.getElementsByTagName('head')[0].appendChild(scriptTag);
+      document.getElementsByTagName('head')[0].appendChild(gsiScriptTag);
     }
 
     // methods
@@ -68,9 +69,5 @@
 <style lang="scss">
   #app {
     font-family: Arial, Helvetica, sans-serif;
-  }
-
-  .fix {
-    position: fixed;
   }
 </style>
