@@ -40,63 +40,15 @@
           class="calendar_marker"
           v-for="(item, index) in activityData[date]?.slice(0, 3)"
           :key="`${date}-${index}`"
-          @click="onMarkerClick($event.target, item)">
+          @click="onMarkerClick(item, activityData[date])">
           {{ item.ActivityName }}
         </div>
 
-        <div v-if="activityData[date]?.length > 3" class="cursor-pointer" @click="showMoreActivity($event.target, activityData[date])">...</div>
+        <div v-if="activityData[date]?.length > 3" class="mt-3" @click="showMoreActivity(activityData[date])">
+          <font-awesome-icon class="text-gray-80 cursor-pointer hover:scale-125" icon="ellipsis" />
+        </div>
       </div>
     </template>
-
-    <SimpleModal :isShow="isTooltipSHow">
-      <template #control>
-        <div class="flex mb-2">
-          <button class="">
-            <font-awesome-icon v-show="isActivitySelected" class="text-gray-80 ml-auto mb-2 hover:scale-150 cursor-pointer" icon="angle-left" />
-          </button>
-
-          <button class="ml-auto" @click="isTooltipSHow = !isTooltipSHow">
-            <font-awesome-icon class="text-gray-80 ml-auto mb-2 hover:scale-150 cursor-pointer" icon="xmark" />
-          </button>
-        </div>
-      </template>
-
-      <div class="grid gap-2 grid-cols-2" v-if="!isActivitySelected">
-        <div
-          class="calendar_marker"
-          v-for="(item, index) in selectedDateActivity"
-          :key="`selected-${index}`"
-          @click="onMarkerClick($event.target, item)">
-          {{ item.ActivityName }}
-        </div>
-      </div>
-
-      <section class="flex flex-col" v-else>
-        <!-- if activity is added to google calendar show this. -->
-        <!-- <button> -->
-        <!-- <font-awesome-icon class="text-primary ml-auto mb-2 hover:scale-150 cursor-pointer" :icon="['fas', 'bookmark']" /> -->
-        <!-- </button> -->
-
-        <div class="flex items-center">
-          <button class="mr-2">
-            <font-awesome-icon class="text-primary text-h4 ml-auto mb-2 hover:scale-125 cursor-pointer" :icon="['far', 'bookmark']" />
-          </button>
-
-          <h2 class="text-h2 text-gray-80 font-bold mb-4">
-            {{ info.ActivityName }}
-            <span class="text-h5">/ {{ info.Class1 || '未分類' }}</span>
-          </h2>
-        </div>
-
-        <Gallery :images="images" galleryClass="mb-4"></Gallery>
-
-        <h4 class="text-h5 text-gray-80 mb-2">{{ extractDateRangeStr(`${info.StartTime}~${info.EndTime}`) }}</h4>
-        <h4 class="text-h5 text-gray-80 mb-2">{{ info.Address }}</h4>
-        <h4 class="text-h5 text-gray-80 mb-2">{{ info.Phone }}</h4>
-        <hr class="my-3" v-if="info.Description" />
-        <h4 class="text-h5 text-gray-80">{{ info.Description }}</h4>
-      </section>
-    </SimpleModal>
   </div>
 </template>
 
@@ -129,13 +81,11 @@
 
     // data
     extractDateRangeStr = extractDateRangeStr;
-    isTooltipSHow = false;
-    isActivitySelected = false;
     weekDayArray = ['日', '一', '二', '三', '四', '五', '六'];
     todayDateObj = new Date();
     today = {
       year: this.todayDateObj.getFullYear(),
-      month: this.todayDateObj.getMonth(), // 7
+      month: this.todayDateObj.getMonth(),
       date: this.todayDateObj.getDate(),
     };
     current: current = {
@@ -162,9 +112,6 @@
       StartTime: '',
       UpdateTime: '',
     };
-    position = [0, 0];
-    selectedDateActivity: activity[] = [];
-    images: string[] = [];
 
     // hook
     created(): void {
@@ -205,44 +152,17 @@
 
       this.$emit('onCurrentChange', this.current);
     }
-    onMarkerClick(ele: HTMLElement, data: activity): void {
-      this.info = data;
-      this.images = Object.values(data.Picture).filter((d: string) => d.startsWith('https'));
-
-      this.position = [ele.offsetTop + 20, ele.offsetLeft];
-      this.isActivitySelected = true;
-      this.isTooltipSHow = true;
-
-      this.$emit('onMarkerClick', data);
+    onMarkerClick(data: activity, list: activity[]): void {
+      this.$emit('onMarkerClick', {
+        data,
+        list,
+      });
     }
-    showMoreActivity(ele: HTMLElement, data: activity[]): void {
-      this.selectedDateActivity = data;
-      this.position = [ele.offsetTop + 20, ele.offsetLeft];
-
-      this.isTooltipSHow = !this.isTooltipSHow;
+    onBookmarkClick(): void {
+      this.$emit('onBookmarkClick', this.info);
     }
-    clearSelectedActivity(): void {
-      console.log('clear');
-      this.info = {
-        ActivityID: '',
-        ActivityName: '',
-        City: '',
-        Description: '',
-        EndTime: '',
-        Location: '',
-        Organizer: '',
-        Picture: {},
-        Position: {
-          GeoHash: '',
-          PositionLat: 0,
-          PositionLon: 0,
-        },
-        SrcUpdateTime: '',
-        StartTime: '',
-        UpdateTime: '',
-      };
-
-      this.isActivitySelected = !this.isActivitySelected;
+    showMoreActivity(data: activity[]): void {
+      this.$emit('onMoreClick', data);
     }
 
     // computed

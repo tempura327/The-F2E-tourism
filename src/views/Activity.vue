@@ -15,9 +15,64 @@
       <div class="col">
         <SearchBar className="mb-4" :options="searchOption" :defaultType="''" :isSelectorShow="true" @searchClick="searchActivity"></SearchBar>
 
-        <Calendar :isLoading="isLoading" :activityData="map" @onCurrentChange="onCurrentChange"></Calendar>
+        <Calendar
+          :isLoading="isLoading"
+          :activityData="map"
+          @onCurrentChange="onCurrentChange"
+          @onMarkerClick="showModal"
+          @onMoreClick="showMoreActivity"></Calendar>
       </div>
     </div>
+
+    <SimpleModal :isShow="isModalShow">
+      <template #control>
+        <div class="flex mb-2">
+          <button class="" @click="clearSelectedActivity">
+            <font-awesome-icon v-show="isActivitySelected" class="text-gray-80 ml-auto mb-2 hover:scale-150 cursor-pointer" icon="angle-left" />
+          </button>
+
+          <button class="ml-auto" @click="closeModal">
+            <font-awesome-icon class="text-gray-80 ml-auto mb-2 hover:scale-150 cursor-pointer" icon="xmark" />
+          </button>
+        </div>
+      </template>
+
+      <!-- level1. activity list -->
+      <div class="grid gap-2 grid-cols-2" v-if="!isActivitySelected">
+        <div
+          class="calendar_marker"
+          v-for="(item, index) in selectedDateActivity"
+          :key="`selected-${index}`"
+          @click="showModal({ data: item, list: selectedDateActivity })">
+          {{ item.ActivityName }}
+        </div>
+      </div>
+
+      <!-- level2. activity detail -->
+      <section class="flex flex-col" v-else>
+        <div class="flex items-center">
+          <button class="mr-2" @click="insertToGoogleCalendar" :disabled="userCalendarActivity.includes(info.ActivityName)">
+            <font-awesome-icon
+              class="text-primary text-h4 ml-auto mb-2"
+              :class="{ 'hover:scale-125 cursor-pointer': !userCalendarActivity.includes(info.ActivityName) }"
+              :icon="[userCalendarActivity.includes(info.ActivityName) ? 'fas' : 'far', 'bookmark']" />
+          </button>
+
+          <h2 class="text-h2 text-gray-80 font-bold mb-4">
+            {{ info.ActivityName }}
+            <span class="text-h5">/ {{ info.Class1 || '未分類' }}</span>
+          </h2>
+        </div>
+
+        <Gallery :images="images" galleryClass="mb-4"></Gallery>
+
+        <h4 class="text-h5 text-gray-80 mb-2">{{ extractDateRangeStr(`${info.StartTime}~${info.EndTime}`) }}</h4>
+        <h4 class="text-h5 text-gray-80 mb-2">{{ info.Address }}</h4>
+        <h4 class="text-h5 text-gray-80 mb-2">{{ info.Phone }}</h4>
+        <hr class="my-3" v-if="info.Description" />
+        <h4 class="text-h5 text-gray-80">{{ info.Description }}</h4>
+      </section>
+    </SimpleModal>
   </div>
 </template>
 
@@ -26,9 +81,12 @@
 
   import Calendar from '@/components/Calendar.vue';
   import SearchBar from '@/components/SearchBar.vue';
+  import Spinner from '@/components/Spinner.vue';
+  import SimpleModal from '@/components/SimpleModal.vue';
+  import Gallery from '@/components/Gallery.vue';
 
   import query from '@/utility/queryHelper';
-  import dateConvertor from '@/utility/dateConvertor';
+  import dateConvertor, { extractDateRangeStr } from '@/utility/dateConvertor';
   import { current, activity, googleActivity } from '@/utility/type';
 
   import taiwanCity from '@/config/taiwanCity.json';
@@ -39,17 +97,23 @@
     components: {
       Calendar,
       SearchBar,
+      Spinner,
+      SimpleModal,
+      Gallery,
     },
   })
   export default class Activity extends Vue {
     // data
     isLoading = true;
+    isModalShow = false;
+    isActivitySelected = false;
     searchOption = taiwanCity;
+    extractDateRangeStr = extractDateRangeStr;
     baseUrl = `https://ptx.transportdata.tw/MOTC/v2/Tourism/Activity`;
     todayDateObj = new Date();
     today = {
       year: this.todayDateObj.getFullYear(),
-      month: this.todayDateObj.getMonth(), // 7
+      month: this.todayDateObj.getMonth(),
       date: this.todayDateObj.getDate(),
     };
     current: current = {
@@ -64,6 +128,26 @@
     clientInstance: any = undefined;
     accessToken = '';
     userCalendarActivity: googleActivity[] = []; // name of activities queried from google calendar
+    info: activity = {
+      ActivityID: '',
+      ActivityName: '',
+      City: '',
+      Description: '',
+      EndTime: '',
+      Location: '',
+      Organizer: '',
+      Picture: {},
+      Position: {
+        GeoHash: '',
+        PositionLat: 0,
+        PositionLon: 0,
+      },
+      SrcUpdateTime: '',
+      StartTime: '',
+      UpdateTime: '',
+    };
+    selectedDateActivity: activity[] = [];
+    images: string[] = [];
 
     // hooks
     created(): void {
@@ -223,6 +307,46 @@
         console.log(this.clientInstance);
       });
     }
+    showModal(data: { data: activity; list: activity[] }): void {
+      this.info = data.data;
+      this.images = Object.values(data.data.Picture).filter((d: string) => d.startsWith('https'));
+      this.selectedDateActivity = data.list;
+
+      this.isModalShow = true;
+      this.isActivitySelected = true;
+    }
+    showMoreActivity(data: activity[]): void {
+      this.selectedDateActivity = data;
+
+      this.isModalShow = !this.isModalShow;
+    }
+    closeModal(): void {
+      this.clearSelectedActivity();
+      this.isModalShow = !this.isModalShow;
+    }
+    clearSelectedActivity(): void {
+      console.log('clear');
+      this.info = {
+        ActivityID: '',
+        ActivityName: '',
+        City: '',
+        Description: '',
+        EndTime: '',
+        Location: '',
+        Organizer: '',
+        Picture: {},
+        Position: {
+          GeoHash: '',
+          PositionLat: 0,
+          PositionLon: 0,
+        },
+        SrcUpdateTime: '',
+        StartTime: '',
+        UpdateTime: '',
+      };
+
+      this.isActivitySelected = !this.isActivitySelected;
+    }
     async queryGoogleCalendar(): Promise<void> {
       await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events`, {
         method: 'GET',
@@ -241,6 +365,58 @@
           });
 
           console.log(this.userCalendarActivity);
+        });
+    }
+    async insertToGoogleCalendar(): Promise<void> {
+      if (!this.$store.state.currentUser.token) {
+        // eslint-disable-next-line no-undef
+        google.accounts.id.prompt();
+        return;
+      }
+
+      const { StartTime, EndTime, ActivityName, Address, Phone, Organizer } = this.info;
+
+      // start and end are required field.
+      const resource = {
+        summary: ActivityName,
+        description: `主辦單位: ${Organizer || '{不明)'}。電話: ${Phone || '(未提供)'}。(從The-F2E-tourism加入)`,
+        location: Address,
+        start: {
+          dateTime: StartTime,
+          timeZone: 'Asia/Taipei',
+        },
+        end: {
+          dateTime: EndTime,
+          timeZone: 'Asia/Taipei',
+        },
+        colorId: '2', // green
+        reminders: {
+          useDefault: false,
+          overrides: [
+            // The maximum number of override reminders is 5. if > 5, will get HTTP code 400.
+            { method: 'email', minutes: 24 * 60 },
+            { method: 'email', minutes: 12 * 60 },
+            { method: 'popup', minutes: 10 },
+          ],
+        },
+      };
+
+      // 400: Bad Request. User error. This can mean that a required field or parameter has not been provided, the value supplied is invalid, or the combination of provided fields is invalid.
+      // 401: Invalid Credentials. Invalid authorization header. The access token you're using is either expired or invalid.
+      await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?alt=json&key=AIzaSyB2bn-xLPTPVWMQeQmBxVaez5SWY9mmbX8`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(resource),
+      })
+        .then((d) => {
+          return d.json();
+        })
+        .then((d) => {
+          console.log(d);
+          this.queryGoogleCalendar();
         });
     }
   }
