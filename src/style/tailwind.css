@@ -293,17 +293,21 @@
 }
 
 .card_body {
-  @apply p-0;
+  @apply grid gap-y-2 p-4;
+  grid-template-rows: 2fr 3fr 2fr;
+}
+
+.card_body_top {
+  @apply grid items-center;
+  grid-template-columns: 4fr 2fr;
 }
 
 .card_title {
   @apply text-gray-100 font-bold mb-0 truncate;
-  max-width: 60%;
 }
 
 .card_type {
   @apply text-h6 text-gray-blue truncate mb-0;
-  max-width: 40%;
 }
 
 .card_img {

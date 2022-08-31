@@ -5,15 +5,17 @@
     </slot>
 
     <slot>
-      <div class="p-5">
-        <div class="flex items-center mb-4">
+      <div class="card_body">
+        <div class="card_body_top">
           <h2 class="card_title mr-3">{{ data.ScenicSpotName }}</h2>
-          <font-awesome-icon class="text-gray-blue ml-auto mr-2" :icon="['far', 'clock']" />
 
-          <h6 class="card_type">{{ type }}</h6>
+          <span class="card_type">
+            <font-awesome-icon class="text-gray-blue ml-auto mr-2" :icon="['far', 'clock']" />
+            {{ type }}
+          </span>
         </div>
 
-        <h4 class="flex items-center mb-4">
+        <h4 class="flex items-center">
           <font-awesome-icon class="text-primary mr-2" icon="location-dot" />
 
           <span class="no-more-word">{{ data.Address }}</span>
