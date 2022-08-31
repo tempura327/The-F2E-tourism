@@ -29,9 +29,11 @@
 
   import query from '@/utility/queryHelper';
   import dateConvertor from '@/utility/dateConvertor';
-  import { current, activity } from '@/utility/type';
+  import { current, activity, googleActivity } from '@/utility/type';
 
   import taiwanCity from '@/config/taiwanCity.json';
+
+  import { decodeJwt } from 'jose';
 
   @Component({
     components: {
@@ -50,20 +52,61 @@
       month: this.todayDateObj.getMonth(), // 7
       date: this.todayDateObj.getDate(),
     };
+    current: current = {
+      endDateObj: undefined,
+      month: 0,
+      startDateObj: undefined,
+      year: 0,
+    };
     activityData: activity[] = [];
     map: { [key: string]: activity[] } = {};
+    // below are used to interact with google calendar.
+    clientInstance: any = undefined;
+    accessToken = '';
+    userCalendarActivity: googleActivity[] = []; // name of activities queried from google calendar
 
     // hooks
     created(): void {
+      this.current = JSON.parse(JSON.stringify(this.today));
       const { year: currentYear, month: currentMonth } = this.today;
       const firstDateStr = dateConvertor(new Date(currentYear, currentMonth, 1));
       const lastDateStr = dateConvertor(new Date(currentYear, currentMonth + 1, 0));
 
       this.queryActivity(firstDateStr, lastDateStr);
     }
-    updated(): void {
+    mounted(): void {
       // eslint-disable-next-line no-undef
-      gapi.load('client', this.clientInit);
+      window.onGoogleLibraryLoad = () => {
+        // eslint-disable-next-line no-undef
+        google.accounts.id.initialize({
+          client_id: '554869584316-335mdko65uc6jqjefjf1djh06hcvi8mb.apps.googleusercontent.com',
+          callback: (d: { credential: string }) => {
+            this.accessToken = d.credential;
+            const userData = decodeJwt(d.credential);
+
+            this.$store.commit('setCurrentUser', {
+              firstName: userData.given_name,
+              lastName: userData.family_name,
+              mail: userData.email,
+              avatar: userData.picture,
+              token: d.credential,
+            });
+            this.initClient();
+          },
+        });
+
+        // eslint-disable-next-line no-undef
+        google.accounts.id.renderButton(document.querySelector('.auth'), {
+          type: 'icon',
+          theme: 'outline', // default style
+          text: '登入',
+          shape: 'circle',
+        });
+
+        // You can cancel the One Tap flow if you remove the prompt from the relying party DOM
+        // eslint-disable-next-line no-undef
+        google.accounts.id.cancel();
+      };
     }
 
     // methods
@@ -100,7 +143,7 @@
       }
     }
     mappingActivity(data: activity[]): void {
-      const { year, month } = this.today;
+      const { year, month } = this.current;
 
       const lastDate = new Date(year, month + 1, 0).getDate();
 
@@ -130,6 +173,7 @@
       return `${res}&%24orderby=StartTime%20ASC&%24format=JSON`;
     }
     onCurrentChange(current: current): void {
+      this.current = current;
       const { startDateObj, endDateObj } = current;
 
       const firstDateStr = dateConvertor(startDateObj as Date);
@@ -145,136 +189,59 @@
 
       return new RegExp(yearMonth).test(JSON.stringify(this.map));
     }
-    clientInit(): void {
+    initClient(): void {
       // 2. Initialize the JavaScript client library.
       // eslint-disable-next-line no-undef
-      gapi.client
-        .init({
-          apiKey: 'AIzaSyB2bn-xLPTPVWMQeQmBxVaez5SWY9mmbX8',
-          discoveryDocs: [
-            'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
-            // 'https://www.googleapis.com/calendar/v3/calendars/korq6lo6fjvrdt5hpoukhr0gjc@group.calendar.google.com/events',
-          ],
-          // clientId and scope are optional if auth is not required.
-          clientId: '554869584316-335mdko65uc6jqjefjf1djh06hcvi8mb.apps.googleusercontent.com',
-          scope: 'https://www.googleapis.com/auth/calendar',
-        })
-        .then(() => {
-          // eslint-disable-next-line no-undef
-          const authInstance = gapi.auth2.getAuthInstance();
-          const isSignedIn = authInstance.isSignedIn.get();
+      this.clientInstance = google.accounts.oauth2.initTokenClient({
+        client_id: '554869584316-335mdko65uc6jqjefjf1djh06hcvi8mb.apps.googleusercontent.com',
+        scope: 'https://www.googleapis.com/auth/calendar',
+        callback: (tokenResponse: {
+          access_token: string;
+          authuser: string;
+          expires_in: number;
+          prompt: string;
+          scope: string;
+          token_type: string;
+        }) => {
+          this.accessToken = tokenResponse.access_token;
+          console.log(`token: ${this.accessToken}`);
+          this.queryGoogleCalendar();
 
-          authInstance.isSignedIn.listen(this.updateSigninStatus);
-
-          // if (!isSignedIn) {
-          //   authInstance.signIn();
-          // } else {
-          //   this.$store.commit('setCurrentUser', {
-          //     firstName: authInstance.currentUser.wb.qv.vZ,
-          //     lastName: authInstance.currentUser.wb.qv.IX,
-          //     mail: authInstance.currentUser.wb.qv.cw,
-          //     avatar: authInstance.currentUser.wb.qv.EO,
-          //     isLogin: true,
-          //   });
-          // }
-
-          if (isSignedIn) {
-            this.$store.commit('setCurrentUser', {
-              firstName: authInstance.currentUser.wb.qv.vZ,
-              lastName: authInstance.currentUser.wb.qv.IX,
-              mail: authInstance.currentUser.wb.qv.cw,
-              avatar: authInstance.currentUser.wb.qv.EO,
-              isLogin: true,
-            });
-          } else {
-            this.$store.commit('setCurrentUser', {
-              firstName: '',
-              lastName: '',
-              mail: '',
-              avatar: '',
-              isLogin: false,
-            });
-          }
-
-          // if isSignedIn is true show user name, else show login button.
-          this.updateSigninStatus(authInstance.isSignedIn.get());
-        })
-        .catch((e: any) => {
-          console.log(`start1 failed. ${e.message}`);
-        });
-    }
-    updateSigninStatus(isSignedIn: boolean): void {
-      // eslint-disable-next-line no-undef
-      const currentUser = gapi.auth2.getAuthInstance().currentUser.wb.qv;
-
-      if (isSignedIn) {
-        this.$store.commit('setCurrentUser', {
-          firstName: currentUser.vZ,
-          lastName: currentUser.IX,
-          name: isSignedIn ? currentUser.yf : '',
-          mail: isSignedIn ? currentUser.cw : '',
-          avatar: isSignedIn ? currentUser.EO : '',
-          isLogin: isSignedIn,
-        });
-      } else {
-        this.$store.commit('setCurrentUser', {
-          firstName: '',
-          lastName: '',
-          mail: '',
-          avatar: '',
-          isLogin: false,
-        });
-      }
-    }
-    handleAuthClick() {
-      // eslint-disable-next-line no-undef
-      gapi.auth2.getAuthInstance().signIn();
-    }
-    handleSignoutClick() {
-      // eslint-disable-next-line no-undef
-      gapi.auth2.getAuthInstance().signOut();
-    }
-    insertEvents() {
-      const now = new Date();
-
-      const startDate = dateConvertor(new Date(Number(now) + 24 * 60 * 60 * 1000));
-      const endDate = dateConvertor(new Date(Number(now) + 2 * 24 * 60 * 60 * 1000));
-
-      const resource = {
-        summary: 'this is test.222',
-        description: `test. ${startDate}`,
-        location: 'Taipei',
-        start: {
-          dateTime: startDate,
-          timeZone: 'Asia/Taipei',
+          return this.accessToken;
         },
-        end: {
-          dateTime: endDate,
-          timeZone: 'Asia/Taipei',
-        },
-        reminders: {
-          useDefault: false,
-          overrides: [
-            { method: 'email', minutes: 12 * 60 },
-            { method: 'email', minutes: 5 * 60 },
-            { method: 'email', minutes: 4 * 60 },
-            { method: 'email', minutes: 3 * 60 },
-            { method: 'email', minutes: 2 * 60 },
-            { method: 'email', minutes: 1 * 60 },
-            { method: 'popup', minutes: 10 },
-          ],
-        },
-      };
-
-      // eslint-disable-next-line no-undef
-      const request = gapi.client.calendar.events.insert({
-        calendarId: 'primary',
-        resource,
       });
 
-      request.execute(function (resp: any) {
-        console.log(resp);
+      this.getToken();
+    }
+    getToken(): void {
+      this.clientInstance.requestAccessToken();
+    }
+    revokeToken() {
+      // eslint-disable-next-line no-undef
+      google.accounts.oauth2.revoke(this.accessToken, () => {
+        console.log('access token revoked');
+        console.log(this.clientInstance);
       });
+    }
+    async queryGoogleCalendar(): Promise<void> {
+      await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`,
+        },
+      })
+        .then((d) => {
+          return d.json();
+        })
+        .then((d) => {
+          this.userCalendarActivity = d.items.map((i: googleActivity) => {
+            if (i.description?.includes('從The-F2E-tourism加入')) {
+              return i.summary;
+            }
+          });
+
+          console.log(this.userCalendarActivity);
+        });
     }
   }
 </script>

@@ -50,15 +50,9 @@
     </div>
 
     <ul class="flex">
-      <li class="mr-14" v-if="isAvatarShow">
-        <Spinner size="sm" v-if="isLoading"></Spinner>
-
-        <img v-else-if="!isLoading && avatar" :src="avatar" class="nav_avatar" alt="" @click="toggleToolTip($event.target)" />
-        <button class="btn" v-else @click="signIn">登入</button>
-
-        <Tooltip :isShow="isTooltipShow" :position="position" @onCloseClick="isTooltipShow = false">
-          <button class="btn btn-block" @click="signOut">登出</button>
-        </Tooltip>
+      <li class="nav_item mr-14" v-show="isSignInShow">
+        <button class="auth" ref="auth" v-show="!$store.state.currentUser.token">登入</button>
+        <img :src="avatar" alt="" class="nav_avatar" v-show="$store.state.currentUser.token" />
       </li>
 
       <li class="nav_item mr-14">
@@ -93,7 +87,7 @@
     // data
     isLoading = true;
     isTooltipShow = false;
-    isAvatarShow = false;
+    isSignInShow = false;
     position = [0, 0];
     avatar = '';
 
@@ -102,22 +96,13 @@
       this.position = [ele.offsetTop + ele.offsetHeight + 2, ele.offsetLeft - ele.offsetWidth / 3];
       this.isTooltipShow = !this.isTooltipShow;
     }
-    signIn(): void {
-      // eslint-disable-next-line no-undef
-      gapi.auth2.getAuthInstance().signIn();
-    }
-    signOut(): void {
-      // eslint-disable-next-line no-undef
-      gapi.auth2.getAuthInstance().signOut();
-      this.isTooltipShow = false;
-    }
 
     // watch
-    @Watch('$store.state.currentUser.isLogin', { deep: true })
-    isLoginWatch(newVal: boolean): void {
+    @Watch('$store.state.currentUser.token', { deep: true })
+    isLoginWatch(newVal: string): void {
       this.isLoading = newVal === undefined;
 
-      if (newVal) {
+      if (newVal.length > 0) {
         this.avatar = this.$store.state.currentUser.avatar;
       } else {
         this.avatar = '';
@@ -125,7 +110,7 @@
     }
     @Watch('$route.fullPath', { deep: true, immediate: true })
     routerWatch(newVal: string): void {
-      this.isAvatarShow = newVal.includes('activity');
+      this.isSignInShow = newVal.includes('activity');
     }
   }
 </script>

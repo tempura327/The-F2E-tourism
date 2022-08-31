@@ -59,3 +59,23 @@ export declare type activity = {
   StartTime: string;
   UpdateTime: string;
 };
+
+export declare type googleActivity = {
+  created: string;
+  creator: { email: string; self: boolean };
+  end: { dateTime: string; timeZone: string };
+  etag: string;
+  description?: string;
+  eventType: string;
+  htmlLink: string;
+  iCalUID: string;
+  id: string;
+  kind: string;
+  organizer: { email: string; self: boolean };
+  reminders: { useDefault: boolean; overrides: { method: string; minutes: number }[] };
+  sequence: number;
+  start: { dateTime: string; timeZone: string };
+  status: string;
+  summary: string;
+  updated: string;
+};
