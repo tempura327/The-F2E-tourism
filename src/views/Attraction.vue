@@ -11,14 +11,20 @@
       </div>
     </div>
 
-    <div class="row mb-32">
-      <div :class="mapClass.map">
-        <SearchBar className="mb-4" :options="searchOption" :isSelectorShow="true" @searchClick="searchAttraction"></SearchBar>
+    <div class="row mb-4">
+      <SearchBar
+        :className="['mb-4 duration-700', isMapExpanded ? 'w-full' : 'w-2/4']"
+        :options="searchOption"
+        :isSelectorShow="true"
+        @searchClick="searchAttraction"></SearchBar>
+    </div>
 
+    <div class="flex flex-wrap mb-32">
+      <div :class="mapClass.map">
         <div id="map" class="rounded"></div>
       </div>
 
-      <div :class="mapClass.info">
+      <div :class="mapClass.info" ref="attractionInfo">
         <section class="info flex flex-col bg-gray-80 text-white rounded overflow-y-auto p-4">
           <font-awesome-icon class="text-white ml-auto mb-2 hover:scale-150 cursor-pointer" icon="xmark" @click="isMapExpanded = true" />
           <h2 class="text-h2 text-white font-bold mb-2">{{ info.ScenicSpotName }}</h2>
@@ -254,6 +260,16 @@
           }
 
           this.images = Object.values(this.info.Picture).filter((d: string) => d.startsWith('https'));
+
+          // if media is mobile, attraction info will be put below map.
+          // the page should be scrolled to attraction info automatically when marker is clicked,
+          // otherwise, user may have difficult to find attraction info.
+          if (window.innerWidth <= 428) {
+            window.scroll({
+              top: (this.$refs.attractionInfo as HTMLElement).offsetTop,
+              behavior: 'smooth',
+            });
+          }
         });
       }
     }
@@ -335,9 +351,7 @@
 
     // computed
     get mapClass(): { map: string; info: string } {
-      return this.isMapExpanded
-        ? { map: 'col-12 col-transition', info: 'col-0 col-transition' }
-        : { map: 'col-6 col-transition', info: 'col-6 col-transition' };
+      return this.isMapExpanded ? { map: 'wrapper-full', info: 'wrapper-0' } : { map: 'wrapper-half', info: 'wrapper-half' };
     }
   }
 </script>
@@ -350,6 +364,47 @@
 
   .info {
     height: 100%;
-    max-height: 657px;
+    max-height: 600px;
+  }
+
+  .wrapper {
+    &-full,
+    &-0,
+    &-half {
+      padding: 0 6px;
+      transition: width 1s, opacity 3s;
+    }
+  }
+
+  .wrapper-full {
+    width: 100%;
+  }
+
+  .wrapper-0 {
+    width: 0%;
+    opacity: 0;
+  }
+
+  .wrapper-half {
+    width: 50%;
+    opacity: 1;
+  }
+
+  @media (max-width: 428px) {
+    #map {
+      height: 400px;
+    }
+
+    .wrapper {
+      &-half:first-child {
+        margin-bottom: 16px;
+        padding: auto;
+        transition: width 1s, opacity 3s;
+      }
+
+      &-half {
+        width: 100%;
+      }
+    }
   }
 </style>
