@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" v-show="isShow">
+  <div class="modal" v-show="isShow" @click.self="onCloseClick">
     <div class="modal_body" :class="[size, isShow ? 'modal-show' : '']">
       <slot name="control">
         <button @click="onCloseClick" class="ml-auto">
