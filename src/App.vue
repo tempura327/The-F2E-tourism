@@ -1,9 +1,8 @@
 <template>
-  <div id="app">
+  <div id="app" class="overflow-hidden">
     <Header></Header>
-    <router-view></router-view>
 
-    <!-- <div class="scroll-button" :class="isScrollBottom ? 'scroll-button' : 'scroll-button-top'" @click="scrollTopDown"></div> -->
+    <router-view></router-view>
 
     <Footer></Footer>
   </div>
@@ -25,8 +24,6 @@
     // props
 
     // data
-    // isScrollBottom = true;
-    // isFixed = false;
 
     // hooks
     mounted(): void {
@@ -43,20 +40,6 @@
     }
 
     // methods
-    // scrollTopDown(): void {
-    //   const distance = document.documentElement.scrollTop < document.documentElement.scrollHeight - window.innerHeight;
-    //   let top =
-    //     document.documentElement.scrollTop < document.documentElement.scrollHeight - window.innerHeight
-    //       ? document.documentElement.scrollHeight - window.innerHeight
-    //       : 0;
-    //   this.isScrollBottom = document.documentElement.scrollTop < document.documentElement.scrollHeight - window.innerHeight;
-
-    //   window.scrollTo({
-    //     top: top,
-    //     left: 0,
-    //     behavior: 'smooth',
-    //   });
-    // }
 
     // watch
     @Watch('$store.state.isModalShow')

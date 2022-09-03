@@ -1,7 +1,9 @@
 <template>
   <div @click="showModal(data, 'activity')">
     <slot>
-      <div class="card_img rounded-lg h-48 mb-6" :style="`background-image: url(${data.Picture.PictureUrl1}); background-size: cover;`"></div>
+      <div
+        class="card_img rounded-lg h-48 mb-6"
+        :style="`background-image: url(${data.Picture.PictureUrl1});  background-color:'gold'; background-size: cover;`"></div>
 
       <h2 class="card_title h2 text-center" @click="showModal(data, 'activity')">
         {{ data.ActivityName }}

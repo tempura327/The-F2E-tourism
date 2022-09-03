@@ -1,49 +1,51 @@
 <template>
-  <div>
+  <div class="container">
     <FadeCarousel :data="carouselData" :config="carouselConfig" carouselClass="mb-28"></FadeCarousel>
 
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <h1 class="font-bold text-h1 text-primary mb-6">熱門景點</h1>
-          <h5 class="h5 text-gray font-bold mb-12">
-            台灣的各個美景，都美不勝收。
-            <br />
-            等你一同來發現這座寶島的奧妙！
-          </h5>
-        </div>
+    <div class="row">
+      <div class="col">
+        <h1 class="font-bold text-h1 text-primary mb-6">熱門景點</h1>
+        <h5 class="h5 text-gray font-bold mb-12">
+          台灣的各個美景，都美不勝收。
+          <br />
+          等你一同來發現這座寶島的奧妙！
+        </h5>
+      </div>
+    </div>
+
+    <div class="grid mb-32 grid-cols-4 gap-x-8 gap-y-20 xs:grid-cols-1">
+      <div class="col-span-4 mx-auto" v-if="isAttractionLoading">
+        <Spinner></Spinner>
       </div>
 
-      <div class="row grid grid-cols-4 gap-y-20 mb-32">
-        <div class="col" v-if="isLoading">
-          <!-- <b-spinner></b-spinner> -->
-        </div>
-
-        <div class="col-3" v-for="(data, index) in attractionData" :key="index" v-else>
-          <Card :data="data" @showModal="showModal"></Card>
-        </div>
+      <div class="" v-for="(data, index) in attractionData" :key="index" v-else>
+        <Card :data="data" @showModal="showModal"></Card>
       </div>
 
-      <div class="row">
-        <div class="col">
-          <h1 class="font-bold text-h1 text-primary mb-6">下月活動</h1>
-          <h5 class="h5 text-gray font-bold mb-12">
-            各種不同的活動內容
-            <br />
-            邀請您一同來共襄盛舉！
-          </h5>
-        </div>
+      <h3 class="message error col-span-4" v-if="attractionErrorMsg">{{ attractionErrorMsg }}</h3>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <h1 class="font-bold text-h1 text-primary mb-6">本月活動</h1>
+        <h5 class="h5 text-gray font-bold mb-12">
+          各種不同的活動內容
+          <br />
+          邀請您一同來共襄盛舉！
+        </h5>
+      </div>
+    </div>
+
+    <div class="grid mb-32 grid-cols-4 gap-x-8 gap-y-20 xs:grid-cols-1">
+      <div class="col-span-4 mx-auto" v-if="isActivityLoading">
+        <Spinner></Spinner>
       </div>
 
-      <div class="row grid grid-cols-4 gap-y-20 mb-32">
-        <div class="col" v-if="isLoading2">
-          <!-- <b-spinner></b-spinner> -->
-        </div>
-
-        <div class="col-3" v-for="(data, index) in activityData" :key="index" v-else>
-          <SimpleCard :data="data" @showModal="showModal"></SimpleCard>
-        </div>
+      <div class="" v-for="(data, index) in activityData" :key="index" v-else>
+        <SimpleCard :data="data" @showModal="showModal"></SimpleCard>
       </div>
+
+      <h3 class="message error col-span-4" v-if="activityErrorMsg">{{ activityErrorMsg }}</h3>
     </div>
 
     <div class="banner-bottom" v-if="this.$router.currentRoute.fullPath === '/'">
@@ -62,11 +64,11 @@
 
       <Gallery :images="images" galleryClass="mb-4"></Gallery>
 
-      <h4 class="text-h5 textgray-80">{{ modalData.OpenTime }}</h4>
-      <h4 class="text-h5 textgray-80">{{ modalData.Address }}</h4>
-      <h4 class="text-h5 textgray-80">{{ modalData.Phone }}</h4>
+      <h4 class="text-h5 text-gray-80">{{ modalData.OpenTime }}</h4>
+      <h4 class="text-h5 text-gray-80">{{ modalData.Address }}</h4>
+      <h4 class="text-h5 text-gray-80">{{ modalData.Phone }}</h4>
       <hr class="my-3" v-if="modalData.DescriptionDetail" />
-      <h4 class="text-h5 textgray-80">{{ modalData.DescriptionDetail }}</h4>
+      <h4 class="text-h5 text-gray-80">{{ modalData.DescriptionDetail }}</h4>
     </SimpleModal>
   </div>
 </template>
@@ -79,6 +81,7 @@
   import SimpleModal from '@/components/SimpleModal.vue';
   import FadeCarousel from '@/components/FadeCarousel.vue';
   import Gallery from '@/components/Gallery.vue';
+  import Spinner from '@/components/Spinner.vue';
 
   import query from '@/utility/queryHelper';
   import dateConvertor from '@/utility/dateConvertor';
@@ -91,6 +94,7 @@
       SimpleModal,
       FadeCarousel,
       Gallery,
+      Spinner,
     },
   })
   export default class Home extends Vue {
@@ -100,8 +104,8 @@
     isModalShow = false;
     attractionData: attraction[] = [];
     activityData: activity[] = [];
-    isLoading = false;
-    isLoading2 = false;
+    isAttractionLoading = false;
+    isActivityLoading = false;
     modalData: attraction = {
       Address: '',
       City: '',
@@ -151,6 +155,8 @@
     ];
     carouselConfig = { autoPlay: false, period: 3000 };
     images: string[] = [];
+    activityErrorMsg = '';
+    attractionErrorMsg = '';
 
     // hooks
     created(): void {
@@ -160,7 +166,7 @@
 
     // methods
     async queryAttraction(): Promise<void> {
-      this.isLoading = true;
+      this.isAttractionLoading = true;
 
       try {
         // filter attractions which Picture.PictureUrl1 !== null
@@ -169,38 +175,41 @@
         `);
 
         this.attractionData = res;
+      } catch (e: any) {
+        this.attractionErrorMsg = `錯誤。${e.message}`;
       } finally {
-        this.isLoading = false;
+        this.isAttractionLoading = false;
       }
     }
     async queryActivity(): Promise<void> {
-      this.isLoading = true;
+      this.isActivityLoading = true;
       const range = this.getActivityDateRange(new Date());
 
       try {
-        // filter activities which Picture.PictureUrl1 !== null && startTime between today and the day 2 months later.
+        // filter activities which Picture.PictureUrl1 !== null && startTime between first day and last day of this month.
         const res = await query(`
           https://ptx.transportdata.tw/MOTC/v2/Tourism/Activity?%24filter=Picture%2FPictureUrl1%20ne%20null%20and%20StartTime%20ge%20${range[0]}%20and%20StartTime%20le%20${range[1]}&%24orderby=StartTime%20asc&%24top=8&%24format=JSON
         `);
 
         this.activityData = res;
-      } catch {
+      } catch (e: any) {
+        this.activityErrorMsg = `錯誤。${e.message}`;
         console.log('fail');
       } finally {
-        this.isLoading2 = false;
+        this.isActivityLoading = false;
       }
     }
-    getActivityDateRange(fistDay: Date): string[] {
-      const twoMonthsLater = new Date(Number(fistDay) + 31 * 24 * 60 * 60 * 1000);
+    getActivityDateRange(firstDay: Date): string[] {
+      const year = firstDay.getFullYear();
+      const month = firstDay.getMonth();
 
-      return [dateConvertor(fistDay), dateConvertor(twoMonthsLater)];
+      return [dateConvertor(new Date(year, month, 1)), dateConvertor(new Date(year, month + 1, 0))];
     }
     showModal(data: { data: attraction; type: string }): void {
       this.modalData = data.data;
       console.log(data);
       this.images = Object.values(data.data.Picture).filter((d: string) => d.startsWith('https'));
       this.isModalShow = true;
-      // modalHelper(this, 'detail-modal');
 
       this.isAttraction = data.type === 'activity' ? false : true;
     }
@@ -227,28 +236,6 @@
       position: relative;
       top: 120px;
       line-height: 56px;
-    }
-  }
-
-  .scroll-button {
-    width: 40px;
-    height: 40px;
-    font-size: 30px;
-    text-align: center;
-    color: white;
-    background-color: #08a6bb;
-    border: 1px solid white;
-    border-radius: 50%;
-    position: fixed;
-    top: 90vh;
-    left: 95vw;
-    cursor: pointer;
-    transform: rotate(0deg);
-    transition-duration: 0.5s;
-
-    &-top {
-      transition-duration: 0.5s;
-      transform: rotate(180deg);
     }
   }
 </style>

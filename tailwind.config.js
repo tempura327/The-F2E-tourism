@@ -5,6 +5,9 @@ module.exports = {
   theme: {
     container: {
       center: true,
+      padding: {
+        DEFAULT: '28px',
+      },
     },
     colors: {
       primary: '#08A6BB',
@@ -15,6 +18,8 @@ module.exports = {
       'gray-blue': '#6F7789',
       white: '#ffffff',
       transparent: 'rgba(0,0,0,0)',
+      error: '#dc3545',
+      warning: 'gold',
     },
     fontFamily: {
       primary: ['Roboto', 'Nunito Sans'],
@@ -30,9 +35,37 @@ module.exports = {
     },
     extend: {
       screens: {
-        xs: '414px',
+        // changed from @media (min-width:...) into @media (max-width:...)
+        '2xl': { max: '1536px' },
+        xl: { max: '1280px' },
+        lg: { max: '1024px' },
+        md: { max: '768px' },
+        sm: { max: '680px' },
+        xs: { max: '428px' },
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addComponents }) {
+      addComponents({
+        // set width of container at certain breakpoint.
+        '.container': {
+          width: '80%',
+          '@screen 2xl': {
+            width: '1280px',
+          },
+          '@screen lg': {
+            width: '768px',
+          },
+          '@screen md': {
+            width: '576px',
+          },
+          '@screen xs': {
+            width: '414px',
+            padding: '0 20px',
+          },
+        },
+      });
+    },
+  ],
 };

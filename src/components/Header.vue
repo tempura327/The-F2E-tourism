@@ -1,6 +1,6 @@
 <template>
   <nav class="nav">
-    <div class="flex">
+    <div class="nav_logo">
       <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-5">
         <g clip-path="url(#clip0_53:24)">
           <path
@@ -49,21 +49,21 @@
       <img src="../assets/Travel Taiwan.svg" alt="" />
     </div>
 
-    <ul class="flex">
-      <li class="nav_item mr-14" v-show="isSignInShow">
-        <button class="auth" ref="auth" v-show="!$store.state.currentUser.token">登入</button>
+    <ul class="nav_menu">
+      <li class="nav_item" v-show="isSignInShow">
+        <button class="auth" ref="auth" v-show="!$store.state.currentUser.token"></button>
         <img :src="avatar" alt="" class="nav_avatar" v-show="$store.state.currentUser.token" />
       </li>
 
-      <li class="nav_item mr-14">
+      <li class="nav_menu_item">
         <router-link to="/">首頁</router-link>
       </li>
 
-      <li class="nav_item mr-14">
+      <li class="nav_menu_item">
         <router-link to="/attraction">景點導覽</router-link>
       </li>
 
-      <li class="nav_item mr-14">
+      <li class="nav_menu_item">
         <router-link to="/activity">觀光活動</router-link>
       </li>
     </ul>
@@ -74,12 +74,10 @@
   import { Component, Vue, Watch } from 'vue-property-decorator';
 
   import Spinner from '@/components/Spinner.vue';
-  import Tooltip from '@/components/Tooltip.vue';
 
   @Component({
     components: {
       Spinner,
-      Tooltip,
     },
   })
   export default class Header extends Vue {
@@ -88,14 +86,9 @@
     isLoading = true;
     isTooltipShow = false;
     isSignInShow = false;
-    position = [0, 0];
     avatar = '';
 
     // methods
-    toggleToolTip(ele: HTMLElement): void {
-      this.position = [ele.offsetTop + ele.offsetHeight + 2, ele.offsetLeft - ele.offsetWidth / 3];
-      this.isTooltipShow = !this.isTooltipShow;
-    }
 
     // watch
     @Watch('$store.state.currentUser.token', { deep: true })

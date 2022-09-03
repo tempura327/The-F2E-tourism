@@ -1,19 +1,14 @@
 @import './_mixin';
 
 // -------------------------container & row & column-------------------------------
-.container{
-    width: 80%;
-    margin: 0 auto;
-    padding: 0 16px;
-}
-
 .row{
     @apply flex flex-wrap;
 }
 
 .col{
+    @apply px-4;
+
     flex-grow: 1;
-    padding: 0 16px;
 }
 
 .col-0{
@@ -25,50 +20,47 @@
     transition: width 1s, opacity 3s;
 }
 
-@include columnHelper(12);
-
-@media (max-width: 428px){
-    .container{
-        width: 90%;
-        padding: 0 8px;
-    }
-
-    .col{
-        padding: 0 8px;
-    }
-
-    @include columnHelper(12, 'sm', 0 8px); 
-}
+// @include columnHelper(12);
 
 // -------------------------header & footer-------------------------------
 %nav{
-    @apply flex justify-between items-center border-solid border-2 border-transparent;
+    @apply flex flex-wrap justify-between items-center pb-1 border-solid border-2 border-transparent;
 
-    padding-bottom: 4px;
     border-bottom: 2px solid transparent;  
 }
 
 .nav{
-    padding: 24px 76px;
     @extend %nav;
 
+    padding: 24px 76px;
+    
+    &_logo{
+        @apply flex justify-center ;
+    }
 
-    &_item{
-        @extend %nav;
+    &_menu{
+        @apply flex justify-between;
 
-        &:hover {
-            @apply font-bold pb-1;
+        min-width: 30%;
+        max-width: 50%;
+        
+        &_item{
+            @extend %nav;
+    
+            &:hover {
+                @apply font-bold pb-1;
+            }
+    
+            a {
+                @apply text-gray-blue;
+    
+                text-decoration: none;
+            }
+    
+            a.router-link-exact-active {
+                @apply text-primary font-bold;
+            }        
         }
-
-        a {
-            @apply text-gray-blue;
-
-            text-decoration: none;
-        }
-
-        a.router-link-exact-active {
-            @apply text-primary font-bold;
-        }        
     }
 
     &_avatar{
@@ -76,11 +68,57 @@
     }
 }
 
-.footer {
-    height: 120px;
-    line-height: 120px;
-    @apply bg-primary text-white text-center font-bold;
+.banner-bottom{
+    margin: 0 -10rem;
 }
 
-// -------------------------spacing-------------------------------
+.footer {
+    @apply bg-primary text-white text-center font-bold;
 
+    height: 120px;
+    line-height: 120px;
+}
+
+// -------------------------others-------------------------------
+.message{
+    @apply text-h3 font-bold text-center;
+
+    &.error{
+        @apply text-error
+    }
+}
+
+// -------------------------RWD-------------------------------
+
+@media (max-width: 428px){
+    .col{
+        @apply px-2;
+    }
+
+    // @include columnHelper(12, 'sm', 0 8px); 
+
+    .nav{
+        @apply p-3;
+
+        &_logo{
+            @apply w-full mb-5;
+        }
+
+        &_menu{
+            @apply justify-around w-full;
+
+            min-width: none;
+            max-width: none;
+        }
+    }
+
+    .banner{
+        &-bottom{
+            margin: 0 -2rem;
+        }
+
+        &_text{
+            @apply px-6;
+        }
+    }
+}

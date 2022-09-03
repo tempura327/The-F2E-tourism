@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    <div class="row">
+    <div class="row mb-12">
       <div class="col">
         <h1 class="font-bold text-h1 text-primary mb-6">景點</h1>
-        <h5 class="h5 text-gray font-bold mb-12">
+        <h5 class="h5 text-gray font-bold">
           台灣的各個美景，都美不勝收。
           <br />
           等你一同來發現這座寶島的奧妙！
@@ -164,7 +164,7 @@
       };
 
       // in Taiwan
-      // longtitude 1deg:101.77545km
+      // longitude 1deg:101.77545km
       // latitude 1deg:110.9362km.
 
       const ret = []; // put coordinates in ret
@@ -252,7 +252,6 @@
         // mapbox does not support click event of marker.
         this.markerMap[`attraction-${attractionData.ScenicSpotID}`].getElement().addEventListener('click', () => {
           this.isMapExpanded = false;
-
           this.info = data[i];
 
           if (this.entireDayOtherWord.includes(this.info.OpenTime)) {
@@ -334,7 +333,7 @@
       // there will still some data which are not in this.currentBoundary.radius.
 
       // in Taiwan
-      // longtitude 1deg:101.77545km
+      // longitude 1deg:101.77545km
       // latitude 1deg:110.9362km.
 
       const res = data.filter((i: attraction) => {

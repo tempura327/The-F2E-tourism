@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col">
+      <div class="col-span-12">
         <h1 class="font-bold text-h1 text-primary mb-6">活動</h1>
         <h5 class="h5 text-gray font-bold mb-12">
           365天，各種活動任你玩。
@@ -12,7 +12,7 @@
     </div>
 
     <div class="row mb-4">
-      <div class="col">
+      <div class="col-span-12">
         <SearchBar className="mb-4" :options="searchOption" :defaultType="''" :isSelectorShow="true" @searchClick="searchActivity"></SearchBar>
 
         <Calendar
@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <SimpleModal :isShow="isModalShow">
+    <SimpleModal :isShow="isModalShow" @onCloseClick="closeModal">
       <template #control>
         <div class="flex mb-2">
           <button class="" @click="clearSelectedActivity">
@@ -160,37 +160,34 @@
     }
     mounted(): void {
       // eslint-disable-next-line no-undef
-      window.onGoogleLibraryLoad = () => {
-        // eslint-disable-next-line no-undef
-        google.accounts.id.initialize({
-          client_id: '554869584316-335mdko65uc6jqjefjf1djh06hcvi8mb.apps.googleusercontent.com',
-          callback: (d: { credential: string }) => {
-            this.accessToken = d.credential;
-            const userData = decodeJwt(d.credential);
+      google.accounts.id.initialize({
+        client_id: '554869584316-335mdko65uc6jqjefjf1djh06hcvi8mb.apps.googleusercontent.com',
+        callback: (d: { credential: string }) => {
+          this.accessToken = d.credential;
+          const userData = decodeJwt(d.credential);
 
-            this.$store.commit('setCurrentUser', {
-              firstName: userData.given_name,
-              lastName: userData.family_name,
-              mail: userData.email,
-              avatar: userData.picture,
-              token: d.credential,
-            });
-            this.initClient();
-          },
-        });
+          this.$store.commit('setCurrentUser', {
+            firstName: userData.given_name,
+            lastName: userData.family_name,
+            mail: userData.email,
+            avatar: userData.picture,
+            token: d.credential,
+          });
+          this.initClient();
+        },
+      });
 
-        // eslint-disable-next-line no-undef
-        google.accounts.id.renderButton(document.querySelector('.auth'), {
-          type: 'icon',
-          theme: 'outline', // default style
-          text: '登入',
-          shape: 'circle',
-        });
+      // eslint-disable-next-line no-undef
+      google.accounts.id.renderButton(document.querySelector('.auth'), {
+        type: 'icon',
+        theme: 'outline', // default style
+        text: '登入',
+        shape: 'circle',
+      });
 
-        // You can cancel the One Tap flow if you remove the prompt from the relying party DOM
-        // eslint-disable-next-line no-undef
-        google.accounts.id.cancel();
-      };
+      // You can cancel the One Tap flow if you remove the prompt from the relying party DOM
+      // eslint-disable-next-line no-undef
+      google.accounts.id.cancel();
     }
 
     // methods
@@ -288,7 +285,7 @@
           token_type: string;
         }) => {
           this.accessToken = tokenResponse.access_token;
-          console.log(`token: ${this.accessToken}`);
+
           this.queryGoogleCalendar();
 
           return this.accessToken;
@@ -304,7 +301,6 @@
       // eslint-disable-next-line no-undef
       google.accounts.oauth2.revoke(this.accessToken, () => {
         console.log('access token revoked');
-        console.log(this.clientInstance);
       });
     }
     showModal(data: { data: activity; list: activity[] }): void {
@@ -325,7 +321,6 @@
       this.isModalShow = !this.isModalShow;
     }
     clearSelectedActivity(): void {
-      console.log('clear');
       this.info = {
         ActivityID: '',
         ActivityName: '',
@@ -363,8 +358,6 @@
               return i.summary;
             }
           });
-
-          console.log(this.userCalendarActivity);
         });
     }
     async insertToGoogleCalendar(): Promise<void> {
@@ -414,8 +407,7 @@
         .then((d) => {
           return d.json();
         })
-        .then((d) => {
-          console.log(d);
+        .then(() => {
           this.queryGoogleCalendar();
         });
     }

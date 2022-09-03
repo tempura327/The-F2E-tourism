@@ -43,6 +43,8 @@
 .carousel{
     @apply overflow-hidden relative h-56 sm:h-64 xl:h-80 2xl:h-96;
 
+    margin:0 -11rem 7rem;
+
     &_body{
         @apply duration-700 ease-in-out relative top-1/2;
 
@@ -55,11 +57,8 @@
         }        
     }
 
-
-
     &_control{
         @apply flex absolute top-0 z-30 justify-center items-center px-4 h-full cursor-pointer focus:outline-none;
-
 
         &:hover{
             opacity: 0.8;
@@ -74,6 +73,12 @@
 .carousel_indicators, .carousel_indicators:hover, .carousel_indicators-active{
     @include sizeHelper(12px, 12px, 50%);
     @include fontHelper(12px, 700);
+}
+
+@media (max-width: 428px){
+    .carousel{
+        margin: 0 -4rem 7rem;
+    }
 }
 
 // -------------------------card-------------------------------
@@ -103,7 +108,7 @@
     }
 
     &_img{
-        @apply overflow-hidden;
+        @apply overflow-hidden bg-gray-60;
 
         max-height: 13rem;
     }
