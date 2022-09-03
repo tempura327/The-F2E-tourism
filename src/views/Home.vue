@@ -153,7 +153,7 @@
           'https://images.unsplash.com/photo-1621682372775-533449e550ed?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
       },
     ];
-    carouselConfig = { autoPlay: false, period: 3000 };
+    carouselConfig = { autoPlay: true, period: 3000 };
     images: string[] = [];
     activityErrorMsg = '';
     attractionErrorMsg = '';

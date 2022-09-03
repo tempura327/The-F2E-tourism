@@ -41,20 +41,26 @@
 
 // -------------------------carousel-------------------------------
 .carousel{
-    @apply overflow-hidden relative h-56 sm:h-64 xl:h-80 2xl:h-96;
+    @apply  relative;
 
-    margin:0 -11rem 7rem;
+    margin:0 -5rem 7rem;
 
-    &_body{
-        @apply duration-700 ease-in-out relative top-1/2;
+    &_slide{
+        @apply overflow-hidden relative h-56 sm:h-64 xl:h-80 2xl:h-96;
 
-        &_caption{
-            @apply absolute z-10 top-1/2 left-1/2 font-semibold text-white -translate-x-1/2 -translate-y-1/2;
-        }
+        &_item{
+            @apply ease-in-out relative top-1/2;
+
+            transition: all 2s;
     
-        &_img{
-            @apply block absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2;
-        }        
+            &_caption{
+                @apply absolute z-10 top-1/2 left-1/2 font-semibold text-white -translate-x-1/2 -translate-y-1/2;
+            }
+        
+            &_img{
+                @apply block absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2;
+            }        
+        }
     }
 
     &_control{
@@ -68,11 +74,10 @@
             @apply inline-flex justify-center items-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30;
         }
     }
-}
 
-.carousel_indicators, .carousel_indicators:hover, .carousel_indicators-active{
-    @include sizeHelper(12px, 12px, 50%);
-    @include fontHelper(12px, 700);
+    &_indicator{
+        @apply flex absolute bottom-5 left-1/2 z-30 space-x-3 -translate-x-1/2;
+    }
 }
 
 @media (max-width: 428px){

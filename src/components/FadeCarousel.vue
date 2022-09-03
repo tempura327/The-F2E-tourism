@@ -1,16 +1,20 @@
 <template>
-  <div class="relative" :class="carouselClass">
-    <div class="carousel">
-      <div class="carousel_body" v-for="(item, index) in carouselData" :key="`image-${index}`" :class="index === count ? 'opacity-1' : 'opacity-0'">
-        <span class="carouse_body_caption" v-if="config.isContentShow">
+  <div class="carousel" :class="carouselClass">
+    <div class="carousel_slide">
+      <div
+        class="carousel_slide_item"
+        v-for="(item, index) in carouselData"
+        :key="`image-${index}`"
+        :class="index === count ? 'opacity-1 duration-2000' : 'opacity-0 duration-2000'">
+        <span class="carouse_slide_item_caption" v-if="config.isContentShow">
           {{ item.content }}
         </span>
-        <img :src="item.image" class="carousel_body_img" alt="..." />
+        <img :src="item.image" class="carousel_slide_item_img" alt="..." />
       </div>
     </div>
 
     <!-- indicators -->
-    <div class="flex absolute bottom-5 left-1/2 z-30 space-x-3 -translate-x-1/2">
+    <div class="carousel_indicator">
       <button
         v-for="(i, index) in carouselData"
         :key="`carousel-${index}`"
@@ -43,8 +47,6 @@
 
 <script lang="ts">
   import { Component, Vue, Prop } from 'vue-property-decorator';
-
-  // import getAuthorization from '@/utility/auth';
 
   @Component({
     components: {},
@@ -82,7 +84,6 @@
     }
 
     // methods
-    // async search(): Promise<void> {}
     prev(): void {
       this.count = this.count - 1 < 0 ? this.carouselData.length - 1 : this.count - 1;
     }
@@ -99,15 +100,3 @@
     }
   }
 </script>
-
-<style lang="scss" scoped>
-  .opacity-0 {
-    opacity: 0;
-    transition: all 2s;
-  }
-
-  .opacity-1 {
-    opacity: 1;
-    transition: all 2s;
-  }
-</style>

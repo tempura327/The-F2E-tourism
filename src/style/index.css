@@ -592,14 +592,6 @@ video {
   position: relative;
 }
 
-.bottom-5 {
-  bottom: 1.25rem;
-}
-
-.left-1\/2 {
-  left: 50%;
-}
-
 .left-0 {
   left: 0px;
 }
@@ -612,16 +604,24 @@ video {
   top: 50%;
 }
 
+.left-1\/2 {
+  left: 50%;
+}
+
+.bottom-5 {
+  bottom: 1.25rem;
+}
+
 .top-0 {
   top: 0px;
 }
 
-.z-30 {
-  z-index: 30;
-}
-
 .z-10 {
   z-index: 10;
+}
+
+.z-30 {
+  z-index: 30;
 }
 
 .col-span-12 {
@@ -1216,40 +1216,41 @@ video {
 
 .carousel {
   position: relative;
+  margin: 0 -5rem 7rem;
+}
+
+.carousel_slide {
+  position: relative;
   height: 14rem;
   overflow: hidden;
 }
 
 @media (max-width: 680px) {
-  .carousel {
+  .carousel_slide {
     height: 16rem;
   }
 }
 
 @media (max-width: 1280px) {
-  .carousel {
+  .carousel_slide {
     height: 20rem;
   }
 }
 
 @media (max-width: 1536px) {
-  .carousel {
+  .carousel_slide {
     height: 24rem;
   }
 }
 
-.carousel {
-  margin: 0 -11rem 7rem;
-}
-
-.carousel_body {
+.carousel_slide_item {
   position: relative;
   top: 50%;
-  transition-duration: 700ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 2s;
 }
 
-.carousel_body_caption {
+.carousel_slide_item_caption {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1262,7 +1263,7 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.carousel_body_img {
+.carousel_slide_item_img {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1312,12 +1313,20 @@ video {
   }
 }
 
-.carousel_indicators, .carousel_indicators:hover, .carousel_indicators-active {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  font-size: 12px;
-  font-weight: 700;
+.carousel_indicator {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 50%;
+  z-index: 30;
+  display: flex;
+  --tw-translate-x: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.carousel_indicator > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(0.75rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
 @media (max-width: 428px) {
