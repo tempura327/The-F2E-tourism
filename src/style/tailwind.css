@@ -2,19 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 @tailwind screens;
-.container {
-  width: 80%;
-  margin: 0 auto;
-  padding: 0 16px;
-}
-
 .row {
   @apply flex flex-wrap;
 }
 
 .col {
+  @apply px-4;
   flex-grow: 1;
-  padding: 0 16px;
 }
 
 .col-0 {
@@ -26,151 +20,8 @@
   transition: width 1s, opacity 3s;
 }
 
-.col-1 {
-  width: 8.33333%;
-  padding: 0 16px;
-  box-sizing: border-box;
-}
-
-.col-2 {
-  width: 16.66667%;
-  padding: 0 16px;
-  box-sizing: border-box;
-}
-
-.col-3 {
-  width: 25%;
-  padding: 0 16px;
-  box-sizing: border-box;
-}
-
-.col-4 {
-  width: 33.33333%;
-  padding: 0 16px;
-  box-sizing: border-box;
-}
-
-.col-5 {
-  width: 41.66667%;
-  padding: 0 16px;
-  box-sizing: border-box;
-}
-
-.col-6 {
-  width: 50%;
-  padding: 0 16px;
-  box-sizing: border-box;
-}
-
-.col-7 {
-  width: 58.33333%;
-  padding: 0 16px;
-  box-sizing: border-box;
-}
-
-.col-8 {
-  width: 66.66667%;
-  padding: 0 16px;
-  box-sizing: border-box;
-}
-
-.col-9 {
-  width: 75%;
-  padding: 0 16px;
-  box-sizing: border-box;
-}
-
-.col-10 {
-  width: 83.33333%;
-  padding: 0 16px;
-  box-sizing: border-box;
-}
-
-.col-11 {
-  width: 91.66667%;
-  padding: 0 16px;
-  box-sizing: border-box;
-}
-
-.col-12 {
-  width: 100%;
-  padding: 0 16px;
-  box-sizing: border-box;
-}
-
-@media (max-width: 428px) {
-  .container {
-    width: 90%;
-    padding: 0 8px;
-  }
-  .col {
-    padding: 0 8px;
-  }
-  .col-sm-1 {
-    width: 8.33333%;
-    padding: 0 8px;
-    box-sizing: border-box;
-  }
-  .col-sm-2 {
-    width: 16.66667%;
-    padding: 0 8px;
-    box-sizing: border-box;
-  }
-  .col-sm-3 {
-    width: 25%;
-    padding: 0 8px;
-    box-sizing: border-box;
-  }
-  .col-sm-4 {
-    width: 33.33333%;
-    padding: 0 8px;
-    box-sizing: border-box;
-  }
-  .col-sm-5 {
-    width: 41.66667%;
-    padding: 0 8px;
-    box-sizing: border-box;
-  }
-  .col-sm-6 {
-    width: 50%;
-    padding: 0 8px;
-    box-sizing: border-box;
-  }
-  .col-sm-7 {
-    width: 58.33333%;
-    padding: 0 8px;
-    box-sizing: border-box;
-  }
-  .col-sm-8 {
-    width: 66.66667%;
-    padding: 0 8px;
-    box-sizing: border-box;
-  }
-  .col-sm-9 {
-    width: 75%;
-    padding: 0 8px;
-    box-sizing: border-box;
-  }
-  .col-sm-10 {
-    width: 83.33333%;
-    padding: 0 8px;
-    box-sizing: border-box;
-  }
-  .col-sm-11 {
-    width: 91.66667%;
-    padding: 0 8px;
-    box-sizing: border-box;
-  }
-  .col-sm-12 {
-    width: 100%;
-    padding: 0 8px;
-    box-sizing: border-box;
-  }
-}
-
-.nav, .nav_item {
-  @apply flex justify-between items-center border-solid border-2 border-transparent;
-  padding-bottom: 4px;
+.nav, .nav_menu_item {
+  @apply flex flex-wrap justify-between items-center pb-1 border-solid border-2 border-transparent;
   border-bottom: 2px solid transparent;
 }
 
@@ -178,16 +29,26 @@
   padding: 24px 76px;
 }
 
-.nav_item:hover {
+.nav_logo {
+  @apply flex justify-center;
+}
+
+.nav_menu {
+  @apply flex justify-between;
+  min-width: 30%;
+  max-width: 50%;
+}
+
+.nav_menu_item:hover {
   @apply font-bold pb-1;
 }
 
-.nav_item a {
+.nav_menu_item a {
   @apply text-gray-blue;
   text-decoration: none;
 }
 
-.nav_item a.router-link-exact-active {
+.nav_menu_item a.router-link-exact-active {
   @apply text-primary font-bold;
 }
 
@@ -195,10 +56,45 @@
   @apply w-10 h-10 rounded-full overflow-hidden cursor-pointer;
 }
 
+.banner-bottom {
+  margin: 0 -10rem;
+}
+
 .footer {
+  @apply bg-primary text-white text-center font-bold;
   height: 120px;
   line-height: 120px;
-  @apply bg-primary text-white text-center font-bold;
+}
+
+.message {
+  @apply text-h3 font-bold text-center;
+}
+
+.message.error {
+  @apply text-error;
+}
+
+@media (max-width: 428px) {
+  .col {
+    @apply px-2;
+  }
+  .nav {
+    @apply p-3;
+  }
+  .nav_logo {
+    @apply w-full mb-5;
+  }
+  .nav_menu {
+    @apply justify-around w-full;
+    min-width: none;
+    max-width: none;
+  }
+  .banner-bottom {
+    margin: 0 -2rem;
+  }
+  .banner_text {
+    @apply px-6;
+  }
 }
 
 .btn {
@@ -253,6 +149,7 @@
 
 .carousel {
   @apply overflow-hidden relative h-56 sm:h-64 xl:h-80 2xl:h-96;
+  margin: 0 -11rem 7rem;
 }
 
 .carousel_body {
@@ -287,6 +184,12 @@
   font-weight: 700;
 }
 
+@media (max-width: 428px) {
+  .carousel {
+    margin: 0 -4rem 7rem;
+  }
+}
+
 .card {
   @apply rounded-lg shadow-lg bg-white shadow-gray-100/50 overflow-hidden;
   height: 100%;
@@ -311,7 +214,7 @@
 }
 
 .card_img {
-  @apply overflow-hidden;
+  @apply overflow-hidden bg-gray-60;
   max-height: 13rem;
 }
 
