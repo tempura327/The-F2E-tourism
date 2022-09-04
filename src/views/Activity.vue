@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <div class="row mb-4">
+    <div class="row mb-32">
       <div class="w-full">
         <SearchBar className="mb-4" :options="searchOption" :defaultType="''" :isSelectorShow="true" @searchClick="searchActivity"></SearchBar>
 
