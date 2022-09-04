@@ -5,11 +5,11 @@
         class="card_img rounded-lg h-48 mb-6"
         :style="`background-image: url(${data.Picture.PictureUrl1});  background-color:'gold'; background-size: cover;`"></div>
 
-      <h2 class="card_title h2 text-center" @click="showModal(data, 'activity')">
+      <a :href="data.WebsiteUrl" target="_blank" class="card_title block text-center" :class="{ 'hover:text-primary': data.WebsiteUrl }">
         {{ data.ActivityName }}
-      </h2>
+      </a>
 
-      <h2 class="h2 text-center">{{ data.StartTime.slice(0, 10) }}</h2>
+      <h2 class="h2 text-center">{{ data.StartTime.slice(0, 10) }} ~ {{ data.EndTime.slice(0, 10) }}</h2>
     </slot>
   </div>
 </template>

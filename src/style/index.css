@@ -968,6 +968,11 @@ video {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.hover\:text-primary:hover {
+  --tw-text-opacity: 1;
+  color: rgb(8 166 187 / var(--tw-text-opacity));
+}
+
 .focus\:outline-none:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
@@ -1216,7 +1221,7 @@ video {
 
 .carousel {
   position: relative;
-  margin: 0 -5rem 7rem;
+  margin: 0 -9.5rem 7rem;
 }
 
 .carousel_slide {
@@ -1292,10 +1297,6 @@ video {
   outline-offset: 2px;
 }
 
-.carousel_control:hover {
-  opacity: 0.8;
-}
-
 .carousel_control_content {
   display: inline-flex;
   height: 2rem;
@@ -1311,6 +1312,10 @@ video {
     height: 2.5rem;
     width: 2.5rem;
   }
+}
+
+.carousel_control_content:hover {
+  opacity: 0.8;
 }
 
 .carousel_indicator {

@@ -149,7 +149,7 @@
 
 .carousel {
   @apply relative;
-  margin: 0 -5rem 7rem;
+  margin: 0 -9.5rem 7rem;
 }
 
 .carousel_slide {
@@ -173,12 +173,12 @@
   @apply flex absolute top-0 z-30 justify-center items-center px-4 h-full cursor-pointer focus:outline-none;
 }
 
-.carousel_control:hover {
-  opacity: 0.8;
-}
-
 .carousel_control_content {
   @apply inline-flex justify-center items-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30;
+}
+
+.carousel_control_content:hover {
+  opacity: 0.8;
 }
 
 .carousel_indicator {

@@ -42,7 +42,7 @@
       </div>
 
       <div class="" v-for="(data, index) in activityData" :key="index" v-else>
-        <SimpleCard :data="data" @showModal="showModal"></SimpleCard>
+        <SimpleCard :data="data"></SimpleCard>
       </div>
 
       <h3 class="message error col-span-4" v-if="activityErrorMsg">{{ activityErrorMsg }}</h3>
@@ -153,7 +153,7 @@
           'https://images.unsplash.com/photo-1621682372775-533449e550ed?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
       },
     ];
-    carouselConfig = { autoPlay: true, period: 3000 };
+    carouselConfig = { autoPlay: false, period: 3000 };
     images: string[] = [];
     activityErrorMsg = '';
     attractionErrorMsg = '';
