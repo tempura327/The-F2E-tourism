@@ -48,14 +48,14 @@
 
         <h3 class="message error col-span-4" v-if="activityErrorMsg">{{ activityErrorMsg }}</h3>
       </div>
+    </div>
 
-      <div class="banner-bottom" v-if="this.$router.currentRoute.fullPath === '/'">
-        <h1 class="banner_text">
-          “To travel is to live”
-          <br />
-          – Hans Christian Anderson-
-        </h1>
-      </div>
+    <div class="banner-bottom" v-if="this.$router.currentRoute.fullPath === '/'">
+      <h1 class="banner_text">
+        “To travel is to live”
+        <br />
+        – Hans Christian Anderson-
+      </h1>
     </div>
 
     <SimpleModal id="detail-modal" :isShow="isModalShow" @onCloseClick="closeModal">
