@@ -13,7 +13,7 @@
 
     <div class="row mb-4">
       <SearchBar
-        :className="['mb-4 duration-700', isMapExpanded ? 'w-full' : 'w-2/4']"
+        :className="['mb-4 duration-700', isMapExpanded || isMobile ? 'w-full' : 'w-2/4']"
         :options="searchOption"
         :isSelectorShow="true"
         @searchClick="searchAttraction"></SearchBar>
@@ -68,7 +68,7 @@
     // props
 
     // data
-    // isLoading = false;
+    isMobile = this.$store.state.isMobile;
     baseUrl = 'https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?%24filter=';
     entireDayOtherWord = ['<p>24HR</p>', 'Sun 24 hours；Mon 24 hours；Tue 24 hours；Wed 24 hours；Thu 24 hours；Fri 24 hours；Sat 24 hours'];
     searchOption = [

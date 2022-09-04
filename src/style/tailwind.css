@@ -312,6 +312,12 @@
   @apply flex justify-between;
 }
 
+@media (max-width: 428px) {
+  .calendar_cell.date {
+    max-height: 220px;
+  }
+}
+
 .spinner {
   @apply rounded-full inline-block  border-solid border-r-transparent;
   vertical-align: text-bottom;

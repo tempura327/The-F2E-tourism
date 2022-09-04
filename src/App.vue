@@ -27,6 +27,8 @@
 
     // hooks
     mounted(): void {
+      this.$store.commit('setIsMobile', window.innerWidth <= 428);
+
       if (document.getElementById('gapi-script')) return; // if script has been loaded, return.
 
       const gsiScriptTag = document.createElement('script');

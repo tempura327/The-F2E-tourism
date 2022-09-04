@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <SimpleModal :isShow="isModalShow" @onCloseClick="closeModal">
+    <SimpleModal :isShow="isModalShow" :size="isMobile ? 'lg' : 'md'" @onCloseClick="closeModal">
       <template #control>
         <div class="flex mb-2">
           <button class="" @click="clearSelectedActivity">
@@ -107,6 +107,7 @@
     isLoading = true;
     isModalShow = false;
     isActivitySelected = false;
+    isMobile = this.$store.state.isMobile;
     searchOption = taiwanCity;
     extractDateRangeStr = extractDateRangeStr;
     baseUrl = `https://ptx.transportdata.tw/MOTC/v2/Tourism/Activity`;

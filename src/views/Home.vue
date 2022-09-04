@@ -58,7 +58,7 @@
       </h1>
     </div>
 
-    <SimpleModal id="detail-modal" :isShow="isModalShow" @onCloseClick="closeModal">
+    <SimpleModal id="detail-modal" :size="isMobile ? 'lg' : 'md'" :isShow="isModalShow" @onCloseClick="closeModal">
       <h2 class="text-h2 text-gray-80 font-bold mb-2">
         {{ modalData.ScenicSpotName }}
         <span class="text-h5">/ {{ modalData.Class1 || '未分類' }}</span>
@@ -104,6 +104,7 @@
 
     // data
     isModalShow = false;
+    isMobile = this.$store.state.isMobile;
     attractionData: attraction[] = [];
     activityData: activity[] = [];
     isAttractionLoading = false;

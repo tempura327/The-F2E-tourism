@@ -686,12 +686,12 @@ video {
   margin-bottom: 3rem;
 }
 
-.mb-4 {
-  margin-bottom: 1rem;
-}
-
 .mb-32 {
   margin-bottom: 8rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
 }
 
 .mb-28 {
@@ -1514,6 +1514,12 @@ video {
 .calendar_navigator {
   display: flex;
   justify-content: space-between;
+}
+
+@media (max-width: 428px) {
+  .calendar_cell.date {
+    max-height: 220px;
+  }
 }
 
 .spinner {

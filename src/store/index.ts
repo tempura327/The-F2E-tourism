@@ -13,6 +13,7 @@ export default new Vuex.Store({
       token: '',
     },
     isModalShow: false,
+    isMobile: false,
   },
   mutations: {
     setCurrentUser(state, data: { firstName: string; lastName: string; mail: string; avatar: string; token: string; isLogin: boolean }): void {
@@ -21,6 +22,9 @@ export default new Vuex.Store({
       state.currentUser.mail = data.mail;
       state.currentUser.avatar = data.avatar;
       state.currentUser.token = data.token;
+    },
+    setIsMobile(state, isMobile: boolean) {
+      state.isMobile = isMobile;
     },
     toggleModal(state, isModalShow: boolean): void {
       state.isModalShow = isModalShow;

@@ -219,7 +219,17 @@
     &_navigator {
         @apply flex justify-between;
     }
-  }
+}
+
+@media (max-width: 428px){
+    .calendar{
+        &_cell {
+            &.date{
+                max-height: 220px;
+            }
+        }
+    }
+}
   
 // -------------------------spinner-------------------------------
 .spinner{
