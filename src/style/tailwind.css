@@ -149,11 +149,10 @@
 
 .carousel {
   @apply relative;
-  margin: 0 -9.5rem 7rem;
 }
 
 .carousel_slide {
-  @apply overflow-hidden relative h-56 sm:h-64 xl:h-80 2xl:h-96;
+  @apply overflow-hidden relative h-56 h-80 xs:h-64;
 }
 
 .carousel_slide_item {
@@ -183,12 +182,6 @@
 
 .carousel_indicator {
   @apply flex absolute bottom-5 left-1/2 z-30 space-x-3 -translate-x-1/2;
-}
-
-@media (max-width: 428px) {
-  .carousel {
-    margin: 0 -4rem 7rem;
-  }
 }
 
 .card {
@@ -261,11 +254,11 @@
 }
 
 .group {
-  display: flex;
+  @apply flex;
 }
 
 .group * {
-  border-radius: 0;
+  @apply rounded-none;
 }
 
 .group_prepend {
@@ -282,7 +275,7 @@
 }
 
 .group_input-block {
-  width: 100%;
+  @apply w-full;
 }
 
 .calendar {

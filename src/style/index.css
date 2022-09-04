@@ -1221,30 +1221,17 @@ video {
 
 .carousel {
   position: relative;
-  margin: 0 -9.5rem 7rem;
 }
 
 .carousel_slide {
   position: relative;
-  height: 14rem;
+  height: 20rem;
   overflow: hidden;
 }
 
-@media (max-width: 680px) {
+@media (max-width: 428px) {
   .carousel_slide {
     height: 16rem;
-  }
-}
-
-@media (max-width: 1280px) {
-  .carousel_slide {
-    height: 20rem;
-  }
-}
-
-@media (max-width: 1536px) {
-  .carousel_slide {
-    height: 24rem;
   }
 }
 
@@ -1332,12 +1319,6 @@ video {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.75rem * var(--tw-space-x-reverse));
   margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
-}
-
-@media (max-width: 428px) {
-  .carousel {
-    margin: 0 -4rem 7rem;
-  }
 }
 
 .card {
@@ -1454,7 +1435,7 @@ video {
 }
 
 .group * {
-  border-radius: 0;
+  border-radius: 0px;
 }
 
 .group_prepend {

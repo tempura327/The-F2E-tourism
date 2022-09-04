@@ -41,12 +41,10 @@
 
 // -------------------------carousel-------------------------------
 .carousel{
-    @apply  relative;
-
-    margin:0 -9.5rem 7rem;
+    @apply relative;
 
     &_slide{
-        @apply overflow-hidden relative h-56 sm:h-64 xl:h-80 2xl:h-96;
+        @apply overflow-hidden relative h-56 h-80 xs:h-64;
 
         &_item{
             @apply ease-in-out relative top-1/2;
@@ -70,7 +68,6 @@
             @apply inline-flex justify-center items-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30;
 
             &:hover{
-                // background-color: gold;
                 opacity: 0.8;
             }            
         }
@@ -78,12 +75,6 @@
 
     &_indicator{
         @apply flex absolute bottom-5 left-1/2 z-30 space-x-3 -translate-x-1/2;
-    }
-}
-
-@media (max-width: 428px){
-    .carousel{
-        margin: 0 -4rem 7rem;
     }
 }
 
@@ -167,10 +158,10 @@
 
 // -------------------------input-------------------------------
 .group {
-    display: flex;
+    @apply flex;
 
     * {
-      border-radius: 0;
+      @apply rounded-none;
     }
 
     &_prepend {
@@ -187,7 +178,7 @@
       border-width: 1px;
 
       &-block{
-        width: 100%;
+        @apply w-full;
       }
     }
   }

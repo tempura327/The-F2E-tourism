@@ -1,59 +1,61 @@
 <template>
-  <div class="container">
+  <div>
     <FadeCarousel :data="carouselData" :config="carouselConfig" carouselClass="mb-28"></FadeCarousel>
 
-    <div class="row">
-      <div class="col">
-        <h1 class="font-bold text-h1 text-primary mb-6">熱門景點</h1>
-        <h5 class="h5 text-gray font-bold mb-12">
-          台灣的各個美景，都美不勝收。
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h1 class="font-bold text-h1 text-primary mb-6">熱門景點</h1>
+          <h5 class="h5 text-gray font-bold mb-12">
+            台灣的各個美景，都美不勝收。
+            <br />
+            等你一同來發現這座寶島的奧妙！
+          </h5>
+        </div>
+      </div>
+
+      <div class="grid mb-32 grid-cols-4 gap-x-8 gap-y-20 xs:grid-cols-1">
+        <div class="col-span-4 mx-auto" v-if="isAttractionLoading">
+          <Spinner></Spinner>
+        </div>
+
+        <div class="" v-for="(data, index) in attractionData" :key="index" v-else>
+          <Card :data="data" @showModal="showModal"></Card>
+        </div>
+
+        <h3 class="message error col-span-4" v-if="attractionErrorMsg">{{ attractionErrorMsg }}</h3>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <h1 class="font-bold text-h1 text-primary mb-6">本月活動</h1>
+          <h5 class="h5 text-gray font-bold mb-12">
+            各種不同的活動內容
+            <br />
+            邀請您一同來共襄盛舉！
+          </h5>
+        </div>
+      </div>
+
+      <div class="grid mb-32 grid-cols-4 gap-x-8 gap-y-20 xs:grid-cols-1">
+        <div class="col-span-4 mx-auto" v-if="isActivityLoading">
+          <Spinner></Spinner>
+        </div>
+
+        <div class="" v-for="(data, index) in activityData" :key="index" v-else>
+          <SimpleCard :data="data"></SimpleCard>
+        </div>
+
+        <h3 class="message error col-span-4" v-if="activityErrorMsg">{{ activityErrorMsg }}</h3>
+      </div>
+
+      <div class="banner-bottom" v-if="this.$router.currentRoute.fullPath === '/'">
+        <h1 class="banner_text">
+          “To travel is to live”
           <br />
-          等你一同來發現這座寶島的奧妙！
-        </h5>
+          – Hans Christian Anderson-
+        </h1>
       </div>
-    </div>
-
-    <div class="grid mb-32 grid-cols-4 gap-x-8 gap-y-20 xs:grid-cols-1">
-      <div class="col-span-4 mx-auto" v-if="isAttractionLoading">
-        <Spinner></Spinner>
-      </div>
-
-      <div class="" v-for="(data, index) in attractionData" :key="index" v-else>
-        <Card :data="data" @showModal="showModal"></Card>
-      </div>
-
-      <h3 class="message error col-span-4" v-if="attractionErrorMsg">{{ attractionErrorMsg }}</h3>
-    </div>
-
-    <div class="row">
-      <div class="col">
-        <h1 class="font-bold text-h1 text-primary mb-6">本月活動</h1>
-        <h5 class="h5 text-gray font-bold mb-12">
-          各種不同的活動內容
-          <br />
-          邀請您一同來共襄盛舉！
-        </h5>
-      </div>
-    </div>
-
-    <div class="grid mb-32 grid-cols-4 gap-x-8 gap-y-20 xs:grid-cols-1">
-      <div class="col-span-4 mx-auto" v-if="isActivityLoading">
-        <Spinner></Spinner>
-      </div>
-
-      <div class="" v-for="(data, index) in activityData" :key="index" v-else>
-        <SimpleCard :data="data"></SimpleCard>
-      </div>
-
-      <h3 class="message error col-span-4" v-if="activityErrorMsg">{{ activityErrorMsg }}</h3>
-    </div>
-
-    <div class="banner-bottom" v-if="this.$router.currentRoute.fullPath === '/'">
-      <h1 class="banner_text">
-        “To travel is to live”
-        <br />
-        – Hans Christian Anderson-
-      </h1>
     </div>
 
     <SimpleModal id="detail-modal" :isShow="isModalShow" @onCloseClick="closeModal">
@@ -153,25 +155,27 @@
           'https://images.unsplash.com/photo-1621682372775-533449e550ed?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
       },
     ];
-    carouselConfig = { autoPlay: false, period: 3000 };
+    carouselConfig = { autoPlay: true, period: 3000 };
     images: string[] = [];
     activityErrorMsg = '';
     attractionErrorMsg = '';
 
     // hooks
     created(): void {
-      this.queryAttraction();
+      const skipNum = Math.floor(Math.random() * 500) + 1;
+
+      this.queryAttraction(skipNum);
       this.queryActivity();
     }
 
     // methods
-    async queryAttraction(): Promise<void> {
+    async queryAttraction(skipNum: number): Promise<void> {
       this.isAttractionLoading = true;
 
       try {
         // filter attractions which Picture.PictureUrl1 !== null
         const res = await query(`
-          https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?%24filter=Picture%2FPictureUrl1%20ne%20null&%24top=8&%24format=JSON
+          https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?%24filter=Picture%2FPictureUrl1%20ne%20null&%24top=8&%24skip=${skipNum}&%24format=JSON
         `);
 
         this.attractionData = res;
