@@ -12,7 +12,7 @@
     </div>
 
     <div class="row mb-4">
-      <div class="col-span-12">
+      <div class="w-full">
         <SearchBar className="mb-4" :options="searchOption" :defaultType="''" :isSelectorShow="true" @searchClick="searchActivity"></SearchBar>
 
         <Calendar
@@ -58,10 +58,10 @@
               :icon="[userCalendarActivity.includes(info.ActivityName) ? 'fas' : 'far', 'bookmark']" />
           </button>
 
-          <h2 class="text-h2 text-gray-80 font-bold mb-4">
+          <a :href="info.WebsiteUrl" class="text-h2 text-gray-80 font-bold mb-4" :class="{ 'hover:text-primary': info.WebsiteUrl }">
             {{ info.ActivityName }}
             <span class="text-h5">/ {{ info.Class1 || '未分類' }}</span>
-          </h2>
+          </a>
         </div>
 
         <Gallery :images="images" galleryClass="mb-4"></Gallery>
@@ -313,7 +313,7 @@
     }
     showMoreActivity(data: activity[]): void {
       this.selectedDateActivity = data;
-
+      console.log(data);
       this.isModalShow = !this.isModalShow;
     }
     closeModal(): void {
@@ -340,7 +340,7 @@
         UpdateTime: '',
       };
 
-      this.isActivitySelected = !this.isActivitySelected;
+      this.isActivitySelected = false;
     }
     async queryGoogleCalendar(): Promise<void> {
       await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events`, {
