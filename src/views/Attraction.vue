@@ -41,6 +41,11 @@
         </section>
       </div>
     </div>
+
+    <SimpleModal id="detail-modal" size="sm" :isShow="isModalShow" @onCloseClick="closeModal">
+      <h3 class="text-h3 text-gray-80 font-bold mb-2">請開啟定位允許，或點擊地圖上任一點來定位</h3>
+      <h3 class="text-h3 text-gray-80 font-bold">如果沒有定位，在本頁無法以距離搜尋景點</h3>
+    </SimpleModal>
   </div>
 </template>
 
@@ -53,6 +58,7 @@
   import Card from '@/components/Card.vue';
   import SearchBar from '@/components/SearchBar.vue';
   import Gallery from '@/components/Gallery.vue';
+  import SimpleModal from '@/components/SimpleModal.vue';
 
   import query from '@/utility/queryHelper';
   import { attraction, boundary } from '@/utility/type';
@@ -62,12 +68,14 @@
       Card,
       SearchBar,
       Gallery,
+      SimpleModal,
     },
   })
   export default class Attraction extends Vue {
     // props
 
     // data
+    isModalShow = false;
     isMobile = this.$store.state.isMobile;
     baseUrl = 'https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?%24filter=';
     entireDayOtherWord = ['<p>24HR</p>', 'Sun 24 hours；Mon 24 hours；Tue 24 hours；Wed 24 hours；Thu 24 hours；Fri 24 hours；Sat 24 hours'];
@@ -125,12 +133,19 @@
 
     // methods
     getCurrentPosition(): void {
-      window.navigator.geolocation.getCurrentPosition((pos) => {
-        this.currentBoundary.center = [pos.coords.longitude, pos.coords.latitude];
+      window.navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          this.currentBoundary.center = [pos.coords.longitude, pos.coords.latitude];
 
-        this.drawMap(pos.coords.longitude, pos.coords.latitude);
-        this.setCurrentPositionMarker(pos.coords.longitude, pos.coords.latitude);
-      });
+          this.drawMap(pos.coords.longitude, pos.coords.latitude);
+          this.setCurrentPositionMarker(pos.coords.longitude, pos.coords.latitude);
+        },
+        (err) => {
+          if (err.code === err.PERMISSION_DENIED) {
+            this.isModalShow = true;
+          }
+        },
+      );
     }
     setBoundary(lng: number, lat: number, radius: number): void {
       if ((this.map as Map).getLayer('polygon')) {
@@ -346,6 +361,9 @@
       });
 
       return res;
+    }
+    closeModal(): void {
+      this.isModalShow = false;
     }
 
     // computed
