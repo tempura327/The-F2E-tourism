@@ -51,18 +51,10 @@ module.exports = {
         // set width of container at certain breakpoint.
         '.container': {
           width: '80%',
-          '@screen 2xl': {
-            width: '1280px',
-          },
-          '@screen lg': {
-            width: '768px',
-          },
-          '@screen md': {
-            width: '576px',
-          },
           '@screen xs': {
-            width: '414px',
-            padding: '0 20px',
+            width: '85%',
+            padding: '0',
+            // padding: '0 20px',
           },
         },
       });
