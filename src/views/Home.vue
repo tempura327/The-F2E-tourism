@@ -212,8 +212,8 @@
     }
     showModal(data: { data: attraction; type: string }): void {
       this.modalData = data.data;
-      console.log(data);
-      this.images = Object.values(data.data.Picture).filter((d: string) => d.startsWith('https'));
+
+      this.images = Object.values(data.data.Picture).filter((d: string) => d.startsWith('http'));
       this.isModalShow = true;
 
       this.isAttraction = data.type === 'activity' ? false : true;

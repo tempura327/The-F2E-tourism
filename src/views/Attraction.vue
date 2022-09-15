@@ -26,7 +26,7 @@
 
       <div :class="mapClass.info" ref="attractionInfo">
         <section class="info flex flex-col bg-gray-80 text-white rounded overflow-y-auto p-4">
-          <font-awesome-icon class="text-white ml-auto mb-2 hover:scale-150 cursor-pointer" icon="xmark" @click="isMapExpanded = true" />
+          <font-awesome-icon class="text-white ml-auto mb-2 hover:scale-150 cursor-pointer" icon="xmark" @click="clearAttractionInfo" />
           <h2 class="text-h2 text-white font-bold mb-2">{{ info.ScenicSpotName }}</h2>
 
           <h4 class="text-h5 text-white mb-2">{{ info.OpenTime }}</h4>
@@ -43,8 +43,13 @@
     </div>
 
     <SimpleModal id="detail-modal" size="sm" :isShow="isModalShow" @onCloseClick="closeModal">
-      <h3 class="text-h3 text-gray-80 font-bold mb-2">請開啟定位允許，或點擊地圖上任一點來定位</h3>
-      <h3 class="text-h3 text-gray-80 font-bold">如果沒有定位，在本頁無法以距離搜尋景點</h3>
+      <h3 class="text-h3 text-gray-80 font-bold">
+        請開啟定位允許，或點擊地圖上任一點來定位
+        <br />
+        如果沒有定位，在本頁無法以距離搜尋景點
+        <br />
+        景點詳細資訊展開時無法改定位，請先把景點資訊關閉再改
+      </h3>
     </SimpleModal>
   </div>
 </template>
@@ -75,6 +80,7 @@
     // props
 
     // data
+    isCurrentPosLocked = true;
     isModalShow = false;
     isMobile = this.$store.state.isMobile;
     baseUrl = 'https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?%24filter=';
@@ -136,22 +142,23 @@
       window.navigator.geolocation.getCurrentPosition(
         (pos) => {
           this.currentBoundary.center = [pos.coords.longitude, pos.coords.latitude];
-
           this.drawMap(pos.coords.longitude, pos.coords.latitude);
-          this.setCurrentPositionMarker(pos.coords.longitude, pos.coords.latitude);
+
+          // only set currentPosMarker if user allow geolocation API.
+          this.setCurrentPositionMarker(...this.currentBoundary.center);
+
+          return [pos.coords.longitude, pos.coords.latitude];
         },
         (err) => {
           if (err.code === err.PERMISSION_DENIED) {
             this.isModalShow = true;
+            // this.currentBoundary.center = [120.68, 23.58];
+            this.drawMap(120.68, 23.58);
           }
         },
       );
     }
     setBoundary(lng: number, lat: number, radius: number): void {
-      if ((this.map as Map).getLayer('polygon')) {
-        (this.map as Map).removeLayer('polygon').removeSource('polygon');
-      }
-
       (this.map as Map).addSource('polygon', this.createGeoJSONCircle([lng, lat], radius));
 
       (this.map as Map).addLayer({
@@ -231,6 +238,25 @@
       this.map.on('style.load', () => {
         this.map.setFog({}); // Set the default atmosphere style
       });
+
+      // click map to change canter of map and change the position of currentPosMarker
+      // without doing this, search feat will goes wrong if user don't allow geolocation API.
+      this.map.on('click', (e) => {
+        if (this.isCurrentPosLocked) return;
+
+        const { lat, lng } = e.lngLat.wrap();
+        this.currentBoundary.center = [lng, lat];
+
+        if (this.currentPosMarker instanceof Marker) {
+          this.currentPosMarker.setLngLat([lng, lat]);
+        } else {
+          this.setCurrentPositionMarker(lng, lat); // here
+        }
+
+        this.map.flyTo({
+          center: [lng, lat] as LngLatLike,
+        });
+      });
     }
     setMarker(color = 'gold'): any {
       return (method: { name: string; para: any }) => {
@@ -290,10 +316,19 @@
     setCurrentPositionMarker(lng: number, lat: number): void {
       this.currentPosMarker = this.setMarker('#dc3545')({
         name: 'setPopup',
-        para: new Popup().setHTML("<p class='text-lg'>目前位置</p>"),
+        para: new Popup().setHTML("<p class='text-lg'>目前位置，點擊標記解鎖後(變藍)，再點地圖可以換位置</p>"),
       })([lng, lat]);
 
       this.currentPosMarker.togglePopup();
+
+      this.currentPosMarker.getElement().addEventListener('click', (e) => {
+        this.isCurrentPosLocked = !this.isCurrentPosLocked;
+
+        const target = e.target as HTMLElement;
+        const element = target.tagName === 'path' ? e.target : (target.parentNode as HTMLElement).childNodes[2];
+
+        (element as HTMLElement).setAttribute('fill', this.isCurrentPosLocked ? '#dc3545' : '#08A6BB');
+      });
     }
     removeMarker(): void {
       for (const i in this.markerMap) {
@@ -304,12 +339,17 @@
     }
     async searchAttraction(data: { keyword: string; type: number }): Promise<void> {
       this.removeMarker();
+      this.removeBoundary();
 
       if (data.type > 0) {
-        this.currentBoundary.radius = data.type;
-        this.setBoundary(this.currentBoundary.center[0], this.currentBoundary.center[1], this.currentBoundary.radius);
-      } else {
-        this.removeBoundary();
+        if (this.currentBoundary.center.length === 2) {
+          this.currentBoundary.radius = data.type;
+          this.setBoundary(...this.currentBoundary.center, this.currentBoundary.radius);
+        } else {
+          // if this.currentBoundary.center.length !== 2 means that user didn't set position of currentPosMarker.
+          this.isModalShow = true;
+          return;
+        }
       }
 
       const res = await query(this.getQueryUrl(data));
@@ -364,6 +404,33 @@
     }
     closeModal(): void {
       this.isModalShow = false;
+    }
+    clearAttractionInfo(): void {
+      this.isMapExpanded = true;
+      this.info = {
+        Address: '',
+        City: '',
+        Class1: '',
+        Description: '',
+        DescriptionDetail: '',
+        OpenTime: '',
+        Phone: '',
+        Picture: {
+          PictureUrl1: '',
+          PictureDescription1: '',
+        },
+        Position: {
+          PositionLon: 0,
+          PositionLat: 0,
+          GeoHash: '',
+        },
+        ScenicSpotID: '',
+        ScenicSpotName: '',
+        SrcUpdateTime: '',
+        UpdateTime: '',
+        ZipCode: '',
+        ParkingPosition: {},
+      };
     }
 
     // computed
