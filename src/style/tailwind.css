@@ -313,8 +313,19 @@
 }
 
 @media (max-width: 428px) {
+  .calendar_cell {
+    padding: 0.5rem 0.2rem;
+  }
   .calendar_cell.date {
-    max-height: 220px;
+    max-height: initial;
+  }
+  .calendar_marker {
+    font-size: 12px;
+    white-space: normal;
+    padding: 0.2rem;
+    /* stylelint-disable-next-line value-no-vendor-prefix */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
   }
 }
 

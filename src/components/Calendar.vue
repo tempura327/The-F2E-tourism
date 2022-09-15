@@ -35,7 +35,7 @@
 
     <template v-else>
       <div v-for="(date, index) in currentDateArray" :key="`date-${index}`" class="calendar_cell date">
-        {{ date }}
+        {{ date?.slice(8, 10) }}
         <div
           class="calendar_marker"
           v-for="(item, index) in activityData[date]?.slice(0, 3)"

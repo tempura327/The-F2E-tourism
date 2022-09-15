@@ -559,28 +559,10 @@ video {
   width: 80%;
 }
 
-@media (max-width: 1536px) {
-  .container {
-    width: 1280px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .container {
-    width: 768px;
-  }
-}
-
-@media (max-width: 768px) {
-  .container {
-    width: 576px;
-  }
-}
-
 @media (max-width: 428px) {
   .container {
-    width: 414px;
-    padding: 0 20px;
+    width: 85%;
+    padding: 0;
   }
 }
 
@@ -1517,8 +1499,21 @@ video {
 }
 
 @media (max-width: 428px) {
+  .calendar_cell {
+    padding: 0.5rem 0.2rem;
+  }
+
   .calendar_cell.date {
-    max-height: 220px;
+    max-height: initial;
+  }
+
+  .calendar_marker {
+    font-size: 12px;
+    white-space: normal;
+    padding: 0.2rem;
+    /* stylelint-disable-next-line value-no-vendor-prefix */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
   }
 }
 
