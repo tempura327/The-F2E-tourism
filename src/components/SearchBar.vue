@@ -42,7 +42,7 @@
 
     // hook
     created(): void {
-      if (this.defaultType) {
+      if (this.defaultType !== undefined) {
         this.search.type = this.defaultType;
       }
     }
