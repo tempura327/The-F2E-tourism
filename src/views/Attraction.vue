@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <SimpleModal id="detail-modal" size="sm" :isShow="isModalShow" @onCloseClick="closeModal">
+    <SimpleModal id="detail-modal" :size="isMobile ? 'md' : 'sm'" :isShow="isModalShow" @onCloseClick="closeModal">
       <h3 class="text-h3 text-gray-80 font-bold">
         請開啟定位允許，或點擊地圖上任一點來定位
         <br />
