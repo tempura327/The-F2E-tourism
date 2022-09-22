@@ -51,7 +51,7 @@
 
     // computed
     get type(): string {
-      const match = this.data.OpenTime.match(/24 hours/g);
+      const match = this.data.OpenTime?.match(/24 hours/g);
       if (match === null) return this.data.OpenTime;
       return match.length === 7 ? '全天開放' : this.data.OpenTime;
     }

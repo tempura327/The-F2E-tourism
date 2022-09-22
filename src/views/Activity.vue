@@ -153,11 +153,8 @@
     // hooks
     created(): void {
       this.current = JSON.parse(JSON.stringify(this.today));
-      const { year: currentYear, month: currentMonth } = this.today;
-      const firstDateStr = dateConvertor(new Date(currentYear, currentMonth, 1));
-      const lastDateStr = dateConvertor(new Date(currentYear, currentMonth + 1, 0));
 
-      this.queryActivity(firstDateStr, lastDateStr);
+      this.queryActivity();
     }
     mounted(): void {
       // eslint-disable-next-line no-undef
@@ -192,8 +189,10 @@
     }
 
     // methods
-    async queryActivity(firstDate: string, lastDate: string): Promise<void> {
+    async queryActivity(): Promise<void> {
       this.isLoading = true;
+
+      const { firstDate, lastDate } = this.getFirstAndLastDate();
 
       try {
         const res = await query(`
@@ -252,19 +251,26 @@
         res += `%24filter=contains(ActivityName%2C'${data.keyword}')`;
       }
 
-      return `${res}&%24orderby=StartTime%20ASC&%24format=JSON`;
+      const { firstDate, lastDate } = this.getFirstAndLastDate();
+
+      return `${res}%20and%20StartTime%20ge%20${firstDate}%20and%20EndTime%20le%20${lastDate}&%24orderby=StartTime%20ASC&%24format=JSON`;
+    }
+    getFirstAndLastDate(): { firstDate: string; lastDate: string } {
+      const { year, month } = this.current;
+
+      const firstDate = dateConvertor(new Date(year, month, 1));
+      const lastDate = dateConvertor(new Date(year, month + 1, 0));
+
+      return { firstDate, lastDate };
     }
     onCurrentChange(current: current): void {
       this.current = current;
-      const { startDateObj, endDateObj } = current;
-
-      const firstDateStr = dateConvertor(startDateObj as Date);
-      const lastDateStr = dateConvertor(endDateObj as Date);
+      const { year, month } = current;
 
       // if data of current month is exist in map, don't query again.
-      if (this.checkMonthData(firstDateStr)) return;
+      if (this.checkMonthData(`${year}-${month + 1}`)) return;
 
-      this.queryActivity(firstDateStr, lastDateStr);
+      this.queryActivity();
     }
     checkMonthData(dateStr: string): boolean {
       const yearMonth = dateStr.slice(0, 7);
@@ -298,12 +304,12 @@
     getToken(): void {
       this.clientInstance.requestAccessToken();
     }
-    revokeToken() {
-      // eslint-disable-next-line no-undef
-      google.accounts.oauth2.revoke(this.accessToken, () => {
-        console.log('access token revoked');
-      });
-    }
+    // revokeToken() {
+    //   // eslint-disable-next-line no-undef
+    //   google.accounts.oauth2.revoke(this.accessToken, () => {
+    //     console.log('access token revoked');
+    //   });
+    // }
     showModal(data: { data: activity; list: activity[] }): void {
       this.info = data.data;
       this.images = Object.values(data.data.Picture).filter((d: string) => d.startsWith('https'));
@@ -314,7 +320,7 @@
     }
     showMoreActivity(data: activity[]): void {
       this.selectedDateActivity = data;
-      console.log(data);
+
       this.isModalShow = !this.isModalShow;
     }
     closeModal(): void {
