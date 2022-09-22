@@ -77,7 +77,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
+  import { Component, Vue, Watch } from 'vue-property-decorator';
 
   import Calendar from '@/components/Calendar.vue';
   import SearchBar from '@/components/SearchBar.vue';
@@ -129,6 +129,7 @@
     clientInstance: any = undefined;
     accessToken = '';
     userCalendarActivity: googleActivity[] = []; // name of activities queried from google calendar
+    // above are used to interact with google calendar.
     info: activity = {
       ActivityID: '',
       ActivityName: '',
@@ -149,6 +150,10 @@
     };
     selectedDateActivity: activity[] = [];
     images: string[] = [];
+    search: { keyword: string; type: string } = {
+      type: '',
+      keyword: '',
+    };
 
     // hooks
     created(): void {
@@ -211,9 +216,10 @@
       this.isLoading = true;
 
       try {
+        this.search = JSON.parse(JSON.stringify(data));
+
         const res = await query(this.getQueryUrl(data));
 
-        this.map = {};
         this.mappingActivity(res);
 
         this.activityData = res;
@@ -269,6 +275,11 @@
 
       // if data of current month is exist in map, don't query again.
       if (this.checkMonthData(`${year}-${month + 1}`)) return;
+
+      if (this.search.type || this.search.keyword) {
+        this.searchActivity(this.search);
+        return;
+      }
 
       this.queryActivity();
     }
@@ -403,20 +414,27 @@
 
       // 400: Bad Request. User error. This can mean that a required field or parameter has not been provided, the value supplied is invalid, or the combination of provided fields is invalid.
       // 401: Invalid Credentials. Invalid authorization header. The access token you're using is either expired or invalid.
-      await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?alt=json&key=AIzaSyB2bn-xLPTPVWMQeQmBxVaez5SWY9mmbX8`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${this.accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(resource),
-      })
-        .then((d) => {
-          return d.json();
-        })
-        .then(() => {
-          this.queryGoogleCalendar();
+
+      try {
+        await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?alt=json&key=AIzaSyB2bn-xLPTPVWMQeQmBxVaez5SWY9mmbX8`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(resource),
         });
+      } finally {
+        this.queryGoogleCalendar();
+      }
+    }
+
+    // watch
+    @Watch('search')
+    searchWatch() {
+      // if keyword or type is changed, clear map.
+      // without this old data will be shown on calendar.
+      this.map = {};
     }
   }
 </script>
