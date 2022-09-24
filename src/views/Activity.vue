@@ -216,7 +216,9 @@
       this.isLoading = true;
 
       try {
-        this.search = JSON.parse(JSON.stringify(data));
+        if (Object.values(this.search).length < 1 || JSON.stringify(data) !== JSON.stringify(this.search)) {
+          this.search = JSON.parse(JSON.stringify(data));
+        }
 
         const res = await query(this.getQueryUrl(data));
 
@@ -286,7 +288,7 @@
     checkMonthData(dateStr: string): boolean {
       const yearMonth = dateStr.slice(0, 7);
 
-      return new RegExp(yearMonth).test(JSON.stringify(this.map));
+      return new RegExp(yearMonth).test(Object.keys(this.map).join(','));
     }
     initClient(): void {
       // 2. Initialize the JavaScript client library.
