@@ -3,15 +3,19 @@
 - [Taiwan Tourism](#taiwan-tourism)
   - [Page Overview](#page-overview)
     - [Home Page](#home-page)
-    - [Activity Page](#activity-page)
     - [Attraction Page](#attraction-page)
+    - [Activity Page](#activity-page)
     - [RWD](#rwd)
   - [Demo Video](#demo-video)
+  - [Tech Stack](#tech-stack)
+    - [Development](#development)
+    - [Others](#others)
 
 ## Page Overview
 
 ### Home Page
 <img width="600" alt="tourism demo - 4" src="https://github.com/user-attachments/assets/0f1eaa8e-3608-4710-868f-d6fc9780c252" />
+
 Integrated PTX API to display this month’s tourism events and attractions.
 
 
@@ -41,3 +45,22 @@ Enabled Google login and calendar syncing, allowing users to add selected events
 ## Demo Video
 
 https://www.youtube.com/watch?v=cSstPj_h5jg
+
+## Tech Stack
+
+### Development
+
+- Vue 2
+- Vuex
+- Vue Router
+- Typescript
+- Tailwind 3
+- SASS
+- Mapbox GL JS
+- Google Calendar API, PTX API
+
+### Others
+
+- ESLint
+- Prettier
+- Stylelint
